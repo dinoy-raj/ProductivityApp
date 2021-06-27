@@ -7,17 +7,16 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Container(
+    return Center(
+        child: Container(
       child: ElevatedButton(
-        onPressed: (){
-          final provider = Provider.of<GoogleSignInProvider>(
-              context,
-              listen: false);
+        onPressed: () {
+          final provider =
+              Provider.of<GoogleSignInProvider>(context, listen: false);
           provider.googleLogin();
         },
         child: Text("Login With Google"),
       ),
-    ));;
+    ));
   }
 }
-
