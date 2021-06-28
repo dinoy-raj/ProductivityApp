@@ -1,23 +1,25 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class NoteEditing extends StatefulWidget {
-  const NoteEditing({Key? key}) : super(key: key);
+class TodoEditing extends StatefulWidget {
+  const TodoEditing({Key? key}) : super(key: key);
 
   @override
-  _NoteEditingState createState() => _NoteEditingState();
+  _TodoEditingState createState() => _TodoEditingState();
 }
 
-class _NoteEditingState extends State<NoteEditing> {
+class _TodoEditingState extends State<TodoEditing> {
   Future<void> updateData() async {
     Map<String, dynamic> data = {
       "body": _bodyController.text,
       "title": _titleController.text
     };
     CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection("notes");
+    FirebaseFirestore.instance.collection("todo");
     await collectionReference.add(data);
   }
 
@@ -69,16 +71,16 @@ class _NoteEditingState extends State<NoteEditing> {
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: TextFormField(
-                      // validator: (String? value) {
-                      //   return value == null ? "Field Cannot Be Empty" : null;
-                      // },
+                      validator: (String? value) {
+                        return value == null ? "Field Cannot Be Empty" : null;
+                      },
                       controller: _titleController,
                       maxLines: 5,
                       //autocorrect: true,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       decoration: InputDecoration(
-                        hintText: "Title",
+                        hintText: "Tittle",
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -106,8 +108,8 @@ class _NoteEditingState extends State<NoteEditing> {
                         offset: Offset(0, 3),
                       ),
                     ]
-                    //borderRadius: BorderRadius.circular(10),
-                    ),
+                  //borderRadius: BorderRadius.circular(10),
+                ),
                 width: screenWidth,
                 height: screenHeight * .6,
                 child: Padding(
@@ -157,7 +159,7 @@ class _NoteEditingState extends State<NoteEditing> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Title And Content Should Not Be Empty !",
+                                    "Tittle And Content Sould Not Be Empty !",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red,

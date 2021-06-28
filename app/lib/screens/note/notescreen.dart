@@ -1,5 +1,7 @@
 import 'package:app/screens/note/note_edits.dart';
+import 'package:app/screens/note/notes_fetching.dart';
 import 'package:app/screens/splashscreen/splash_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -12,10 +14,15 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.width;
+
+    // List<GridListItems> data = [
+    //
+    // ];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -145,12 +152,9 @@ class _NotesScreenState extends State<NotesScreen> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                //color: Colors.black,
-                width: screenWidth,
-                height: screenHeight,
-                child: SingleChildScrollView(),
-              )
+
+             Expanded(child: GridDataView())
+
             ],
           ),
         ),
