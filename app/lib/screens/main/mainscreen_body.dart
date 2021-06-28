@@ -1,7 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app/screens/main/catalog_listview.dart';
+import 'package:app/statictis/stats.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:lottie/lottie.dart';
 
 class ScreenBody extends StatefulWidget {
@@ -35,6 +38,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                       width: 50,
                       child: Text(
                         "Hi",
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 50),
                       ),
@@ -57,8 +61,9 @@ class _ScreenBodyState extends State<ScreenBody> {
                   height: 50,
                   width: 400,
                   child: Text(
-                    user.email!,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    user.displayName!,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
                   ),
                 ),
               ),
@@ -117,11 +122,68 @@ class _ScreenBodyState extends State<ScreenBody> {
                           "https://assets2.lottiefiles.com/packages/lf20_Ginph2.json"),
                     ),
                     Column(
-                      children: [
-                        
-                       ]
-                    ),
-                    const SizedBox(width: 10.0, height: 100.0),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(6),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(.1),
+                                      blurRadius: 100,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ]
+                                  //borderRadius: BorderRadius.circular(10),
+                                  ),
+                              child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    FeatherIcons.checkCircle,
+                                    color: Colors.black,
+                                    size: 30,
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Text(
+                                    "Lets Do It",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                ],
+                              ))),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>StatsPage()));
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.white10),
+                              elevation: MaterialStateProperty.all(0),
+                              overlayColor: MaterialStateProperty.all(Colors.white),
+                            ),
+                            child: Text(
+                              "See Statistics  ->",
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                        ]),
+                    const SizedBox(width: 5.0, height: 50.0),
                   ],
                 ),
               ),

@@ -33,6 +33,7 @@ class _NoteEditingState extends State<NoteEditing> {
         elevation: 0,
         backgroundColor: Colors.white10,
         leading: IconButton(
+          splashRadius: .5,
             onPressed: () {
               Navigator.pop(context);
             },
