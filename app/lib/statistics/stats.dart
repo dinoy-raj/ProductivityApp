@@ -132,6 +132,40 @@ class _StatsPageState extends State<StatsPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.grey.withOpacity(.4)),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+
+                    // child: ,
+                  ),
+                  SizedBox(
+                    width: screenWidth * .02,
+                  ),
+                  Container(
+                    height: 100,
+                    width: screenWidth * .59,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: screenHeight * .03,
+              ),
+              Row(
+                children: [
+                  Container(
+                    height: 100,
+                    width: screenWidth * .3,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.withOpacity(.4)),
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
@@ -160,36 +194,7 @@ class _StatsPageState extends State<StatsPage> {
                     height: 100,
                     width: screenWidth * .3,
                     decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      //borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  SizedBox(
-                    width: screenWidth * .02,
-                  ),
-                  Container(
-                    height: 100,
-                    width: screenWidth * .59,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      //borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * .03,
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: 100,
-                    width: screenWidth * .3,
-                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.withOpacity(.4)),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
@@ -220,6 +225,7 @@ class _StatsPageState extends State<StatsPage> {
                     height: 100,
                     width: screenWidth * .915,
                     decoration: BoxDecoration(
+                      //border: Border.all(color: Colors.grey),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
