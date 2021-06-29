@@ -13,7 +13,9 @@ class _TutorialState extends State<Tutorial> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-        child: SplashScreen(),
+        child:Center(
+          child: Text("Tutorial"),
+        )
     ),
     );
   }
