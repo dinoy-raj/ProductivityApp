@@ -52,7 +52,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                       child: Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          "Add and Edit your To-do Tasks",
+                          "Add and Edit your Todo Tasks",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
