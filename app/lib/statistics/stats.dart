@@ -120,7 +120,7 @@ class _StatsPageState extends State<StatsPage> {
                       ),
                     ],
                   )),
-              SizedBox(height: 10,),
+              SizedBox(height: screenHeight*.1,),
               Row(
                 children: [
                   Container(
@@ -135,16 +135,102 @@ class _StatsPageState extends State<StatsPage> {
                     ),
 
                   ),
-                  SizedBox(width: screenWidth*.1,),
+                  SizedBox(width: screenWidth*.02,),
                   Container(
                     height: 100,
-                    width: screenWidth*.5,
+                    width: screenWidth*.59,
 
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
+                    ),
+
+                  ),
+                ],
+              ),
+              SizedBox(height: screenHeight*.03,),
+              Row(
+                children: [
+                  Container(
+                    height: 100,
+                    width: screenWidth*.3,
+
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+
+                  ),
+                  SizedBox(width: screenWidth*.02,),
+                  Container(
+                    height: 100,
+                    width: screenWidth*.59,
+
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+
+                  ),
+                ],
+              ),
+              SizedBox(height: screenHeight*.03,),
+              Row(
+                children: [
+                  Container(
+                    height: 100,
+                    width: screenWidth*.3,
+
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+
+                  ),
+                  SizedBox(width: screenWidth*.02,),
+                  Container(
+                    height: 100,
+                    width: screenWidth*.59,
+
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+
+                  ),
+                ],
+              ),
+              SizedBox(height: screenHeight*.03,),
+              Row(
+                children: [
+
+                  Container(
+                    height: 100,
+                    width: screenWidth*.9,
+
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+
+                        ],
+                      ),
                     ),
 
                   ),
