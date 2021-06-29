@@ -1,6 +1,7 @@
 import 'package:app/screens/splashscreen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:lottie/lottie.dart';
 
@@ -136,38 +137,14 @@ class _StatsPageState extends State<StatsPage> {
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
-
-                    // child: ,
-                  ),
-                  SizedBox(
-                    width: screenWidth * .02,
-                  ),
-                  Container(
-                    height: 100,
-                    width: screenWidth * .59,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      //borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * .03,
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: 100,
-                    width: screenWidth * .3,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.withOpacity(.4)),
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                      //borderRadius: BorderRadius.circular(10),
+                    child: Center(
+                      child: Text(
+                        "Todo",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -199,6 +176,55 @@ class _StatsPageState extends State<StatsPage> {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Projects",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: screenWidth * .02,
+                  ),
+                  Container(
+                    height: 100,
+                    width: screenWidth * .59,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: screenHeight * .03,
+              ),
+              Row(
+                children: [
+                  Container(
+                    height: 100,
+                    width: screenWidth * .3,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.withOpacity(.4)),
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Notes",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -234,7 +260,48 @@ class _StatsPageState extends State<StatsPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
-                        children: [],
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            child: Lottie.network(
+                                "https://assets6.lottiefiles.com/packages/lf20_wgz45thc.json"),
+                          ),
+                          Container(
+                            height: 100,
+                            width: 200,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "How much You Have Progressed Last Week?",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top:10.0,right: 30),
+                                  child: Row(
+                                    children: [
+                                       Text("Rate YourSelf",style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 10,
+                                          color: Colors.grey,
+                                        ),),
+
+                                      Container(
+                                        height:10 ,
+                                          width: 60,
+                                          child: Lottie.network(
+                                              "https://assets6.lottiefiles.com/packages/lf20_L1eVBx.json"))
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
