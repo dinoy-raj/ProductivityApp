@@ -28,7 +28,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
-        .set({'email': _user?.email, 'image': _user?.photoUrl});
+        .set({'email': _user?.email, 'image': _user?.photoUrl, 'name': _user?.displayName});
     notifyListeners();
   }
 

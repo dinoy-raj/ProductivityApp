@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class ProjectEditing extends StatefulWidget {
   const ProjectEditing({Key? key}) : super(key: key);
@@ -15,9 +16,9 @@ class _ProjectEditingState extends State<ProjectEditing> {
   TextEditingController _collabController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var dropdownValue;
-  List<String> collab = [];
-  List<Map<String, dynamic>?> suggestions = [];
-  List<Map<String, dynamic>?> users = [];
+  List<Collab> collab = [];
+  List<Collab> suggestions = [];
+  List<Collab> users = [];
 
   Future<void> updateData() async {
     await FirebaseFirestore.instance
@@ -37,30 +38,44 @@ class _ProjectEditingState extends State<ProjectEditing> {
     FirebaseFirestore.instance.collection("users").snapshots().listen((event) {
       List<DocumentChange<Map<String, dynamic>>> list = event.docChanges;
       list.forEach((element) {
-        users.add(element.doc.data());
+        DocumentSnapshot<Map<String, dynamic>> snap = element.doc;
+        users.add(Collab(
+            email: snap.get('email'), uid: snap.id, image: snap.get('image'), name: snap.get('name')));
       });
     });
   }
 
-  searchUsers(String email) {
-    users.forEach((element) {
-      element?.forEach((key, value) {
-        if (value.contains(email))
+  searchUsers() {
+    bool found = false;
+    if (_collabController.text.trim().isNotEmpty)
+      users.forEach((element) {
+        if (element.email!.contains(
+            RegExp(r'' + _collabController.text, caseSensitive: false)))
           setState(() {
-            if (!suggestions.contains(element)) suggestions.add(element);
-          });
-        else
-          setState(() {
-            suggestions.clear();
+            if (!suggestions.contains(element)) {
+              suggestions.add(element);
+            }
+            found = true;
           });
       });
-    });
+    if (!found)
+      setState(() {
+        suggestions.clear();
+      });
   }
 
   @override
   void initState() {
     super.initState();
     getUsers();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descController.dispose();
+    _collabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -201,7 +216,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                       ]),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 25, right: 15, top: 8, bottom: 8),
+                        left: 25, right: 25, top: 8, bottom: 8),
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: TextFormField(
@@ -222,8 +237,28 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   ),
                 ),
               ),
+              suggestions.length == 0
+                  ? SizedBox()
+                  : Padding(
+                padding: const EdgeInsets.only(bottom: 10, top: 30, left: 20, right: 20),
+                child: Container(
+                  height: 50,
+                  child: GridView.builder(
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 10,
+                      ),
+                      itemCount: suggestions.length,
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.network(
+                                suggestions[index].image.toString()));
+                      }),
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -239,13 +274,12 @@ class _ProjectEditingState extends State<ProjectEditing> {
                       ]),
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        left: 25, right: 15, top: 8, bottom: 8),
+                        left: 25, right: 25, top: 8, bottom: 8),
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: TextFormField(
-                          maxLines: 3,
                           onChanged: (val) {
-                            searchUsers(val);
+                            searchUsers();
                           },
                           controller: _collabController,
                           textCapitalization: TextCapitalization.sentences,
@@ -262,6 +296,9 @@ class _ProjectEditingState extends State<ProjectEditing> {
                         )),
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 10,
               ),
               SizedBox(
                 height: screenHeight * .15,
@@ -281,7 +318,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                       }
                     },
                     child: Text(
-                      "Add Note",
+                      "Add Project",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -298,4 +335,13 @@ class _ProjectEditingState extends State<ProjectEditing> {
       ),
     );
   }
+}
+
+class Collab {
+  Collab({this.email, this.uid, this.image, this.name});
+
+  String? uid;
+  String? image;
+  String? email;
+  String? name;
 }

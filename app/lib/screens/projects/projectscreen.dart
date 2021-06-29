@@ -76,7 +76,7 @@ class _TeamScreenState extends State<TeamScreen> {
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          "Add New Note   ->",
+                          "Add New Project   ->",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 10,
