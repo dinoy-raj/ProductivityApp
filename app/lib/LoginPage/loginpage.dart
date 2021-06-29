@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 
-
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -22,37 +21,36 @@ class _LoginPageState extends State<LoginPage> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: screenHeight*.5,
+              height: screenHeight * .5,
             ),
-
             Container(
-              height: screenHeight*.7,
+              height: screenHeight * .7,
               child: Column(
-                mainAxisAlignment:MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     FeatherIcons.checkCircle,
                     color: Colors.black,
                     size: 80,
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text(
                     "Lets Do It",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 50),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
                   ),
                 ],
               ),
             ),
             Container(
-              height: screenHeight*.1,
+              height: screenHeight * .1,
               child: DefaultTextStyle(
                 style: const TextStyle(
                   fontSize: 15.0,
@@ -71,26 +69,32 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-
             Container(
-              height: screenHeight*.1,
-              child: isPressed?SplashScreen():ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.black),
-                ),
-                onPressed: () {
-                  setState(() {
-                    isPressed = true;
-                  });
+              height: screenHeight * .1,
+              child: isPressed
+                  ? SplashScreen()
+                  : ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.black),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isPressed = true;
+                        });
 
-                  final provider =
-                  Provider.of<GoogleSignInProvider>(context, listen: false);
-                  provider.googleLogin();
-                },
-                child: Text("Login With Google",style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),),
-              ),
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        provider.googleLogin();
+                      },
+                      child: Text(
+                        "Login With Google",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
             ),
           ],
         ),
@@ -98,4 +102,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

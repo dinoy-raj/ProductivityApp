@@ -91,9 +91,7 @@ class _NoteEditingState extends State<NoteEditing> {
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red,
-                            width: 2
-                            ),
+                            borderSide: BorderSide(color: Colors.red, width: 2),
                           ),
                           disabledBorder: InputBorder.none,
                         ),
