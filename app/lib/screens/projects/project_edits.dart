@@ -123,7 +123,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
                     padding: const EdgeInsets.only(left: 25),
                     child: Text(
                       "Add Project",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                   ),
                 ),
@@ -364,6 +365,11 @@ class _ProjectEditingState extends State<ProjectEditing> {
                             MaterialStateProperty.all(Colors.black),
                       ),
                       onPressed: () {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+
+                        if (!currentFocus.hasPrimaryFocus) {
+                          currentFocus.unfocus();
+                        }
                         if (_formKey.currentState!.validate() &&
                             dropdownValue != null) {
                           updateData();
@@ -380,7 +386,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                       )),
                 ),
                 SizedBox(
-                  height: screenHeight * .3,
+                  height: screenHeight * .15,
                 )
               ],
             ),
