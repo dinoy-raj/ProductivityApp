@@ -108,10 +108,10 @@ class _TeamScreenState extends State<TeamScreen> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 40,
             ),
             Text(
-              "Owned Projects",
+              "   Owned Projects",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -119,10 +119,10 @@ class _TeamScreenState extends State<TeamScreen> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 120,
             ),
             Text(
-              "Other Projects",
+              "   Other Projects",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
