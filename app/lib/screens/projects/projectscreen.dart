@@ -42,6 +42,7 @@ class _TeamScreenState extends State<TeamScreen> {
                 height: 20,
               ),
               Container(
+                height: 100,
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(20),
@@ -57,12 +58,12 @@ class _TeamScreenState extends State<TeamScreen> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: Container(
                         height: 80,
                         width: 80,
                         child: Lottie.network(
-                            "https://assets6.lottiefiles.com/packages/lf20_wd1udlcz.json"),
+                            "https://assets1.lottiefiles.com/packages/lf20_4syqy0rw.json"),
                       ),
                     ),
                     Column(
