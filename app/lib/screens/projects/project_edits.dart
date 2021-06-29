@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class ProjectEditing extends StatefulWidget {
   const ProjectEditing({Key? key}) : super(key: key);
@@ -12,18 +10,58 @@ class ProjectEditing extends StatefulWidget {
 }
 
 class _ProjectEditingState extends State<ProjectEditing> {
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descController = TextEditingController();
+  TextEditingController _collabController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  var dropdownValue;
+  List<String> collab = [];
+  List<Map<String, dynamic>?> suggestions = [];
+  List<Map<String, dynamic>?> users = [];
+
   Future<void> updateData() async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection("projects")
         .doc()
-        .set({"body": _bodyController.text, "title": _titleController.text},
-            SetOptions(merge: false));
+        .set({
+      'title': _titleController.text,
+      'type': dropdownValue,
+      'body': _descController.text,
+      'collab': collab
+    }, SetOptions(merge: false));
   }
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _bodyController = TextEditingController();
+  getUsers() {
+    FirebaseFirestore.instance.collection("users").snapshots().listen((event) {
+      List<DocumentChange<Map<String, dynamic>>> list = event.docChanges;
+      list.forEach((element) {
+        users.add(element.doc.data());
+      });
+    });
+  }
+
+  searchUsers(String email) {
+    users.forEach((element) {
+      element?.forEach((key, value) {
+        if (value.contains(email))
+          setState(() {
+            if (!suggestions.contains(element)) suggestions.add(element);
+          });
+        else
+          setState(() {
+            suggestions.clear();
+          });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUsers();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,127 +86,214 @@ class _ProjectEditingState extends State<ProjectEditing> {
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(
-                "Add Notes",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Text(
+                  "Add Project",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
               ),
-            ),
-            Container(
-              width: screenWidth,
-              height: screenHeight * .2,
-              child: Padding(
+              Padding(
                 padding: const EdgeInsets.only(
-                    left: 25, right: 15, top: 8, bottom: 8),
+                    left: 25, right: 25, top: 20, bottom: 20),
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (String? value) {
                         return value == null || value.trim().isEmpty
-                            ? "Title cannot be empty"
+                            ? ""
                             : null;
                       },
+                      autofocus: true,
                       controller: _titleController,
-                      maxLines: 3,
+                      maxLines: 1,
                       textCapitalization: TextCapitalization.sentences,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       decoration: InputDecoration(
-                        hintText: "Title",
+                        hintText: "Project Title",
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
+                        errorBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red)),
                         disabledBorder: InputBorder.none,
                       ),
                     )),
               ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(.1),
-                        blurRadius: 100,
-                        spreadRadius: 2,
-                        offset: Offset(0, 3),
-                      ),
-                    ]
-                    //borderRadius: BorderRadius.circular(10),
-                    ),
-                width: screenWidth,
-                height: screenHeight * .8,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 25, right: 15, top: 8, bottom: 8),
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: TextFormField(
-                        maxLines: 10,
-                        controller: _bodyController,
-                        textCapitalization: TextCapitalization.sentences,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.1),
+                            blurRadius: 100,
+                            spreadRadius: 2,
+                            offset: Offset(0, 3),
+                          ),
+                        ]),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            errorBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red))),
+                        hint: Text("Project Type"),
+                        value: dropdownValue,
                         validator: (String? value) {
                           return value == null || value.trim().isEmpty
-                              ? "Title cannot be empty"
+                              ? ""
                               : null;
                         },
-                        style: TextStyle(fontSize: 15),
-                        decoration: InputDecoration(
-                          hintText: "Content",
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                        ),
-                      )),
+                        onChanged: (newValue) {
+                          setState(() {
+                            dropdownValue = newValue!;
+                          });
+                        },
+                        items: <String>[
+                          'Construction',
+                          'IT',
+                          'Service',
+                          'Business',
+                          'Social',
+                          'Educational',
+                          'Community',
+                          'Research',
+                          'Others'
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: screenHeight * .15,
-            ),
-            Container(
-              height: 40,
-              width: screenWidth * .4,
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black),
-                  ),
-                  onPressed: () {
-                    if (_titleController.text.trim().isNotEmpty &&
-                        _bodyController.text.trim().isNotEmpty) {
-                      updateData();
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: Text(
-                    "Add Note",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(20),
                       color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.1),
+                          blurRadius: 100,
+                          spreadRadius: 2,
+                          offset: Offset(0, 3),
+                        ),
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 25, right: 15, top: 8, bottom: 8),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: TextFormField(
+                          maxLines: 5,
+                          controller: _descController,
+                          textCapitalization: TextCapitalization.sentences,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          style: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            hintText: "Description",
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
+                        )),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
+                child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(.1),
+                          blurRadius: 100,
+                          spreadRadius: 2,
+                          offset: Offset(0, 3),
+                        ),
+                      ]),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 25, right: 15, top: 8, bottom: 8),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: TextFormField(
+                          maxLines: 3,
+                          onChanged: (val) {
+                            searchUsers(val);
+                          },
+                          controller: _collabController,
+                          textCapitalization: TextCapitalization.sentences,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          style: TextStyle(fontSize: 15),
+                          decoration: InputDecoration(
+                            hintText: "Add Collaborators",
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
+                        )),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * .15,
+              ),
+              Container(
+                height: 40,
+                width: screenWidth * .4,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.black),
                     ),
-                  )),
-            ),
-            SizedBox(
-              height: screenHeight * .3,
-            )
-          ],
+                    onPressed: () {
+                      if (_formKey.currentState!.validate() &&
+                          dropdownValue != null) {
+                        updateData();
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Text(
+                      "Add Note",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    )),
+              ),
+              SizedBox(
+                height: screenHeight * .3,
+              )
+            ],
+          ),
         ),
       ),
     );

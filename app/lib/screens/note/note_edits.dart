@@ -53,7 +53,7 @@ class _NoteEditingState extends State<NoteEditing> {
           children: [
             Center(
               child: Text(
-                "Add Notes",
+                "Add Note",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
             ),
