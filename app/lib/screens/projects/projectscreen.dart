@@ -24,9 +24,10 @@ class _TeamScreenState extends State<TeamScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.only(top: 60, left: 30, right: 30),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 60, left: 30, right: 30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,12 +228,8 @@ class _TeamScreenState extends State<TeamScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 1,
-                                            color: color,
-                                          )
-                                        ]),
+                                        border:
+                                            Border.all(color: color, width: 1)),
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Column(
@@ -303,35 +300,51 @@ class _TeamScreenState extends State<TeamScreen> {
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData || snapshot.hasError)
                       return Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20, right: 20, top: 20, bottom: 40),
-                          child: CupertinoActivityIndicator());
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, top: 20, bottom: 40),
+                        child: CupertinoActivityIndicator(),
+                      );
                     else {
                       snapshot.data?.docChanges.forEach((element) async {
                         if (element.type == DocumentChangeType.added) {
                           DocumentSnapshot snap = element.doc;
                           Projects newProject = Projects(
-                              title: snap.get('title'),
-                              body: snap.get('body'),
-                              type: snap.get('type'),
-                              id: snap.id,
-                              collab: []);
-                          DocumentSnapshot<Map<String, dynamic>> ownerSnap =
-                              await _db
-                                  .collection("users")
-                                  .doc(snap.get('owner'))
-                                  .get();
-                          newProject.owner = Collab(
-                            uid: ownerSnap.id,
-                            email: ownerSnap.get('email'),
-                            name: ownerSnap.get('name'),
-                            image: ownerSnap.get('image'),
+                            title: snap.get('title'),
+                            body: snap.get('body'),
+                            type: snap.get('type'),
+                            id: snap.id,
+                            collab: [],
                           );
+                          FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(snap.get('owner'))
+                              .get()
+                              .then((value) {
+                            newProject.owner = Collab(
+                              uid: value.id,
+                              email: value.get('email'),
+                              name: value.get('name'),
+                              image: value.get('image'),
+                            );
+                          });
+                          snap.get('collab').forEach((element) async {
+                            DocumentSnapshot<Map<String, dynamic>> collabSnap =
+                                await _db
+                                    .collection("users")
+                                    .doc(element)
+                                    .get();
+                            newProject.collab?.add(Collab(
+                              uid: collabSnap.id,
+                              email: collabSnap.get('email'),
+                              name: collabSnap.get('name'),
+                              image: collabSnap.get('image'),
+                            ));
+                          });
                           otherProjects.add(newProject);
                         } else if (element.type ==
                             DocumentChangeType.modified) {
                           DocumentSnapshot snap = element.doc;
-                          ownedProjects.forEach((project) {
+                          otherProjects.forEach((project) {
                             if (project.id == snap.id) {
                               project.title = snap.get('title');
                               project.type = snap.get('type');
@@ -375,7 +388,7 @@ class _TeamScreenState extends State<TeamScreen> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 1),
-                            itemCount: ownedProjects.length,
+                            itemCount: otherProjects.length,
                             itemBuilder: (context, index) {
                               var color = RandomColorModel().getColor();
                               return Padding(
@@ -387,12 +400,8 @@ class _TeamScreenState extends State<TeamScreen> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 1,
-                                            color: color,
-                                          )
-                                        ]),
+                                        border:
+                                            Border.all(color: color, width: 1)),
                                     child: Padding(
                                       padding: EdgeInsets.all(10),
                                       child: Column(
