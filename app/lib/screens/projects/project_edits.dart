@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -12,13 +13,13 @@ class ProjectEditing extends StatefulWidget {
 
 class _ProjectEditingState extends State<ProjectEditing> {
   Future<void> updateData() async {
-    Map<String, dynamic> data = {
-      "body": _bodyController.text,
-      "title": _titleController.text
-    };
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection("notes");
-    await collectionReference.add(data);
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection("projects")
+        .doc()
+        .set({"body": _bodyController.text, "title": _titleController.text},
+            SetOptions(merge: false));
   }
 
   TextEditingController _titleController = TextEditingController();
@@ -66,12 +67,15 @@ class _ProjectEditingState extends State<ProjectEditing> {
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: TextFormField(
-                      // validator: (String? value) {
-                      //   return value == null ? "Field Cannot Be Empty" : null;
-                      // },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (String? value) {
+                        return value == null || value.trim().isEmpty
+                            ? "Title cannot be empty"
+                            : null;
+                      },
                       controller: _titleController,
                       maxLines: 3,
-                      //autocorrect: true,
+                      textCapitalization: TextCapitalization.sentences,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       decoration: InputDecoration(
@@ -112,10 +116,16 @@ class _ProjectEditingState extends State<ProjectEditing> {
                       left: 25, right: 15, top: 8, bottom: 8),
                   child: Align(
                       alignment: Alignment.topLeft,
-                      child: TextField(
+                      child: TextFormField(
                         maxLines: 10,
                         controller: _bodyController,
-                        //autocorrect: true,
+                        textCapitalization: TextCapitalization.sentences,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (String? value) {
+                          return value == null || value.trim().isEmpty
+                              ? "Title cannot be empty"
+                              : null;
+                        },
                         style: TextStyle(fontSize: 15),
                         decoration: InputDecoration(
                           hintText: "Content",
@@ -140,40 +150,10 @@ class _ProjectEditingState extends State<ProjectEditing> {
                     backgroundColor: MaterialStateProperty.all(Colors.black),
                   ),
                   onPressed: () {
-                    if (_titleController.text != "" &&
-                        _bodyController.text != "") {
+                    if (_titleController.text.trim().isNotEmpty &&
+                        _bodyController.text.trim().isNotEmpty) {
                       updateData();
                       Navigator.pop(context);
-                    } else {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              height: 200,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Title and Content should not be empty!",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.red,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 50,
-                                  ),
-                                  OutlineButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text("Cancel"),
-                                  )
-                                ],
-                              ),
-                            );
-                          });
                     }
                   },
                   child: Text(
