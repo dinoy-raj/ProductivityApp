@@ -41,6 +41,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'collab': list,
     }, SetOptions(merge: false));
 
+    var _user = FirebaseAuth.instance.currentUser;
+
     list.forEach((element) {
       Map<String, String?> temp = list.removeAt(list.indexOf(element));
       FirebaseFirestore.instance
@@ -53,7 +55,12 @@ class _ProjectEditingState extends State<ProjectEditing> {
         'type': dropdownValue,
         'body': _descController.text,
         'collab': list,
-        'owner': FirebaseAuth.instance.currentUser?.uid
+        'owner': {
+          'uid': _user?.uid,
+          'name': _user?.displayName,
+          'image': _user?.photoURL,
+          'email': _user?.email,
+        }
       }, SetOptions(merge: false));
       list.add(temp);
     });
