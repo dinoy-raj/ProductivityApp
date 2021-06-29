@@ -18,9 +18,12 @@ class _ProjectEditingState extends State<ProjectEditing> {
   var dropdownValue;
   List<Collab> collab = [];
   List<Collab> suggestions = [];
-  List<Collab> users = [];
 
   Future<void> updateData() async {
+    List<String> list = [FirebaseAuth.instance.currentUser!.uid];
+    collab.forEach((element) {
+      list.add(element.uid!);
+    });
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -30,44 +33,43 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'title': _titleController.text,
       'type': dropdownValue,
       'body': _descController.text,
-      'collab': collab
+      'collab': list
     }, SetOptions(merge: false));
-  }
-
-  getUsers() {
-    FirebaseFirestore.instance.collection("users").snapshots().listen((event) {
-      List<DocumentChange<Map<String, dynamic>>> list = event.docChanges;
-      list.forEach((element) {
-        DocumentSnapshot<Map<String, dynamic>> snap = element.doc;
-        users.add(Collab(
-            email: snap.get('email'), uid: snap.id, image: snap.get('image'), name: snap.get('name')));
-      });
-    });
   }
 
   searchUsers() {
     bool found = false;
-    if (_collabController.text.trim().isNotEmpty)
-      users.forEach((element) {
-        if (element.email!.contains(
-            RegExp(r'' + _collabController.text, caseSensitive: false)))
+    bool existing = false;
+    if (_collabController.text.trim().isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection("users")
+          .snapshots()
+          .forEach((element) {
+        element.docs.forEach((element) {
           setState(() {
-            if (!suggestions.contains(element)) {
-              suggestions.add(element);
+            if (element.id != FirebaseAuth.instance.currentUser?.uid &&
+                element.get('email').contains(RegExp(
+                    r'' + _collabController.text,
+                    caseSensitive: false))) {
+              collab.forEach((user) {
+                if (user.email == element.get('email')) existing = true;
+              });
+              if (!existing)
+                suggestions.add(Collab(
+                    email: element.get('email'),
+                    uid: element.id,
+                    image: element.get('image'),
+                    name: element.get('name')));
+              found = true;
             }
-            found = true;
           });
+        });
       });
+    }
     if (!found)
       setState(() {
         suggestions.clear();
       });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getUsers();
   }
 
   @override
@@ -178,6 +180,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                             dropdownValue = newValue!;
                           });
                         },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         items: <String>[
                           'Construction',
                           'IT',
@@ -237,23 +240,30 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   ),
                 ),
               ),
-              suggestions.length == 0
-                  ? SizedBox()
-                  : Padding(
-                padding: const EdgeInsets.only(bottom: 10, top: 30, left: 20, right: 20),
-                child: Container(
-                  height: 50,
+              Padding(
+                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  height: suggestions.length == 0 ? 0 : 50,
                   child: GridView.builder(
                       gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 10,
                       ),
                       itemCount: suggestions.length,
                       itemBuilder: (context, index) {
                         return ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.network(
-                                suggestions[index].image.toString()));
+                          borderRadius: BorderRadius.circular(30),
+                          child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  collab.add(suggestions[index]);
+                                  suggestions.clear();
+                                  _collabController.clear();
+                                });
+                              },
+                              child: Image.network(suggestions[index].image!)),
+                        );
                       }),
                 ),
               ),
@@ -300,8 +310,34 @@ class _ProjectEditingState extends State<ProjectEditing> {
               SizedBox(
                 height: 10,
               ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20),
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 200),
+                  height: collab.length * 70,
+                  child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: collab.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          horizontalTitleGap: 10,
+                          subtitle: Text(
+                            collab[index].email!,
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          dense: true,
+                          title: Text(collab[index].name!),
+                          leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: Container(
+                                  height: 40,
+                                  child: Image.network(collab[index].image!))),
+                        );
+                      }),
+                ),
+              ),
               SizedBox(
-                height: screenHeight * .15,
+                height: screenHeight * .1,
               ),
               Container(
                 height: 40,
