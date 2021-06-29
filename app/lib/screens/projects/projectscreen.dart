@@ -15,10 +15,114 @@ class TeamScreen extends StatefulWidget {
 }
 
 class _TeamScreenState extends State<TeamScreen> {
-  List<Projects> ownedProjects = [];
-  List<Projects> otherProjects = [];
+  List<Project> ownedProjects = [];
+  List<Project> otherProjects = [];
   FirebaseFirestore _db = FirebaseFirestore.instance;
   User? _user = FirebaseAuth.instance.currentUser;
+  bool _loading1 = true;
+  bool _loading2 = true;
+
+  listenDB() {
+    _db
+        .collection("users")
+        .doc(_user?.uid)
+        .collection("owned_projects")
+        .snapshots()
+        .listen((event) {
+      if (event.docs.isEmpty) {
+        setState(() {
+          _loading1 = false;
+        });
+      }
+      event.docChanges.forEach((element) {
+        if (element.type == DocumentChangeType.added) {
+          DocumentSnapshot snap = element.doc;
+          setState(() {
+            ownedProjects.add(Project(
+              title: snap.get('title'),
+              body: snap.get('body'),
+              type: snap.get('type'),
+              id: snap.id,
+              collab: snap.get('collab'),
+            ));
+            _loading1 = false;
+          });
+        } else if (element.type == DocumentChangeType.modified) {
+          DocumentSnapshot snap = element.doc;
+          setState(() {
+            ownedProjects.forEach((project) {
+              if (project.id == snap.id) {
+                project.title = snap.get('title');
+                project.type = snap.get('type');
+                project.body = snap.get('body');
+                project.collab = snap.get('collab');
+              }
+            });
+          });
+        } else {
+          setState(() {
+            int index = 0;
+            for (Project project in ownedProjects) {
+              if (project.id == element.doc.id) {
+                break;
+              }
+              index++;
+            }
+            ownedProjects.removeAt(index);
+          });
+        }
+      });
+    });
+
+    _db
+        .collection("users")
+        .doc(_user?.uid)
+        .collection("other_projects")
+        .snapshots()
+        .listen((event) {
+      if (event.docs.isEmpty) {
+        setState(() {
+          _loading2 = false;
+        });
+      } else {
+        event.docChanges.forEach((element) {
+          if (element.type == DocumentChangeType.added) {
+            _db
+                .collection("users")
+                .doc(element.doc.get('owner'))
+                .get()
+                .then((owner) {
+              _db
+                  .collection("users")
+                  .doc(element.doc.get('owner'))
+                  .collection("owned_projects")
+                  .doc(element.doc.get('id'))
+                  .get()
+                  .then((value) {
+                setState(() {
+                  otherProjects.add(Project(
+                    title: value.get('title'),
+                    body: value.get('body'),
+                    type: value.get('type'),
+                    id: value.id,
+                    owner: {'image': owner.get('image')},
+                    collab: value.get('collab'),
+                  ));
+                  _loading2 = false;
+                });
+              });
+            });
+          }
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenDB();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,132 +228,100 @@ class _TeamScreenState extends State<TeamScreen> {
                   color: Colors.grey[700],
                 ),
               ),
-              StreamBuilder(
-                  stream: _db
-                      .collection("users")
-                      .doc(_user?.uid)
-                      .collection("owned_projects")
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData || snapshot.hasError)
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20, right: 20, top: 20, bottom: 40),
-                        child: CupertinoActivityIndicator(),
-                      );
-                    else {
-                      snapshot.data?.docChanges.forEach((element) async {
-                        if (element.type == DocumentChangeType.added) {
-                          DocumentSnapshot snap = element.doc;
-                          ownedProjects.add(Projects(
-                            title: snap.get('title'),
-                            body: snap.get('body'),
-                            type: snap.get('type'),
-                            id: snap.id,
-                            collab: snap.get('collab'),
-                          ));
-                        } else if (element.type ==
-                            DocumentChangeType.modified) {
-                          DocumentSnapshot snap = element.doc;
-                          ownedProjects.forEach((project) {
-                            if (project.id == snap.id) {
-                              project.title = snap.get('title');
-                              project.type = snap.get('type');
-                              project.body = snap.get('body');
-                              project.collab = snap.get('collab');
-                            }
-                          });
-                        } else {
-                          ownedProjects.forEach((project) {
-                            if (project.id == element.doc.id)
-                              ownedProjects.remove(project);
-                          });
-                        }
-                      });
-                      if (ownedProjects.isEmpty)
-                        return Padding(
+              _loading1
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 40),
+                      child: CupertinoActivityIndicator(),
+                    )
+                  : ownedProjects.isEmpty
+                      ? Padding(
                           padding: const EdgeInsets.only(
                               left: 20, right: 20, top: 20, bottom: 40),
                           child: Text(
                             "Create a new project by clicking above",
                             style: TextStyle(color: Colors.grey),
                           ),
-                        );
-                      return Container(
-                        height: 200,
-                        child: GridView.builder(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1),
-                            itemCount: ownedProjects.length,
-                            itemBuilder: (context, index) {
-                              var color = RandomColorModel().getColor();
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 20, top: 20, bottom: 40),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white,
-                                        border:
-                                            Border.all(color: color, width: 1)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 5,
-                                            width: 15,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              shape: BoxShape.rectangle,
-                                              color: color,
+                        )
+                      : Container(
+                          height: 200,
+                          child: GridView.builder(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1),
+                              itemCount: ownedProjects.length,
+                              itemBuilder: (context, index) {
+                                var color = RandomColorModel().getColor();
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 20, top: 20, bottom: 40),
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: color, width: 1)),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              height: 5,
+                                              width: 15,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                shape: BoxShape.rectangle,
+                                                color: color,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          Text(
-                                            ownedProjects[index].title!,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            ownedProjects[index].type!,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey[700]),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              ownedProjects[index].body!,
-                                              overflow: TextOverflow.clip,
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Expanded(
+                                              flex: 0,
+                                              child: Text(
+                                                ownedProjects[index].title!,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Text(
+                                              ownedProjects[index].type!,
+                                              overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Colors.grey),
+                                                  fontSize: 14,
+                                                  color: Colors.grey[700]),
                                             ),
-                                          ),
-                                        ],
+                                            Expanded(
+                                              child: Text(
+                                                ownedProjects[index].body!,
+                                                overflow: TextOverflow.clip,
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }),
-                      );
-                    }
-                  }),
+                                );
+                              }),
+                        ),
               Text(
                 "   Other Projects",
                 style: TextStyle(
@@ -258,150 +330,118 @@ class _TeamScreenState extends State<TeamScreen> {
                   color: Colors.grey[700],
                 ),
               ),
-              StreamBuilder(
-                  stream: _db
-                      .collection("users")
-                      .doc(_user?.uid)
-                      .collection("other_projects")
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData || snapshot.hasError)
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20, right: 20, top: 20, bottom: 40),
-                        child: CupertinoActivityIndicator(),
-                      );
-                    else {
-                      snapshot.data?.docChanges.forEach((element) async {
-                        if (element.type == DocumentChangeType.added) {
-                          DocumentSnapshot snap = element.doc;
-                          otherProjects.add(Projects(
-                            title: snap.get('title'),
-                            body: snap.get('body'),
-                            type: snap.get('type'),
-                            id: snap.id,
-                            owner: snap.get('owner'),
-                            collab: snap.get('collab'),
-                          ));
-                        } else if (element.type ==
-                            DocumentChangeType.modified) {
-                          DocumentSnapshot snap = element.doc;
-                          otherProjects.forEach((project) {
-                            if (project.id == snap.id) {
-                              project.title = snap.get('title');
-                              project.type = snap.get('type');
-                              project.body = snap.get('body');
-                              project.collab = snap.get('collab');
-                            }
-                          });
-                        } else {
-                          otherProjects.forEach((project) {
-                            if (project.id == element.doc.id)
-                              otherProjects.remove(project);
-                          });
-                        }
-                      });
-                      if (otherProjects.isEmpty)
-                        return Padding(
+              _loading2
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, top: 20, bottom: 40),
+                      child: CupertinoActivityIndicator(),
+                    )
+                  : otherProjects.isEmpty
+                      ? Padding(
                           padding: const EdgeInsets.only(
                               left: 20, right: 20, top: 20, bottom: 40),
                           child: Text(
                             "There are no other projects",
                             style: TextStyle(color: Colors.grey),
                           ),
-                        );
-                      return Container(
-                        height: 200,
-                        child: GridView.builder(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1),
-                            itemCount: otherProjects.length,
-                            itemBuilder: (context, index) {
-                              var color = RandomColorModel().getColor();
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 20, top: 20, bottom: 40),
-                                child: GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Colors.white,
-                                        border:
-                                            Border.all(color: color, width: 1)),
-                                    child: Padding(
-                                      padding: EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 5,
-                                            width: 15,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              shape: BoxShape.rectangle,
-                                              color: color,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                otherProjects[index].title!,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                        )
+                      : Container(
+                          height: 200,
+                          child: GridView.builder(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1),
+                              itemCount: otherProjects.length,
+                              itemBuilder: (context, index) {
+                                var color = RandomColorModel().getColor();
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 20, top: 20, bottom: 40),
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: color, width: 1)),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 5,
+                                              width: 15,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                shape: BoxShape.rectangle,
+                                                color: color,
                                               ),
-                                              Container(
-                                                height: 30,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(30),
-                                                  child: Image.network(
-                                                      otherProjects[index]
-                                                          .owner!['image']),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                          Text(
-                                            otherProjects[index].type!,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey[700]),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              otherProjects[index].body!,
-                                              overflow: TextOverflow.clip,
-                                              style: TextStyle(
-                                                  fontSize: 10,
-                                                  color: Colors.grey),
                                             ),
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    otherProjects[index].title!,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Container(
+                                                  height: 30,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    child: Image.network(
+                                                        otherProjects[index]
+                                                            .owner!['image']),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              otherProjects[index].type!,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey[700]),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                otherProjects[index].body!,
+                                                overflow: TextOverflow.clip,
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            }),
-                      );
-                    }
-                  }),
+                                );
+                              }),
+                        ),
             ],
           ),
         ),
@@ -410,9 +450,8 @@ class _TeamScreenState extends State<TeamScreen> {
   }
 }
 
-class Projects {
-  Projects(
-      {this.id, this.collab, this.type, this.body, this.title, this.owner});
+class Project {
+  Project({this.id, this.collab, this.type, this.body, this.title, this.owner});
 
   String? id;
   String? title;

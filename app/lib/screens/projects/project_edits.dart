@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +31,19 @@ class _ProjectEditingState extends State<ProjectEditing> {
         'email': element.email,
       });
     });
+
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random.secure();
+
+    String id = String.fromCharCodes(Iterable.generate(
+        15, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection("owned_projects")
-        .doc()
+        .doc(id)
         .set({
       'title': _titleController.text,
       'type': dropdownValue,
@@ -41,28 +51,16 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'collab': list,
     }, SetOptions(merge: false));
 
-    var _user = FirebaseAuth.instance.currentUser;
-
     list.forEach((element) {
-      Map<String, String?> temp = list.removeAt(list.indexOf(element));
       FirebaseFirestore.instance
           .collection("users")
           .doc(element['uid'])
           .collection("other_projects")
           .doc()
           .set({
-        'title': _titleController.text,
-        'type': dropdownValue,
-        'body': _descController.text,
-        'collab': list,
-        'owner': {
-          'uid': _user?.uid,
-          'name': _user?.displayName,
-          'image': _user?.photoURL,
-          'email': _user?.email,
-        }
+        'id': id,
+        'owner': FirebaseAuth.instance.currentUser?.uid,
       }, SetOptions(merge: false));
-      list.add(temp);
     });
   }
 
