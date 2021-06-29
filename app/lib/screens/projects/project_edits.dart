@@ -20,7 +20,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
   List<Collab> suggestions = [];
 
   Future<void> updateData() async {
-    List<String> list = [FirebaseAuth.instance.currentUser!.uid];
+    List<String> list = [];
     collab.forEach((element) {
       list.add(element.uid!);
     });
