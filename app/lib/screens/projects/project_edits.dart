@@ -20,9 +20,14 @@ class _ProjectEditingState extends State<ProjectEditing> {
   List<Collab> suggestions = [];
 
   Future<void> updateData() async {
-    List<String> list = [];
+    List<Map<String, String?>> list = [];
     collab.forEach((element) {
-      list.add(element.uid!);
+      list.add({
+        'uid': element.uid,
+        'name': element.name,
+        'image': element.image,
+        'email': element.email,
+      });
     });
     await FirebaseFirestore.instance
         .collection("users")
@@ -37,10 +42,10 @@ class _ProjectEditingState extends State<ProjectEditing> {
     }, SetOptions(merge: false));
 
     list.forEach((element) {
-      String temp = list.removeAt(list.indexOf(element));
+      Map<String, String?> temp = list.removeAt(list.indexOf(element));
       FirebaseFirestore.instance
           .collection("users")
-          .doc(element)
+          .doc(element['uid'])
           .collection("other_projects")
           .doc()
           .set({

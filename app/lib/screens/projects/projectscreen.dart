@@ -142,33 +142,13 @@ class _TeamScreenState extends State<TeamScreen> {
                       snapshot.data?.docChanges.forEach((element) async {
                         if (element.type == DocumentChangeType.added) {
                           DocumentSnapshot snap = element.doc;
-                          Projects newProject = Projects(
+                          ownedProjects.add(Projects(
                             title: snap.get('title'),
                             body: snap.get('body'),
                             type: snap.get('type'),
                             id: snap.id,
-                            collab: [],
-                          );
-                          newProject.owner = Collab(
-                            uid: _user?.uid,
-                            email: _user?.email,
-                            name: _user?.displayName,
-                            image: _user?.photoURL,
-                          );
-                          snap.get('collab').forEach((element) async {
-                            DocumentSnapshot<Map<String, dynamic>> collabSnap =
-                                await _db
-                                    .collection("users")
-                                    .doc(element)
-                                    .get();
-                            newProject.collab?.add(Collab(
-                              uid: collabSnap.id,
-                              email: collabSnap.get('email'),
-                              name: collabSnap.get('name'),
-                              image: collabSnap.get('image'),
-                            ));
-                          });
-                          ownedProjects.add(newProject);
+                            collab: snap.get('collab'),
+                          ));
                         } else if (element.type ==
                             DocumentChangeType.modified) {
                           DocumentSnapshot snap = element.doc;
@@ -177,19 +157,7 @@ class _TeamScreenState extends State<TeamScreen> {
                               project.title = snap.get('title');
                               project.type = snap.get('type');
                               project.body = snap.get('body');
-                              snap.get('collab').forEach((element) async {
-                                DocumentSnapshot<Map<String, dynamic>>
-                                    collabSnap = await _db
-                                        .collection("users")
-                                        .doc(element)
-                                        .get();
-                                project.collab?.add(Collab(
-                                  uid: collabSnap.id,
-                                  email: collabSnap.get('email'),
-                                  name: collabSnap.get('name'),
-                                  image: collabSnap.get('image'),
-                                ));
-                              });
+                              project.collab = snap.get('collab');
                             }
                           });
                         } else {
@@ -308,39 +276,14 @@ class _TeamScreenState extends State<TeamScreen> {
                       snapshot.data?.docChanges.forEach((element) async {
                         if (element.type == DocumentChangeType.added) {
                           DocumentSnapshot snap = element.doc;
-                          Projects newProject = Projects(
+                          otherProjects.add(Projects(
                             title: snap.get('title'),
                             body: snap.get('body'),
                             type: snap.get('type'),
                             id: snap.id,
-                            collab: [],
-                          );
-                          _db
-                              .collection("users")
-                              .doc(snap.get('owner'))
-                              .get()
-                              .then((value) {
-                            newProject.owner = Collab(
-                              uid: value.id,
-                              email: value.get('email'),
-                              name: value.get('name'),
-                              image: value.get('image'),
-                            );
-                          });
-                          snap.get('collab').forEach((element) async {
-                            DocumentSnapshot<Map<String, dynamic>> collabSnap =
-                                await _db
-                                    .collection("users")
-                                    .doc(element)
-                                    .get();
-                            newProject.collab?.add(Collab(
-                              uid: collabSnap.id,
-                              email: collabSnap.get('email'),
-                              name: collabSnap.get('name'),
-                              image: collabSnap.get('image'),
-                            ));
-                          });
-                          otherProjects.add(newProject);
+                            owner: snap.get('owner'),
+                            collab: snap.get('collab'),
+                          ));
                         } else if (element.type ==
                             DocumentChangeType.modified) {
                           DocumentSnapshot snap = element.doc;
@@ -349,19 +292,7 @@ class _TeamScreenState extends State<TeamScreen> {
                               project.title = snap.get('title');
                               project.type = snap.get('type');
                               project.body = snap.get('body');
-                              snap.get('collab').forEach((element) async {
-                                DocumentSnapshot<Map<String, dynamic>>
-                                    collabSnap = await _db
-                                        .collection("users")
-                                        .doc(element)
-                                        .get();
-                                project.collab?.add(Collab(
-                                  uid: collabSnap.id,
-                                  email: collabSnap.get('email'),
-                                  name: collabSnap.get('name'),
-                                  image: collabSnap.get('image'),
-                                ));
-                              });
+                              project.collab = snap.get('collab');
                             }
                           });
                         } else {
@@ -421,12 +352,29 @@ class _TeamScreenState extends State<TeamScreen> {
                                           SizedBox(
                                             height: 8,
                                           ),
-                                          Text(
-                                            otherProjects[index].title!,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                otherProjects[index].title!,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              Container(
+                                                height: 30,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  child: Image.network(
+                                                      otherProjects[index]
+                                                          .owner!['image']),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                           Text(
                                             otherProjects[index].type!,
@@ -470,8 +418,8 @@ class Projects {
   String? title;
   String? body;
   String? type;
-  Collab? owner;
-  List<Collab>? collab;
+  Map<String, dynamic>? owner;
+  List<dynamic>? collab;
 }
 
 class RandomColorModel {
