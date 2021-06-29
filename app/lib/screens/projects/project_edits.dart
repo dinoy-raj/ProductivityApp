@@ -87,7 +87,6 @@ class _ProjectEditingState extends State<ProjectEditing> {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
-
         if (!currentFocus.hasPrimaryFocus) {
           currentFocus.unfocus();
         }
@@ -123,7 +122,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
                     padding: const EdgeInsets.only(left: 25),
                     child: Text(
                       "Add Project",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                   ),
                 ),
@@ -326,7 +326,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20),
+                  padding: const EdgeInsets.only(left: 20, right: 10),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
                     height: collab.length * 70,
@@ -342,6 +342,14 @@ class _ProjectEditingState extends State<ProjectEditing> {
                             ),
                             dense: true,
                             title: Text(collab[index].name!),
+                            trailing: IconButton(
+                              icon: Icon(Icons.close),
+                              onPressed: () {
+                                setState(() {
+                                  collab.removeAt(index);
+                                });
+                              },
+                            ),
                             leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(30),
                                 child: Container(
@@ -364,6 +372,10 @@ class _ProjectEditingState extends State<ProjectEditing> {
                             MaterialStateProperty.all(Colors.black),
                       ),
                       onPressed: () {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        if (!currentFocus.hasPrimaryFocus) {
+                          currentFocus.unfocus();
+                        }
                         if (_formKey.currentState!.validate() &&
                             dropdownValue != null) {
                           updateData();
@@ -380,7 +392,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                       )),
                 ),
                 SizedBox(
-                  height: screenHeight * .3,
+                  height: screenHeight * .15,
                 )
               ],
             ),

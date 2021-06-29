@@ -14,9 +14,10 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.only(top: 60, left: 30, right: 30),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 60, left: 30, right: 30),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,7 +31,7 @@ class _TeamScreenState extends State<TeamScreen> {
                 ),
               ),
               Text(
-                "Add and Edit your Projects",
+                "Add and edit your projects",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -62,20 +63,21 @@ class _TeamScreenState extends State<TeamScreen> {
                         height: 80,
                         width: 80,
                         child: Lottie.network(
-                            "https://assets1.lottiefiles.com/packages/lf20_4syqy0rw.json"),
+                            "https://assets1.lottiefiles.com/packages/lf20_yZ9gAl.json"),
                       ),
                     ),
+                    SizedBox(width: 5,),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Have A New One?",
+                          "Have a new one?",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          "Add New Project   ->",
+                          "Add new project   ->",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
@@ -85,7 +87,7 @@ class _TeamScreenState extends State<TeamScreen> {
                       ],
                     ),
                     SizedBox(
-                      width: 15,
+                      width: 20,
                     ),
                     Container(
                       height: 40,
@@ -107,10 +109,10 @@ class _TeamScreenState extends State<TeamScreen> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 40,
               ),
               Text(
-                "Owned Projects",
+                "   Owned Projects",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -118,10 +120,10 @@ class _TeamScreenState extends State<TeamScreen> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 120,
               ),
               Text(
-                "Other Projects",
+                "   Other Projects",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -131,6 +133,7 @@ class _TeamScreenState extends State<TeamScreen> {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 }
