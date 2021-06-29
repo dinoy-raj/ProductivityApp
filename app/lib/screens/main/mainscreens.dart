@@ -131,7 +131,7 @@ class _MainScreenState extends State<MainScreen> {
                                             provider.logOut();
 
                                           },
-                                          child: Text("Login Out",style: TextStyle(
+                                          child: Text("Log out",style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                           ),),
                                         ),

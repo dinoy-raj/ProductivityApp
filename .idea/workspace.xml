@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/lib/NavBar/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/NavBar/navbar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/main/mainscreen_body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/main/mainscreen_body.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/main/mainscreens.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/main/mainscreens.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/note/note_edits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/note/note_edits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/note/notescreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/note/notescreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/team/teamScreeen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/team/teamScreeen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/personalScreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/todoscreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/todo_edits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/todo_edits.dart" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@C:\Users\amaln\.android\avd\Pixel_3_XL_API_29.avd]" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1uaP8EL7qSt1g3738JPjRwXPlVU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/app/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="" />
+      <created>1624900565174</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1624900565174</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="173" y="166" width="1099" height="755" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1624900629283">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="173" y="166" width="1099" height="755" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1624900629283" />
+    <state x="386" y="284" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1624900602512">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="386" y="284" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1624900602512" />
+    <state x="92" y="92" width="1736" height="856" key="AVDManager" timestamp="1624939061820">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1624939061820" />
+    <state width="1373" height="264" key="GridCell.Tab.0.bottom" timestamp="1624938538938">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1373" height="264" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624938538938" />
+    <state width="1373" height="264" key="GridCell.Tab.0.center" timestamp="1624938538938">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1373" height="264" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624938538938" />
+    <state width="1373" height="264" key="GridCell.Tab.0.left" timestamp="1624938538938">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1373" height="264" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624938538938" />
+    <state width="1373" height="264" key="GridCell.Tab.0.right" timestamp="1624938538938">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1373" height="264" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624938538938" />
+    <state x="114" y="102" key="SettingsEditor" timestamp="1624900613045">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="114" y="102" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1624900613045" />
+  </component>
+</project>

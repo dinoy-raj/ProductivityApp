@@ -33,7 +33,7 @@ class _NoteEditingState extends State<NoteEditing> {
         elevation: 0,
         backgroundColor: Colors.white10,
         leading: IconButton(
-          splashRadius: .5,
+            splashRadius: .5,
             onPressed: () {
               Navigator.pop(context);
             },
@@ -51,19 +51,15 @@ class _NoteEditingState extends State<NoteEditing> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: screenWidth,
-              height: screenHeight * .3,
-              child: Center(
-                child: Text(
-                  "Add Notes",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                ),
+            Center(
+              child: Text(
+                "Add Notes",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
             ),
             Container(
               width: screenWidth,
-              height: screenHeight * .4,
+              height: screenHeight * .2,
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 25, right: 15, top: 8, bottom: 8),
@@ -74,7 +70,7 @@ class _NoteEditingState extends State<NoteEditing> {
                       //   return value == null ? "Field Cannot Be Empty" : null;
                       // },
                       controller: _titleController,
-                      maxLines: 5,
+                      maxLines: 3,
                       //autocorrect: true,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
@@ -110,7 +106,7 @@ class _NoteEditingState extends State<NoteEditing> {
                     //borderRadius: BorderRadius.circular(10),
                     ),
                 width: screenWidth,
-                height: screenHeight * .6,
+                height: screenHeight * .8,
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 25, right: 15, top: 8, bottom: 8),
@@ -158,7 +154,7 @@ class _NoteEditingState extends State<NoteEditing> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Title And Content Should Not Be Empty !",
+                                    "Title and Content should not be empty!",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red,
@@ -172,7 +168,7 @@ class _NoteEditingState extends State<NoteEditing> {
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text("Cancell"),
+                                    child: Text("Cancel"),
                                   )
                                 ],
                               ),

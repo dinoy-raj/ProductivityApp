@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +17,7 @@ class _TodoEditingState extends State<TodoEditing> {
       "title": _titleController.text
     };
     CollectionReference collectionReference =
-    FirebaseFirestore.instance.collection("todo");
+        FirebaseFirestore.instance.collection("todo");
     await collectionReference.add(data);
   }
 
@@ -52,19 +50,15 @@ class _TodoEditingState extends State<TodoEditing> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: screenWidth,
-              height: screenHeight * .3,
-              child: Center(
-                child: Text(
-                  "Add Notes",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                ),
+            Center(
+              child: Text(
+                "Add Todo",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               ),
             ),
             Container(
               width: screenWidth,
-              height: screenHeight * .4,
+              height: screenHeight * .2,
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 25, right: 15, top: 8, bottom: 8),
@@ -78,9 +72,9 @@ class _TodoEditingState extends State<TodoEditing> {
                       maxLines: 5,
                       //autocorrect: true,
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       decoration: InputDecoration(
-                        hintText: "Tittle",
+                        hintText: "Title",
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -108,10 +102,10 @@ class _TodoEditingState extends State<TodoEditing> {
                         offset: Offset(0, 3),
                       ),
                     ]
-                  //borderRadius: BorderRadius.circular(10),
-                ),
+                    //borderRadius: BorderRadius.circular(10),
+                    ),
                 width: screenWidth,
-                height: screenHeight * .6,
+                height: screenHeight * .8,
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 25, right: 15, top: 8, bottom: 8),
@@ -159,7 +153,7 @@ class _TodoEditingState extends State<TodoEditing> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Tittle And Content Sould Not Be Empty !",
+                                    "Title and Content should not be empty!",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red,
@@ -173,7 +167,7 @@ class _TodoEditingState extends State<TodoEditing> {
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: Text("Cancell"),
+                                    child: Text("Cancel"),
                                   )
                                 ],
                               ),
@@ -182,7 +176,7 @@ class _TodoEditingState extends State<TodoEditing> {
                     }
                   },
                   child: Text(
-                    "Add Note",
+                    "Add Todo",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

@@ -1,6 +1,6 @@
 import 'package:app/screens/main/mainscreens.dart';
 import 'package:app/screens/note/notescreen.dart';
-import 'package:app/screens/todo/personalScreen.dart';
+import 'package:app/screens/todo/todoscreen.dart';
 import 'package:app/screens/team/teamScreeen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TeamScreen extends StatefulWidget {
@@ -15,8 +16,30 @@ class _TeamScreenState extends State<TeamScreen> {
     return Center(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: Container(child: Text("Team Screen")),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 60, left: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Your\nProjects",
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Text(
+                "Add and Edit your Projects",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

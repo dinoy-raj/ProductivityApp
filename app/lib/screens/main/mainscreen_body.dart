@@ -71,7 +71,6 @@ class _ScreenBodyState extends State<ScreenBody> {
                 height: 20,
               ),
               Container(
-                height: 25,
                 width: screenWidth,
                 child: Text(
                   "Catalog",

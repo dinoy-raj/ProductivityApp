@@ -14,7 +14,6 @@ class NotesScreen extends StatefulWidget {
 }
 
 class _NotesScreenState extends State<NotesScreen> {
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -37,12 +36,10 @@ class _NotesScreenState extends State<NotesScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20),
                   child: Container(
-                    width: 100,
-                    height: 100,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Your Notes",
+                        "Your\nNotes",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 40),
                       ),
@@ -60,7 +57,7 @@ class _NotesScreenState extends State<NotesScreen> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Add And Edit Your Daily Notes",
+                        "Add and Edit your Daily Notes",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -129,20 +126,17 @@ class _NotesScreenState extends State<NotesScreen> {
                       Container(
                         height: 40,
                         width: 40,
-                        child: ElevatedButton(
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: IconButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => NoteEditing()));
                           },
-                          child: Text(
-                            "+",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.black),
-                          ),
+                          icon: Icon(Icons.add),
+                          color: Colors.white,
                         ),
                       )
                     ],
@@ -152,9 +146,7 @@ class _NotesScreenState extends State<NotesScreen> {
               SizedBox(
                 height: 20,
               ),
-
-             Expanded(child: GridDataView())
-
+              Expanded(child: GridDataView())
             ],
           ),
         ),
