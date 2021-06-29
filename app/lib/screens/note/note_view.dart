@@ -160,7 +160,7 @@ class _NoteViewState extends State<NoteView> {
 class RandomColorModel {
   Random random = Random();
   Color getColor() {
-    return Color.fromARGB(255, random.nextInt(255),
-        random.nextInt(255), random.nextInt(255));
+    return Color.fromARGB(255, random.nextInt(256),
+        random.nextInt(256), random.nextInt(256));
   }
 }
