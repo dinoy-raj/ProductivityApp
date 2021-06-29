@@ -315,7 +315,7 @@ class _TeamScreenState extends State<TeamScreen> {
                             id: snap.id,
                             collab: [],
                           );
-                          FirebaseFirestore.instance
+                          _db
                               .collection("users")
                               .doc(snap.get('owner'))
                               .get()
