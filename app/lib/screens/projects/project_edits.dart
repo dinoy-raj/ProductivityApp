@@ -27,14 +27,31 @@ class _ProjectEditingState extends State<ProjectEditing> {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection("projects")
+        .collection("owned_projects")
         .doc()
         .set({
       'title': _titleController.text,
       'type': dropdownValue,
       'body': _descController.text,
-      'collab': list
+      'collab': list,
     }, SetOptions(merge: false));
+
+    list.forEach((element) {
+      String temp = list.removeAt(list.indexOf(element));
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(element)
+          .collection("other_projects")
+          .doc()
+          .set({
+        'title': _titleController.text,
+        'type': dropdownValue,
+        'body': _descController.text,
+        'collab': list,
+        'owner': FirebaseAuth.instance.currentUser?.uid
+      }, SetOptions(merge: false));
+      list.add(temp);
+    });
   }
 
   searchUsers() {
