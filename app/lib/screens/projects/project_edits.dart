@@ -48,19 +48,27 @@ class _ProjectEditingState extends State<ProjectEditing> {
         element.docs.forEach((element) {
           setState(() {
             if (element.id != FirebaseAuth.instance.currentUser?.uid &&
-                element.get('email').contains(RegExp(
-                    r'' + _collabController.text,
-                    caseSensitive: false))) {
+                (element.get('email').contains(RegExp(
+                        r'' + _collabController.text,
+                        caseSensitive: false)) ||
+                    element
+                        .get('name')
+                        .toLowerCase()
+                        .contains(_collabController.text.toLowerCase()))) {
               collab.forEach((user) {
-                if (user.email == element.get('email')) existing = true;
+                if (user.uid == element.id) existing = true;
               });
-              if (!existing)
+              suggestions.forEach((user) {
+                if (user.uid == element.id) existing = true;
+              });
+              if (!existing) {
                 suggestions.add(Collab(
                     email: element.get('email'),
                     uid: element.id,
                     image: element.get('image'),
                     name: element.get('name')));
-              found = true;
+                found = true;
+              }
             }
           });
         });
@@ -257,26 +265,33 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
-                    height: suggestions.length == 0 ? 0 : 50,
-                    child: GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 10,
-                        ),
+                    height: suggestions.length * 70,
+                    child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
                         itemCount: suggestions.length,
                         itemBuilder: (context, index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    collab.add(suggestions[index]);
-                                    suggestions.clear();
-                                    _collabController.clear();
-                                  });
-                                },
-                                child:
-                                    Image.network(suggestions[index].image!)),
+                          return ListTile(
+                            onTap: () {
+                              setState(() {
+                                collab.add(suggestions[index]);
+                                suggestions.clear();
+                                _collabController.clear();
+                              });
+                            },
+                            title: Text(
+                              suggestions[index].name!,
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            subtitle: Text(
+                              suggestions[index].email!,
+                              style: TextStyle(fontSize: 10),
+                            ),
+                            leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Container(
+                                    height: 40,
+                                    child: Image.network(
+                                        suggestions[index].image!))),
                           );
                         }),
                   ),
