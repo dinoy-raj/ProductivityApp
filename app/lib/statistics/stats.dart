@@ -42,7 +42,7 @@ class _StatsPageState extends State<StatsPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                  height: screenHeight*.3,
+                  height: screenHeight * .3,
                   width: screenWidth,
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -73,11 +73,13 @@ class _StatsPageState extends State<StatsPage> {
                               color: Colors.white,
                               size: 30,
                             ),
-                            SizedBox(height: 5,),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Text(
                               "Lets Do It",
                               style: TextStyle(
-                                color: Colors.white,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20),
                             ),
@@ -85,7 +87,7 @@ class _StatsPageState extends State<StatsPage> {
                         ),
                       ),
                       Container(
-                        height: screenHeight*.3,
+                        height: screenHeight * .3,
                         width: 1,
                         color: Colors.grey,
                       ),
@@ -115,109 +117,108 @@ class _StatsPageState extends State<StatsPage> {
                               color: Colors.grey,
                             ),
                           ),
-
                         ],
                       ),
                     ],
                   )),
-              SizedBox(height: screenHeight*.1,),
+              SizedBox(
+                height: screenHeight * .1,
+              ),
               Row(
                 children: [
                   Container(
                     height: 100,
-                    width: screenWidth*.3,
-
-                    decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      //borderRadius: BorderRadius.circular(10),
-                    ),
-
-                  ),
-                  SizedBox(width: screenWidth*.02,),
-                  Container(
-                    height: 100,
-                    width: screenWidth*.59,
-
+                    width: screenWidth * .3,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
-
+                  ),
+                  SizedBox(
+                    width: screenWidth * .02,
+                  ),
+                  Container(
+                    height: 100,
+                    width: screenWidth * .59,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      //borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: screenHeight*.03,),
+              SizedBox(
+                height: screenHeight * .03,
+              ),
               Row(
                 children: [
                   Container(
                     height: 100,
-                    width: screenWidth*.3,
-
+                    width: screenWidth * .3,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
-
                   ),
-                  SizedBox(width: screenWidth*.02,),
+                  SizedBox(
+                    width: screenWidth * .02,
+                  ),
                   Container(
                     height: 100,
-                    width: screenWidth*.59,
-
+                    width: screenWidth * .59,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
-
                   ),
                 ],
               ),
-              SizedBox(height: screenHeight*.03,),
+              SizedBox(
+                height: screenHeight * .03,
+              ),
               Row(
                 children: [
                   Container(
                     height: 100,
-                    width: screenWidth*.3,
-
+                    width: screenWidth * .3,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
-
                   ),
-                  SizedBox(width: screenWidth*.02,),
+                  SizedBox(
+                    width: screenWidth * .02,
+                  ),
                   Container(
                     height: 100,
-                    width: screenWidth*.59,
-
+                    width: screenWidth * .59,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
-
                   ),
                 ],
               ),
-              SizedBox(height: screenHeight*.03,),
+              SizedBox(
+                height: screenHeight * .03,
+              ),
               Row(
                 children: [
-
                   Container(
                     height: 100,
-                    width: screenWidth*.9,
-
+                    width: screenWidth * .915,
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
@@ -227,12 +228,9 @@ class _StatsPageState extends State<StatsPage> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
-                        children: [
-
-                        ],
+                        children: [],
                       ),
                     ),
-
                   ),
                 ],
               )
