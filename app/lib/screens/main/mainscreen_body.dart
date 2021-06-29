@@ -1,6 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app/screens/main/catalog_listview.dart';
-import 'package:app/statictis/stats.dart';
+import 'package:app/statistics/stats.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
