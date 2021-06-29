@@ -13,8 +13,7 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.only(top: 60, left: 30, right: 30),
@@ -79,7 +78,7 @@ class _TeamScreenState extends State<TeamScreen> {
                           "Add New Project   ->",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 10,
+                            fontSize: 12,
                             color: Colors.grey,
                           ),
                         ),
@@ -132,7 +131,6 @@ class _TeamScreenState extends State<TeamScreen> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
