@@ -154,14 +154,14 @@ class _ProjectEditingState extends State<ProjectEditing> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 25, right: 25, top: 20, bottom: 20),
+                      left: 25, right: 25, top: 40, bottom: 20),
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (String? value) {
                           return value == null || value.trim().isEmpty
-                              ? ""
+                              ? "Cannot be empty"
                               : null;
                         },
                         autofocus: true,

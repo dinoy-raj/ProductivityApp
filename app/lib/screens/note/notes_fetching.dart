@@ -106,8 +106,8 @@ class _GridDataViewState extends State<GridDataView> {
 class RandomColorModel {
   Random random = Random();
   Color getColor() {
-    return Color.fromARGB(random.nextInt(300), random.nextInt(300),
-        random.nextInt(300), random.nextInt(300));
+    return Color.fromARGB(255, random.nextInt(255),
+        random.nextInt(255), random.nextInt(255));
   }
 }
 

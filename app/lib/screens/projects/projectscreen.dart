@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app/screens/projects/project_edits.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -215,50 +217,66 @@ class _TeamScreenState extends State<TeamScreen> {
                                     crossAxisCount: 1),
                             itemCount: ownedProjects.length,
                             itemBuilder: (context, index) {
+                              var color = RandomColorModel().getColor();
                               return Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 3, right: 20, top: 20, bottom: 40),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey[100],
-                                      boxShadow: [
-                                        BoxShadow(
-                                          spreadRadius: 0,
-                                            blurRadius: 10,
-                                            color: Colors.grey,
-                                            offset: Offset(5, 5))
-                                      ]),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          ownedProjects[index].title!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          ownedProjects[index].type!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[700]),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            ownedProjects[index].body!,
-                                            overflow: TextOverflow.clip,
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.grey),
+                                    left: 5, right: 20, top: 20, bottom: 40),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 1,
+                                            color: color,
+                                          )
+                                        ]),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 5,
+                                            width: 15,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              shape: BoxShape.rectangle,
+                                              color: color,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            ownedProjects[index].title!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            ownedProjects[index].type!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey[700]),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              ownedProjects[index].body!,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.grey),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -357,52 +375,68 @@ class _TeamScreenState extends State<TeamScreen> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 1),
-                            itemCount: otherProjects.length,
+                            itemCount: ownedProjects.length,
                             itemBuilder: (context, index) {
+                              var color = RandomColorModel().getColor();
                               return Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 3, right: 20, top: 20, bottom: 40),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey[100],
-                                      boxShadow: [
-                                        BoxShadow(
-                                            spreadRadius: 0,
-                                            blurRadius: 10,
-                                            color: Colors.grey,
-                                            offset: Offset(5, 5))
-                                      ]),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          otherProjects[index].title!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          otherProjects[index].type!,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[700]),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            otherProjects[index].body!,
-                                            overflow: TextOverflow.clip,
-                                            style: TextStyle(
-                                                fontSize: 10,
-                                                color: Colors.grey),
+                                    left: 5, right: 20, top: 20, bottom: 40),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Colors.white,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 1,
+                                            color: color,
+                                          )
+                                        ]),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 5,
+                                            width: 15,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              shape: BoxShape.rectangle,
+                                              color: color,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            otherProjects[index].title!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            otherProjects[index].type!,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey[700]),
+                                          ),
+                                          Expanded(
+                                            child: Text(
+                                              otherProjects[index].body!,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.grey),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -429,4 +463,23 @@ class Projects {
   String? type;
   Collab? owner;
   List<Collab>? collab;
+}
+
+class RandomColorModel {
+  Color getColor() {
+    Random random = Random();
+    List<Color> colorList = [
+      Colors.red,
+      Colors.blue,
+      Colors.pink,
+      Colors.purple,
+      Colors.green,
+      Colors.teal,
+      Colors.deepOrange,
+      Colors.deepPurple,
+      Colors.amber,
+      Colors.cyan
+    ];
+    return colorList[random.nextInt(10)];
+  }
 }
