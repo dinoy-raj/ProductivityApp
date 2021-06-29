@@ -154,7 +154,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 25, right: 25, top: 40, bottom: 20),
+                      left: 25, right: 25, top: 30, bottom: 20),
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: TextFormField(
