@@ -112,6 +112,34 @@ class _TeamScreenState extends State<TeamScreen> {
                 });
               });
             });
+          } else if (element.type == DocumentChangeType.modified) {
+            _db
+                .collection("users")
+                .doc(element.doc.get('owner'))
+                .collection("owned_projects")
+                .doc(element.doc.get('id'))
+                .get()
+                .then((value) {
+              setState(() {
+                otherProjects.add(Project(
+                  title: value.get('title'),
+                  body: value.get('body'),
+                  type: value.get('type'),
+                  collab: value.get('collab'),
+                ));
+              });
+            });
+          } else {
+            setState(() {
+              int index = 0;
+              for (Project project in otherProjects) {
+                if (project.id == element.doc.get('id')) {
+                  break;
+                }
+                index++;
+              }
+              ownedProjects.removeAt(index);
+            });
           }
         });
       }
