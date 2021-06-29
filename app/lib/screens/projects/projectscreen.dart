@@ -56,17 +56,14 @@ class _TeamScreenState extends State<TeamScreen> {
                       ),
                     ]),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Container(
-                        height: 80,
-                        width: 80,
-                        child: Lottie.network(
-                            "https://assets1.lottiefiles.com/packages/lf20_yZ9gAl.json"),
-                      ),
+                    Container(
+                      height: 70,
+                      width: 70,
+                      child: Lottie.network(
+                          "https://assets9.lottiefiles.com/packages/lf20_l2ekftsq.json"),
                     ),
-                    SizedBox(width: 5,),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,9 +82,6 @@ class _TeamScreenState extends State<TeamScreen> {
                           ),
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      width: 20,
                     ),
                     Container(
                       height: 40,
