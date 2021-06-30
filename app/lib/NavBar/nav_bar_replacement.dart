@@ -24,7 +24,7 @@ class _NavBarNewState extends State<NavBarNew> {
   }
 
   int _selectedIndex = 0;
-  PageController _controlerPage = PageController();
+  PageController _controllerPage = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _NavBarNewState extends State<NavBarNew> {
     double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       body: PageView(
-        controller: _controlerPage,
+        controller: _controllerPage,
         pageSnapping: true,
         onPageChanged: (index) {
           setState(() {
@@ -63,7 +63,7 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 0;
-                  _controlerPage.animateToPage(_selectedIndex,
+                  _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 900),
                       curve: Curves.linearToEaseOut);
                 });
@@ -83,7 +83,7 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 1;
-                  _controlerPage.animateToPage(_selectedIndex,
+                  _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 900),
                       curve: Curves.linearToEaseOut);
                 });
@@ -103,7 +103,7 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 2;
-                  _controlerPage.animateToPage(_selectedIndex,
+                  _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 900),
                       curve: Curves.linearToEaseOut);
                 });
@@ -123,14 +123,14 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 3;
-                  _controlerPage.animateToPage(_selectedIndex,
+                  _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 900),
                       curve: Curves.linearToEaseOut);
                 });
               },
               child: _selectedIndex == 3
-                  ? Icon(CupertinoIcons.group_solid)
-                  : Icon(CupertinoIcons.group),
+                  ? Icon(CupertinoIcons.group_solid, size: 30,)
+                  : Icon(CupertinoIcons.group, size: 30,),
             ),
           ],
         ),
