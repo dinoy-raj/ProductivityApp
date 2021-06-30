@@ -129,15 +129,14 @@ class _ProjectState extends State<ProjectManagement> {
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(project!.owner!['image']),
                 ),
-                title: Text(project!.owner!['name']),
+                title: Text(project!.owner!['name'] == _user.displayName
+                    ? project!.owner!['name'] + " (You)"
+                    : project!.owner!['name']),
                 subtitle: Text(
                   project!.owner!['email'],
                   style: TextStyle(fontSize: 12),
                 ),
-                trailing: Icon(
-                  Icons.person,
-                  color: Colors.green,
-                ),
+                trailing: Icon(Icons.person),
               ),
             ),
             Expanded(
@@ -149,12 +148,15 @@ class _ProjectState extends State<ProjectManagement> {
                     borderRadius: BorderRadius.circular(30),
                     child: Image.network(project!.collab![index]['image']),
                   ),
-                  title: Text(project!.collab![index]['name']),
+                  title: Text(
+                      project!.collab![index]['name'] == _user.displayName
+                          ? project!.collab![index]['name'] + " (You)"
+                          : project!.collab![index]['name']),
                   subtitle: Text(
                     project!.collab![index]['email'],
                     style: TextStyle(fontSize: 12),
                   ),
-                  trailing: Icon(Icons.person),
+                  trailing: Icon(Icons.people),
                 ),
               ),
             )
