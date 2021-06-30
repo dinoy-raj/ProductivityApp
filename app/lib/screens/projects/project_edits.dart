@@ -28,50 +28,6 @@ class _ProjectEditingState extends State<ProjectEditing> {
   List? suggestions = [];
   bool _loading = false;
 
-  updateData() async {
-    project!.collab!.forEach((element) async {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(element['uid'])
-          .collection("other_projects")
-          .doc(project!.id)
-          .delete();
-    });
-
-    List<Map<String, String?>> list = [];
-    collab!.forEach((element) {
-      list.add({
-        'uid': element['uid'],
-        'name': element['name'],
-        'image': element['image'],
-        'email': element['email'],
-      });
-    });
-
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser?.uid)
-        .collection("owned_projects")
-        .doc(project!.id)
-        .update({
-      'title': _titleController.text,
-      'type': _dropdownValue,
-      'body': _descController.text,
-      'collab': list,
-    });
-
-    list.forEach((element) async {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(element['uid'])
-          .collection("other_projects")
-          .doc(project!.id)
-          .set({
-        'owner': FirebaseAuth.instance.currentUser?.uid,
-      });
-    });
-  }
-
   addData() async {
     List<Map<String, String?>> list = [];
     collab!.forEach((element) {
@@ -116,6 +72,50 @@ class _ProjectEditingState extends State<ProjectEditing> {
     });
   }
 
+  updateData() async {
+    project!.collab!.forEach((element) async {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(element['uid'])
+          .collection("other_projects")
+          .doc(project!.id)
+          .delete();
+    });
+
+    List<Map<String, String?>> list = [];
+    collab!.forEach((element) {
+      list.add({
+        'uid': element['uid'],
+        'name': element['name'],
+        'image': element['image'],
+        'email': element['email'],
+      });
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection("owned_projects")
+        .doc(project!.id)
+        .update({
+      'title': _titleController.text,
+      'type': _dropdownValue,
+      'body': _descController.text,
+      'collab': list,
+    });
+
+    list.forEach((element) async {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(element['uid'])
+          .collection("other_projects")
+          .doc(project!.id)
+          .set({
+        'owner': FirebaseAuth.instance.currentUser?.uid,
+      });
+    });
+  }
+
   deleteData() {
     FirebaseFirestore.instance
         .collection("users")
@@ -123,6 +123,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
         .collection("owned_projects")
         .doc(project!.id)
         .delete();
+
     project!.collab!.forEach((element) {
       FirebaseFirestore.instance
           .collection("users")
@@ -467,48 +468,13 @@ class _ProjectEditingState extends State<ProjectEditing> {
                             ),
                             dense: true,
                             title: Text(collab![index]['name']),
-                            trailing: IconButton(
-                              icon: Icon(Icons.close),
-                              onPressed: () {
-                                setState(() {
-                                  collab!.removeAt(index);
-                                });
-                              },
-                            ),
-                            leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Container(
-                                    height: 40,
-                                    child: Image.network(
-                                        collab![index]['image']))),
-                          );
-                        }),
-                  ),
-                ),
-                SizedBox(
-                  height: screenHeight * .1,
-                ),
-                _loading
-                    ? CupertinoActivityIndicator()
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          project == null
-                              ? SizedBox()
-                              : Container(
-                                  height: 40,
-                                  width: screenWidth * .4,
-                                  child: TextButton(
-                                      onPressed: () async {
-                                        FocusScopeNode currentFocus =
-                                            FocusScope.of(context);
-                                        if (!currentFocus.hasPrimaryFocus) {
-                                          currentFocus.unfocus();
-                                        }
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) {
-                                              return Container(
+                            trailing: project != null &&
+                                    project!.collab!.contains(collab![index])
+                                ? IconButton(
+                                    onPressed: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => Container(
                                                 child: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.min,
@@ -517,7 +483,12 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                                       height: 20,
                                                     ),
                                                     Text(
-                                                      "Are you sure you want to delete this project?",
+                                                      "Remove " +
+                                                          collab![index]
+                                                              ['name'] +
+                                                          " as collaborator?",
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -537,23 +508,23 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                                                   context);
                                                             },
                                                             child: Text(
-                                                              "Cancel",
+                                                              "No",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .black),
                                                             )),
                                                         OutlinedButton(
                                                             onPressed: () {
-                                                              deleteData();
-                                                              Navigator.pop(
-                                                                  context);
-                                                              Navigator.pop(
-                                                                  context);
+                                                              setState(() {
+                                                                collab!
+                                                                    .removeAt(
+                                                                        index);
+                                                              });
                                                               Navigator.pop(
                                                                   context);
                                                             },
                                                             child: Text(
-                                                              "Confirm",
+                                                              "Yes",
                                                               style: TextStyle(
                                                                   color: Colors
                                                                       .red),
@@ -565,18 +536,125 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                                     ),
                                                   ],
                                                 ),
-                                              );
-                                            });
-                                      },
-                                      child: Text(
-                                        "Delete Project",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.red,
-                                        ),
-                                      )),
-                                ),
+                                              ));
+                                    },
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Colors.red[300],
+                                    ))
+                                : IconButton(
+                                    icon: Icon(Icons.close),
+                                    onPressed: () {
+                                      setState(() {
+                                        collab!.removeAt(index);
+                                      });
+                                    },
+                                  ),
+                            leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Container(
+                                    height: 40,
+                                    child: Image.network(
+                                        collab![index]['image']))),
+                          );
+                        }),
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight * .1,
+                ),
+                _loading
+                    ? CupertinoActivityIndicator()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: 40,
+                            width: screenWidth * .4,
+                            child: TextButton(
+                                style: ButtonStyle(
+                                    overlayColor: MaterialStateProperty.all(
+                                        Colors.transparent)),
+                                onPressed: () async {
+                                  FocusScopeNode currentFocus =
+                                      FocusScope.of(context);
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+                                  project == null
+                                      ? Navigator.pop(context)
+                                      : showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Text(
+                                                    "Are you sure you want to delete this project?",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            "Cancel",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black),
+                                                          )),
+                                                      OutlinedButton(
+                                                          onPressed: () {
+                                                            deleteData();
+                                                            Navigator.pop(
+                                                                context);
+                                                            Navigator.pop(
+                                                                context);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            "Confirm",
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.red),
+                                                          ))
+                                                    ],
+                                                  ),
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                },
+                                child: Text(
+                                  project == null ? "Cancel" : "Delete Project",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                )),
+                          ),
                           Container(
                             height: 40,
                             width: screenWidth * .4,
@@ -603,7 +681,9 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                   }
                                 },
                                 child: Text(
-                                  project == null ? "Add Project" : "Update Project",
+                                  project == null
+                                      ? "Add Project"
+                                      : "Update Project",
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
