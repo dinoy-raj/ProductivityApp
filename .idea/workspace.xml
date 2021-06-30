@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/projectscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/projectscreen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,7 +36,7 @@
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/app/lib/screens/projects" />
-    <property name="settings.editor.selected.configurable" value="flutter.settings" />
+    <property name="settings.editor.selected.configurable" value="memory.settings" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -89,10 +90,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1416" height="208" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625074465400" />
-    <state x="114" y="102" key="SettingsEditor" timestamp="1624900613045">
+    <state x="114" y="102" key="SettingsEditor" timestamp="1625080556686">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="114" y="102" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1624900613045" />
+    <state x="114" y="102" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1625080556686" />
     <state x="299" y="241" key="run.anything.popup" timestamp="1624954552605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

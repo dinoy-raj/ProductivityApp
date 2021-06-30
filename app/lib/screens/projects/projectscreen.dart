@@ -29,7 +29,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .collection("owned_projects")
         .snapshots()
         .listen((event) {
-      if (mounted)
+      if (event.docs.isEmpty && mounted)
         setState(() {
           _loading1 = false;
         });
@@ -52,6 +52,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   'image': _user?.photoURL,
                 },
               ));
+              _loading1 = false;
             });
         } else if (element.type == DocumentChangeType.modified) {
           DocumentSnapshot snap = element.doc;
@@ -85,11 +86,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .collection("other_projects")
         .snapshots()
         .listen((event) {
-      if (mounted)
+      if (event.docs.isEmpty && mounted)
         setState(() {
           _loading2 = false;
         });
-
       event.docChanges.forEach((element) {
         if (element.type == DocumentChangeType.added) {
           _db
@@ -119,6 +119,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     },
                     collab: value.get('collab'),
                   ));
+                  _loading2 = false;
                 });
             });
           });

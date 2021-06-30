@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProjectManagement extends StatefulWidget {
   ProjectManagement({this.project});
@@ -66,16 +67,14 @@ class _ProjectState extends State<ProjectManagement> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               )),
-                          MaterialButton(
-                              minWidth: 20,
-                              color: Colors.grey[900],
+                          TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
                               child: Text(
                                 "YES",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               )),
@@ -111,7 +110,7 @@ class _ProjectState extends State<ProjectManagement> {
       ),
       endDrawer: Drawer(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
               height: 120,
@@ -124,56 +123,253 @@ class _ProjectState extends State<ProjectManagement> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20),
-              child: ListTile(
+              child: ExpansionTile(
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(project!.owner!['image']),
                 ),
-                title: Text(project!.owner!['name'] == _user.displayName
+                title: Text(project!.owner!['uid'] == _user.uid
                     ? project!.owner!['name'] + " (You)"
                     : project!.owner!['name']),
                 subtitle: Text(
                   project!.owner!['email'],
                   style: TextStyle(fontSize: 12),
                 ),
-                trailing: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.add_comment_outlined),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                ),
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextButton.icon(
+                        label: Text(
+                          "Call",
+                        ),
+                        icon: Icon(
+                          Icons.call_outlined,
+                          color: Colors.grey[800],
+                        ),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.grey[800]),
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.transparent)),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => Container(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Text(
+                                            "Call",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ));
+                        },
+                      ),
+                      TextButton.icon(
+                        label: Text(
+                          "Chat",
+                        ),
+                        icon: Icon(
+                          Icons.chat_bubble_outline,
+                          color: Colors.grey[800],
+                        ),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.grey[800]),
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.transparent)),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => Container(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Text(
+                                            "Chat",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ));
+                        },
+                      ),
+                      project!.owner!['uid'] == _user.uid
+                          ? TextButton.icon(
+                              icon: Icon(Icons.add_comment_outlined),
+                              label: Text("Assign"),
+                              style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.all(
+                                      Colors.grey[800]),
+                                  overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent)),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) => Container(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(15),
+                                                child: Text(
+                                                  "Assign Task",
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ));
+                              },
+                            )
+                          : SizedBox(),
+                    ],
+                  )
+                ],
               ),
             ),
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.only(top: 15),
                 itemCount: project!.collab!.length,
-                itemBuilder: (context, index) => ListTile(
+                itemBuilder: (context, index) => ExpansionTile(
                   leading: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Image.network(project!.collab![index]['image']),
                   ),
-                  title: Text(
-                      project!.collab![index]['name'] == _user.displayName
-                          ? project!.collab![index]['name'] + " (You)"
-                          : project!.collab![index]['name']),
+                  title: Text(project!.collab![index]['uid'] == _user.uid
+                      ? project!.collab![index]['name'] + " (You)"
+                      : project!.collab![index]['name']),
                   subtitle: Text(
                     project!.collab![index]['email'],
                     style: TextStyle(fontSize: 12),
                   ),
-                  trailing: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.add_comment),
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                  ),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton.icon(
+                          label: Text(
+                            "Call",
+                          ),
+                          icon: Icon(
+                            Icons.call_outlined,
+                            color: Colors.grey[800],
+                          ),
+                          style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.grey[800]),
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: Text(
+                                              "Call",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ));
+                          },
+                        ),
+                        TextButton.icon(
+                          label: Text(
+                            "Chat",
+                          ),
+                          icon: Icon(
+                            Icons.chat_bubble_outline,
+                          ),
+                          style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.grey[800]),
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: Text(
+                                              "Chat",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ));
+                          },
+                        ),
+                        project!.owner!['uid'] == _user.uid ||
+                                project!.collab![index]['uid'] == _user.uid
+                            ? TextButton.icon(
+                                icon: Icon(Icons.add_comment_outlined),
+                                label: Text("Assign"),
+                                style: ButtonStyle(
+                                    foregroundColor: MaterialStateProperty.all(
+                                        Colors.grey[800]),
+                                    overlayColor: MaterialStateProperty.all(
+                                        Colors.transparent)),
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => Container(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(15),
+                                                  child: Text(
+                                                    "Assign Task",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ));
+                                },
+                              )
+                            : SizedBox(),
+                      ],
+                    )
+                  ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -227,9 +423,10 @@ class _ProjectState extends State<ProjectManagement> {
                           project!.title!,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[900]),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[900],
+                          ),
                         ),
                       ),
                       Padding(
