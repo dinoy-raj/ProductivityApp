@@ -29,7 +29,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .collection("owned_projects")
         .snapshots()
         .listen((event) {
-      if (event.docs.isEmpty && mounted)
+      if (mounted)
         setState(() {
           _loading1 = false;
         });
@@ -52,7 +52,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   'image': _user?.photoURL,
                 },
               ));
-              _loading1 = false;
             });
         } else if (element.type == DocumentChangeType.modified) {
           DocumentSnapshot snap = element.doc;

@@ -136,7 +136,14 @@ class _ProjectState extends State<ProjectManagement> {
                   project!.owner!['email'],
                   style: TextStyle(fontSize: 12),
                 ),
-                trailing: Icon(Icons.person),
+                trailing: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.add_comment_outlined),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
               ),
             ),
             Expanded(
@@ -156,7 +163,14 @@ class _ProjectState extends State<ProjectManagement> {
                     project!.collab![index]['email'],
                     style: TextStyle(fontSize: 12),
                   ),
-                  trailing: Icon(Icons.people),
+                  trailing: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.add_comment),
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                  ),
                 ),
               ),
             )
