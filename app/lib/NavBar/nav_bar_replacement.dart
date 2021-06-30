@@ -59,7 +59,7 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 0;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
                 });
 
               },
@@ -69,7 +69,7 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 1;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
                 });
 
               },
@@ -79,7 +79,7 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 2;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
 
                 });
 
@@ -90,7 +90,7 @@ class _NavBarNewState extends State<NavBarNew> {
               onPressed: () {
                 setState(() {
                   _selectedIndex = 3;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
 
                 });
 
