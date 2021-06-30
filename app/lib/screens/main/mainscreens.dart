@@ -293,6 +293,7 @@ class _MainScreenState extends State<MainScreen> {
                                                             .all(Colors.black),
                                                   ),
                                                   onPressed: () async {
+
                                                     setState(() {
                                                       isPressed = true;
                                                     });
@@ -301,6 +302,7 @@ class _MainScreenState extends State<MainScreen> {
                                                             context,
                                                             listen: false);
                                                     await provider.logOut();
+                                                    Navigator.pop(context);
                                                   },
                                                   child: Text(
                                                     "Log out",
