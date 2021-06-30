@@ -89,6 +89,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         setState(() {
           _loading2 = false;
         });
+
       event.docChanges.forEach((element) {
         if (element.type == DocumentChangeType.added) {
           _db
