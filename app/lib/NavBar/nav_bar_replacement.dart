@@ -129,8 +129,14 @@ class _NavBarNewState extends State<NavBarNew> {
                 });
               },
               child: _selectedIndex == 3
-                  ? Icon(CupertinoIcons.group_solid, size: 30,)
-                  : Icon(CupertinoIcons.group, size: 30,),
+                  ? Icon(
+                      CupertinoIcons.group_solid,
+                      size: 27,
+                    )
+                  : Icon(
+                      CupertinoIcons.group,
+                      size: 27,
+                    ),
             ),
           ],
         ),
