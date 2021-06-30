@@ -124,6 +124,10 @@ class _ProjectState extends State<ProjectManagement> {
             Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ExpansionTile(
+                textColor: Colors.black,
+                iconColor: Colors.black,
+                backgroundColor: Colors.green[100],
+                collapsedBackgroundColor: Colors.green[100],
                 leading: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: Image.network(project!.owner!['image']),
@@ -139,131 +143,7 @@ class _ProjectState extends State<ProjectManagement> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      TextButton.icon(
-                        label: Text(
-                          "Call",
-                        ),
-                        icon: Icon(
-                          Icons.call_outlined,
-                          color: Colors.grey[800],
-                        ),
-                        style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.grey[800]),
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent)),
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) => Container(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Text(
-                                            "Call",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ));
-                        },
-                      ),
-                      TextButton.icon(
-                        label: Text(
-                          "Chat",
-                        ),
-                        icon: Icon(
-                          Icons.chat_bubble_outline,
-                          color: Colors.grey[800],
-                        ),
-                        style: ButtonStyle(
-                            foregroundColor:
-                                MaterialStateProperty.all(Colors.grey[800]),
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent)),
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) => Container(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(15),
-                                          child: Text(
-                                            "Chat",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ));
-                        },
-                      ),
-                      project!.owner!['uid'] == _user.uid
-                          ? TextButton.icon(
-                              icon: Icon(Icons.add_comment_outlined),
-                              label: Text("Assign"),
-                              style: ButtonStyle(
-                                  foregroundColor: MaterialStateProperty.all(
-                                      Colors.grey[800]),
-                                  overlayColor: MaterialStateProperty.all(
-                                      Colors.transparent)),
-                              onPressed: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => Container(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(15),
-                                                child: Text(
-                                                  "Assign Task",
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ));
-                              },
-                            )
-                          : SizedBox(),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.only(top: 15),
-                itemCount: project!.collab!.length,
-                itemBuilder: (context, index) => ExpansionTile(
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.network(project!.collab![index]['image']),
-                  ),
-                  title: Text(project!.collab![index]['uid'] == _user.uid
-                      ? project!.collab![index]['name'] + " (You)"
-                      : project!.collab![index]['name']),
-                  subtitle: Text(
-                    project!.collab![index]['email'],
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      if (project!.owner!['uid'] != _user.uid)
                         TextButton.icon(
                           label: Text(
                             "Call",
@@ -298,12 +178,146 @@ class _ProjectState extends State<ProjectManagement> {
                                     ));
                           },
                         ),
+                      TextButton.icon(
+                        label: Text(
+                          project!.owner!['uid'] == _user.uid ? "Note" : "Chat",
+                        ),
+                        icon: Icon(
+                          project!.owner!['uid'] == _user.uid
+                              ? Icons.edit_outlined
+                              : Icons.chat_bubble_outline,
+                          color: Colors.grey[800],
+                        ),
+                        style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all(Colors.grey[800]),
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.transparent)),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => Container(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(15),
+                                          child: Text(
+                                            project!.owner!['uid'] == _user.uid
+                                                ? "Note"
+                                                : "Chat",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ));
+                        },
+                      ),
+                      if (project!.owner!['uid'] == _user.uid)
+                        TextButton.icon(
+                          icon: Icon(Icons.add_comment_outlined),
+                          label: Text("Assign"),
+                          style: ButtonStyle(
+                              foregroundColor:
+                                  MaterialStateProperty.all(Colors.grey[800]),
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(15),
+                                            child: Text(
+                                              "Assign Task",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ));
+                          },
+                        ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.only(top: 15),
+                itemCount: project!.collab!.length,
+                itemBuilder: (context, index) => ExpansionTile(
+                  textColor: Colors.black,
+                  iconColor: Colors.black,
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.network(project!.collab![index]['image']),
+                  ),
+                  title: Text(project!.collab![index]['uid'] == _user.uid
+                      ? project!.collab![index]['name'] + " (You)"
+                      : project!.collab![index]['name']),
+                  subtitle: Text(
+                    project!.collab![index]['email'],
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (project!.collab![index]['uid'] != _user.uid)
+                          TextButton.icon(
+                            label: Text(
+                              "Call",
+                            ),
+                            icon: Icon(
+                              Icons.call_outlined,
+                              color: Colors.grey[800],
+                            ),
+                            style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.all(Colors.grey[800]),
+                                overlayColor: MaterialStateProperty.all(
+                                    Colors.transparent)),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => Container(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Text(
+                                                "Call",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ));
+                            },
+                          ),
                         TextButton.icon(
                           label: Text(
-                            "Chat",
+                            project!.collab![index]['uid'] == _user.uid
+                                ? "Note"
+                                : "Chat",
                           ),
                           icon: Icon(
-                            Icons.chat_bubble_outline,
+                            project!.collab![index]['uid'] == _user.uid
+                                ? Icons.edit_outlined
+                                : Icons.chat_bubble_outline,
                           ),
                           style: ButtonStyle(
                               foregroundColor:
@@ -320,7 +334,10 @@ class _ProjectState extends State<ProjectManagement> {
                                           Padding(
                                             padding: const EdgeInsets.all(15),
                                             child: Text(
-                                              "Chat",
+                                              project!.collab![index]['uid'] ==
+                                                      _user.uid
+                                                  ? "Note"
+                                                  : "Chat",
                                               style: TextStyle(
                                                 fontSize: 18,
                                               ),
@@ -331,39 +348,37 @@ class _ProjectState extends State<ProjectManagement> {
                                     ));
                           },
                         ),
-                        project!.owner!['uid'] == _user.uid ||
-                                project!.collab![index]['uid'] == _user.uid
-                            ? TextButton.icon(
-                                icon: Icon(Icons.add_comment_outlined),
-                                label: Text("Assign"),
-                                style: ButtonStyle(
-                                    foregroundColor: MaterialStateProperty.all(
-                                        Colors.grey[800]),
-                                    overlayColor: MaterialStateProperty.all(
-                                        Colors.transparent)),
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) => Container(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(15),
-                                                  child: Text(
-                                                    "Assign Task",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ));
-                                },
-                              )
-                            : SizedBox(),
+                        if (project!.owner!['uid'] == _user.uid ||
+                            project!.collab![index]['uid'] == _user.uid)
+                          TextButton.icon(
+                            icon: Icon(Icons.add_comment_outlined),
+                            label: Text("Assign"),
+                            style: ButtonStyle(
+                                foregroundColor:
+                                    MaterialStateProperty.all(Colors.grey[800]),
+                                overlayColor: MaterialStateProperty.all(
+                                    Colors.transparent)),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => Container(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.all(15),
+                                              child: Text(
+                                                "Assign Task",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ));
+                            },
+                          ),
                       ],
                     )
                   ],
@@ -419,13 +434,16 @@ class _ProjectState extends State<ProjectManagement> {
                   Row(
                     children: [
                       Expanded(
-                        child: Text(
-                          project!.title!,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[900],
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8, bottom: 8),
+                          child: Text(
+                            project!.title!,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[900],
+                            ),
                           ),
                         ),
                       ),
