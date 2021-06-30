@@ -129,7 +129,11 @@ class _MainScreenState extends State<MainScreen> {
                                                 color: Colors.white,
                                                 child: ElevatedButton(
                                                   onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>SettingsPage()));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                SettingsPage()));
                                                   },
                                                   style: ButtonStyle(
                                                     overlayColor:
@@ -147,7 +151,7 @@ class _MainScreenState extends State<MainScreen> {
                                                   child: Text(
                                                     "Settings",
                                                     style: TextStyle(
-                                                      //fontWeight: FontWeight.bold,
+                                                        //fontWeight: FontWeight.bold,
                                                         color: Colors.black,
                                                         fontSize: 15),
                                                   ),
@@ -164,25 +168,29 @@ class _MainScreenState extends State<MainScreen> {
                                                 color: Colors.white,
                                                 child: ElevatedButton(
                                                   onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ReportIssue()));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                ReportIssue()));
                                                   },
                                                   style: ButtonStyle(
                                                     overlayColor:
-                                                    MaterialStateProperty
-                                                        .all(Colors.grey
-                                                        .withOpacity(
-                                                        .2)),
+                                                        MaterialStateProperty
+                                                            .all(Colors.grey
+                                                                .withOpacity(
+                                                                    .2)),
                                                     elevation:
-                                                    MaterialStateProperty
-                                                        .all(0),
+                                                        MaterialStateProperty
+                                                            .all(0),
                                                     backgroundColor:
-                                                    MaterialStateProperty
-                                                        .all(Colors.white),
+                                                        MaterialStateProperty
+                                                            .all(Colors.white),
                                                   ),
                                                   child: Text(
                                                     "Report Issue",
                                                     style: TextStyle(
-                                                      //fontWeight: FontWeight.bold,
+                                                        //fontWeight: FontWeight.bold,
                                                         color: Colors.black,
                                                         fontSize: 15),
                                                   ),
@@ -199,25 +207,30 @@ class _MainScreenState extends State<MainScreen> {
                                                 color: Colors.white,
                                                 child: ElevatedButton(
                                                   onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutUs()));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    AboutUs()));
                                                   },
                                                   style: ButtonStyle(
                                                     overlayColor:
-                                                    MaterialStateProperty
-                                                        .all(Colors.grey
-                                                        .withOpacity(
-                                                        .2)),
+                                                        MaterialStateProperty
+                                                            .all(Colors.grey
+                                                                .withOpacity(
+                                                                    .2)),
                                                     elevation:
-                                                    MaterialStateProperty
-                                                        .all(0),
+                                                        MaterialStateProperty
+                                                            .all(0),
                                                     backgroundColor:
-                                                    MaterialStateProperty
-                                                        .all(Colors.white),
+                                                        MaterialStateProperty
+                                                            .all(Colors.white),
                                                   ),
                                                   child: Text(
                                                     "About Us",
                                                     style: TextStyle(
-                                                      //fontWeight: FontWeight.bold,
+                                                        //fontWeight: FontWeight.bold,
                                                         color: Colors.black,
                                                         fontSize: 15),
                                                   ),
@@ -234,25 +247,29 @@ class _MainScreenState extends State<MainScreen> {
                                                 color: Colors.white,
                                                 child: ElevatedButton(
                                                   onPressed: () {
-                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Tutorial()));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                Tutorial()));
                                                   },
                                                   style: ButtonStyle(
                                                     overlayColor:
-                                                    MaterialStateProperty
-                                                        .all(Colors.grey
-                                                        .withOpacity(
-                                                        .2)),
+                                                        MaterialStateProperty
+                                                            .all(Colors.grey
+                                                                .withOpacity(
+                                                                    .2)),
                                                     elevation:
-                                                    MaterialStateProperty
-                                                        .all(0),
+                                                        MaterialStateProperty
+                                                            .all(0),
                                                     backgroundColor:
-                                                    MaterialStateProperty
-                                                        .all(Colors.white),
+                                                        MaterialStateProperty
+                                                            .all(Colors.white),
                                                   ),
                                                   child: Text(
                                                     "Tutorial",
                                                     style: TextStyle(
-                                                      //fontWeight: FontWeight.bold,
+                                                        //fontWeight: FontWeight.bold,
                                                         color: Colors.black,
                                                         fontSize: 15),
                                                   ),
@@ -293,7 +310,6 @@ class _MainScreenState extends State<MainScreen> {
                                                             .all(Colors.black),
                                                   ),
                                                   onPressed: () async {
-
                                                     setState(() {
                                                       isPressed = true;
                                                     });
