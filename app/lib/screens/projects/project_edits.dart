@@ -1,36 +1,89 @@
 import 'dart:math';
-
+import 'package:app/screens/projects/projectscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class ProjectEditing extends StatefulWidget {
-  const ProjectEditing({Key? key}) : super(key: key);
+  ProjectEditing({this.project});
+
+  final Project? project;
 
   @override
-  _ProjectEditingState createState() => _ProjectEditingState();
+  _ProjectEditingState createState() => _ProjectEditingState(project: project);
 }
 
 class _ProjectEditingState extends State<ProjectEditing> {
+  _ProjectEditingState({this.project});
+
+  final Project? project;
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descController = TextEditingController();
   TextEditingController _collabController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  var dropdownValue;
-  List<Collab> collab = [];
-  List<Collab> suggestions = [];
+  var _dropdownValue;
+  List? collab = [];
+  List? suggestions = [];
+  bool _loading = false;
 
-  Future<void> updateData() async {
+  updateData() async {
+    project!.collab!.forEach((element) async {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(element['uid'])
+          .collection("other_projects")
+          .doc(project!.id)
+          .delete();
+    });
+
     List<Map<String, String?>> list = [];
-    collab.forEach((element) {
+    collab!.forEach((element) {
       list.add({
-        'uid': element.uid,
-        'name': element.name,
-        'image': element.image,
-        'email': element.email,
+        'uid': element['uid'],
+        'name': element['name'],
+        'image': element['image'],
+        'email': element['email'],
       });
     });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection("owned_projects")
+        .doc(project!.id)
+        .update({
+      'title': _titleController.text,
+      'type': _dropdownValue,
+      'body': _descController.text,
+      'collab': list,
+    });
+
+    list.forEach((element) async {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(element['uid'])
+          .collection("other_projects")
+          .doc(project!.id)
+          .set({
+        'owner': FirebaseAuth.instance.currentUser?.uid,
+      });
+    });
+  }
+
+  addData() async {
+    List<Map<String, String?>> list = [];
+    collab!.forEach((element) {
+      list.add({
+        'uid': element['uid'],
+        'name': element['name'],
+        'image': element['image'],
+        'email': element['email'],
+      });
+    });
+
+    print(list.length);
 
     const _chars =
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -46,19 +99,18 @@ class _ProjectEditingState extends State<ProjectEditing> {
         .doc(id)
         .set({
       'title': _titleController.text,
-      'type': dropdownValue,
+      'type': _dropdownValue,
       'body': _descController.text,
       'collab': list,
     }, SetOptions(merge: false));
 
-    list.forEach((element) {
-      FirebaseFirestore.instance
+    list.forEach((element) async {
+      await FirebaseFirestore.instance
           .collection("users")
           .doc(element['uid'])
           .collection("other_projects")
-          .doc()
+          .doc(id)
           .set({
-        'id': id,
         'owner': FirebaseAuth.instance.currentUser?.uid,
       }, SetOptions(merge: false));
     });
@@ -82,18 +134,19 @@ class _ProjectEditingState extends State<ProjectEditing> {
                         .get('name')
                         .toLowerCase()
                         .contains(_collabController.text.toLowerCase()))) {
-              collab.forEach((user) {
-                if (user.uid == element.id) existing = true;
+              collab!.forEach((user) {
+                if (user['uid'] == element.id) existing = true;
               });
-              suggestions.forEach((user) {
-                if (user.uid == element.id) existing = true;
+              suggestions!.forEach((user) {
+                if (user['uid'] == element.id) existing = true;
               });
-              if (!existing) {
-                suggestions.add(Collab(
-                    email: element.get('email'),
-                    uid: element.id,
-                    image: element.get('image'),
-                    name: element.get('name')));
+              if (!existing && suggestions!.length < 5) {
+                suggestions!.add({
+                  'name': element.get('name'),
+                  'email': element.get('email'),
+                  'image': element.get('image'),
+                  'uid': element.id
+                });
                 found = true;
               }
             }
@@ -103,8 +156,21 @@ class _ProjectEditingState extends State<ProjectEditing> {
     }
     if (!found)
       setState(() {
-        suggestions.clear();
+        suggestions!.clear();
       });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (project != null) {
+      project!.collab!.forEach((element) {
+        collab!.add(element);
+      });
+      _titleController.text = project!.title!;
+      _descController.text = project!.body!;
+      _dropdownValue = project!.type!;
+    }
   }
 
   @override
@@ -216,7 +282,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                               errorBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.red))),
                           hint: Text("Project Type"),
-                          value: dropdownValue,
+                          value: _dropdownValue,
                           validator: (String? value) {
                             return value == null || value.trim().isEmpty
                                 ? ""
@@ -224,7 +290,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                           },
                           onChanged: (newValue) {
                             setState(() {
-                              dropdownValue = newValue!;
+                              _dropdownValue = newValue!;
                             });
                           },
                           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -292,25 +358,25 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
-                    height: suggestions.length * 70,
+                    height: suggestions!.length * 70,
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
-                        itemCount: suggestions.length,
+                        itemCount: suggestions!.length,
                         itemBuilder: (context, index) {
                           return ListTile(
                             onTap: () {
                               setState(() {
-                                collab.add(suggestions[index]);
-                                suggestions.clear();
+                                collab!.add(suggestions![index]);
+                                suggestions!.clear();
                                 _collabController.clear();
                               });
                             },
                             title: Text(
-                              suggestions[index].name!,
+                              suggestions![index]['name'],
                               style: TextStyle(fontSize: 12),
                             ),
                             subtitle: Text(
-                              suggestions[index].email!,
+                              suggestions![index]['email'],
                               style: TextStyle(fontSize: 10),
                             ),
                             leading: ClipRRect(
@@ -318,7 +384,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 child: Container(
                                     height: 40,
                                     child: Image.network(
-                                        suggestions[index].image!))),
+                                        suggestions![index]['image']))),
                           );
                         }),
                   ),
@@ -371,24 +437,24 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   padding: const EdgeInsets.only(left: 20, right: 10),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
-                    height: collab.length * 70,
+                    height: collab!.length * 70,
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
-                        itemCount: collab.length,
+                        itemCount: collab!.length,
                         itemBuilder: (context, index) {
                           return ListTile(
                             horizontalTitleGap: 10,
                             subtitle: Text(
-                              collab[index].email!,
+                              collab![index]['email'],
                               style: TextStyle(fontSize: 12),
                             ),
                             dense: true,
-                            title: Text(collab[index].name!),
+                            title: Text(collab![index]['name']),
                             trailing: IconButton(
                               icon: Icon(Icons.close),
                               onPressed: () {
                                 setState(() {
-                                  collab.removeAt(index);
+                                  collab!.removeAt(index);
                                 });
                               },
                             ),
@@ -396,8 +462,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 borderRadius: BorderRadius.circular(30),
                                 child: Container(
                                     height: 40,
-                                    child:
-                                        Image.network(collab[index].image!))),
+                                    child: Image.network(
+                                        collab![index]['image']))),
                           );
                         }),
                   ),
@@ -405,34 +471,42 @@ class _ProjectEditingState extends State<ProjectEditing> {
                 SizedBox(
                   height: screenHeight * .1,
                 ),
-                Container(
-                  height: 40,
-                  width: screenWidth * .4,
-                  child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black),
+                _loading
+                    ? CupertinoActivityIndicator()
+                    : Container(
+                        height: 40,
+                        width: screenWidth * .4,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.black),
+                            ),
+                            onPressed: () async {
+                              FocusScopeNode currentFocus =
+                                  FocusScope.of(context);
+                              if (!currentFocus.hasPrimaryFocus) {
+                                currentFocus.unfocus();
+                              }
+                              if (_formKey.currentState!.validate() &&
+                                  _dropdownValue != null) {
+                                setState(() {
+                                  _loading = true;
+                                });
+                                await project == null
+                                    ? addData()
+                                    : updateData();
+                                Navigator.pop(context);
+                              }
+                            },
+                            child: Text(
+                              "Add Project",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            )),
                       ),
-                      onPressed: () {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        if (_formKey.currentState!.validate() &&
-                            dropdownValue != null) {
-                          updateData();
-                          Navigator.pop(context);
-                        }
-                      },
-                      child: Text(
-                        "Add Project",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      )),
-                ),
                 SizedBox(
                   height: screenHeight * .15,
                 )
@@ -443,13 +517,4 @@ class _ProjectEditingState extends State<ProjectEditing> {
       ),
     );
   }
-}
-
-class Collab {
-  Collab({this.email, this.uid, this.image, this.name});
-
-  String? uid;
-  String? image;
-  String? email;
-  String? name;
 }

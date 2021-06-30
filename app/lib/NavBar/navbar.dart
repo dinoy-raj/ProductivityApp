@@ -62,7 +62,7 @@ List<Widget> _buildScreens() {
     MainScreen(),
     PersonalScreen(),
     NotesScreen(),
-    TeamScreen(),
+    ProjectScreen(),
   ];
 }
 

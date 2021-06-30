@@ -5,18 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/GoogleSignIn/google_sign.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/GoogleSignIn/google_sign.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/NavBar/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/NavBar/navbar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/main/mainscreens.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/main/mainscreens.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/project_edits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/project_edits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/projectscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/projectscreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[VirtualDevicePath@C:\Users\amaln\.android\avd\Pixel_3_XL_API_29.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[SerialNumber@2b31dee7]" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -76,22 +78,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1625031599980" />
-    <state width="1448" height="339" key="GridCell.Tab.0.bottom" timestamp="1624992373934">
+    <state width="1416" height="211" key="GridCell.Tab.0.bottom" timestamp="1625041316722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1448" height="339" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1624992373934" />
-    <state width="1448" height="339" key="GridCell.Tab.0.center" timestamp="1624992373933">
+    <state width="1416" height="211" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625041316722" />
+    <state width="1416" height="211" key="GridCell.Tab.0.center" timestamp="1625041316722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1448" height="339" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1624992373933" />
-    <state width="1448" height="339" key="GridCell.Tab.0.left" timestamp="1624992373933">
+    <state width="1416" height="211" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625041316722" />
+    <state width="1416" height="211" key="GridCell.Tab.0.left" timestamp="1625041316722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1448" height="339" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1624992373933" />
-    <state width="1448" height="339" key="GridCell.Tab.0.right" timestamp="1624992373934">
+    <state width="1416" height="211" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625041316722" />
+    <state width="1416" height="211" key="GridCell.Tab.0.right" timestamp="1625041316722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1448" height="339" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1624992373934" />
+    <state width="1416" height="211" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625041316722" />
     <state x="114" y="102" key="SettingsEditor" timestamp="1624900613045">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -100,9 +102,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="299" y="241" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1624954552605" />
-    <state x="312" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1624980928462">
+    <state x="312" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1625037684841">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="312" y="5" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1624980928462" />
+    <state x="312" y="5" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1625037684841" />
   </component>
 </project>

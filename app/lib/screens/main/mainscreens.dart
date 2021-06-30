@@ -292,7 +292,7 @@ class _MainScreenState extends State<MainScreen> {
                                                         MaterialStateProperty
                                                             .all(Colors.black),
                                                   ),
-                                                  onPressed: () {
+                                                  onPressed: () async {
                                                     setState(() {
                                                       isPressed = true;
                                                     });
@@ -300,7 +300,7 @@ class _MainScreenState extends State<MainScreen> {
                                                         .of<GoogleSignInProvider>(
                                                             context,
                                                             listen: false);
-                                                    provider.logOut();
+                                                    await provider.logOut();
                                                   },
                                                   child: Text(
                                                     "Log out",

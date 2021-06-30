@@ -7,14 +7,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class TeamScreen extends StatefulWidget {
-  const TeamScreen({Key? key}) : super(key: key);
+class ProjectScreen extends StatefulWidget {
+  const ProjectScreen({Key? key}) : super(key: key);
 
   @override
-  _TeamScreenState createState() => _TeamScreenState();
+  _ProjectScreenState createState() => _ProjectScreenState();
 }
 
-class _TeamScreenState extends State<TeamScreen> {
+class _ProjectScreenState extends State<ProjectScreen> {
   List<Project> ownedProjects = [];
   List<Project> otherProjects = [];
   FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -44,6 +44,12 @@ class _TeamScreenState extends State<TeamScreen> {
               type: snap.get('type'),
               id: snap.id,
               collab: snap.get('collab'),
+              owner: {
+                'uid': _user?.uid,
+                'name': _user?.displayName,
+                'email': _user?.email,
+                'image': _user?.photoURL,
+              },
             ));
             _loading1 = false;
           });
@@ -96,7 +102,7 @@ class _TeamScreenState extends State<TeamScreen> {
                   .collection("users")
                   .doc(element.doc.get('owner'))
                   .collection("owned_projects")
-                  .doc(element.doc.get('id'))
+                  .doc(element.doc.id)
                   .get()
                   .then((value) {
                 setState(() {
@@ -105,35 +111,23 @@ class _TeamScreenState extends State<TeamScreen> {
                     body: value.get('body'),
                     type: value.get('type'),
                     id: value.id,
-                    owner: {'image': owner.get('image')},
+                    owner: {
+                      'uid': owner.id,
+                      'name': owner.get('name'),
+                      'email': owner.get('email'),
+                      'image': owner.get('image'),
+                    },
                     collab: value.get('collab'),
                   ));
                   _loading2 = false;
                 });
               });
             });
-          } else if (element.type == DocumentChangeType.modified) {
-            _db
-                .collection("users")
-                .doc(element.doc.get('owner'))
-                .collection("owned_projects")
-                .doc(element.doc.get('id'))
-                .get()
-                .then((value) {
-              setState(() {
-                otherProjects.add(Project(
-                  title: value.get('title'),
-                  body: value.get('body'),
-                  type: value.get('type'),
-                  collab: value.get('collab'),
-                ));
-              });
-            });
-          } else {
+          } else if (element.type == DocumentChangeType.removed) {
             setState(() {
               int index = 0;
               for (Project project in otherProjects) {
-                if (project.id == element.doc.get('id')) {
+                if (project.id == element.doc.id) {
                   break;
                 }
                 index++;
@@ -507,7 +501,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                                     builder: (context) =>
                                                         ProjectManagement(
                                                           project:
-                                                              ownedProjects[
+                                                              otherProjects[
                                                                   index],
                                                         )));
                                           },
