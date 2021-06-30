@@ -135,7 +135,7 @@ class _NavBarNewState extends State<NavBarNew> {
                   int diff = prev-_selectedIndex;
                   diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,  duration: Duration(milliseconds: 900),
                       curve: Curves.ease);
-                   
+
 
                 });
               },
