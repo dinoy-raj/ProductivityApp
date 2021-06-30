@@ -63,9 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                     FadeAnimatedText('do it RIGHT!!'),
                     FadeAnimatedText('do it RIGHT NOW!!!'),
                   ],
-                  onTap: () {
-                    print("Tap Event");
-                  },
                 ),
               ),
             ),

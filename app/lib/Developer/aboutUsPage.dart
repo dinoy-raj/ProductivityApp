@@ -34,6 +34,7 @@ class _AboutUsState extends State<AboutUs> {
             )),
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
