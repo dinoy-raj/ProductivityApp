@@ -29,53 +29,53 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .collection("owned_projects")
         .snapshots()
         .listen((event) {
-      if (event.docs.isEmpty) {
+      if (event.docs.isEmpty && mounted)
         setState(() {
           _loading1 = false;
         });
-      }
+
       event.docChanges.forEach((element) {
         if (element.type == DocumentChangeType.added) {
           DocumentSnapshot snap = element.doc;
-          setState(() {
-            ownedProjects.add(Project(
-              title: snap.get('title'),
-              body: snap.get('body'),
-              type: snap.get('type'),
-              id: snap.id,
-              collab: snap.get('collab'),
-              owner: {
-                'uid': _user?.uid,
-                'name': _user?.displayName,
-                'email': _user?.email,
-                'image': _user?.photoURL,
-              },
-            ));
-            _loading1 = false;
-          });
+          if (mounted)
+            setState(() {
+              ownedProjects.add(Project(
+                title: snap.get('title'),
+                body: snap.get('body'),
+                type: snap.get('type'),
+                id: snap.id,
+                collab: snap.get('collab'),
+                owner: {
+                  'uid': _user?.uid,
+                  'name': _user?.displayName,
+                  'email': _user?.email,
+                  'image': _user?.photoURL,
+                },
+              ));
+              _loading1 = false;
+            });
         } else if (element.type == DocumentChangeType.modified) {
           DocumentSnapshot snap = element.doc;
-          setState(() {
-            ownedProjects.forEach((project) {
-              if (project.id == snap.id) {
-                project.title = snap.get('title');
-                project.type = snap.get('type');
-                project.body = snap.get('body');
-                project.collab = snap.get('collab');
-              }
+          if (mounted)
+            setState(() {
+              ownedProjects.forEach((project) {
+                if (project.id == snap.id) {
+                  project.title = snap.get('title');
+                  project.type = snap.get('type');
+                  project.body = snap.get('body');
+                  project.collab = snap.get('collab');
+                }
+              });
             });
-          });
         } else {
-          setState(() {
-            int index = 0;
-            for (Project project in ownedProjects) {
-              if (project.id == element.doc.id) {
-                break;
+          if (mounted)
+            setState(() {
+              Project? project;
+              for (project in ownedProjects) {
+                if (project.id == element.doc.id) break;
               }
-              index++;
-            }
-            ownedProjects.removeAt(index);
-          });
+              ownedProjects.remove(project);
+            });
         }
       });
     });
@@ -86,25 +86,25 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .collection("other_projects")
         .snapshots()
         .listen((event) {
-      if (event.docs.isEmpty) {
+      if (event.docs.isEmpty && mounted)
         setState(() {
           _loading2 = false;
         });
-      } else {
-        event.docChanges.forEach((element) {
-          if (element.type == DocumentChangeType.added) {
-            _db
+      event.docChanges.forEach((element) {
+        if (element.type == DocumentChangeType.added) {
+          _db
+              .collection("users")
+              .doc(element.doc.get('owner'))
+              .get()
+              .then((owner) {
+            FirebaseFirestore.instance
                 .collection("users")
                 .doc(element.doc.get('owner'))
+                .collection("owned_projects")
+                .doc(element.doc.id)
                 .get()
-                .then((owner) {
-              _db
-                  .collection("users")
-                  .doc(element.doc.get('owner'))
-                  .collection("owned_projects")
-                  .doc(element.doc.id)
-                  .get()
-                  .then((value) {
+                .then((value) {
+              if (mounted)
                 setState(() {
                   otherProjects.add(Project(
                     title: value.get('title'),
@@ -121,29 +121,28 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   ));
                   _loading2 = false;
                 });
-              });
             });
-          } else if (element.type == DocumentChangeType.removed) {
+          });
+        } else if (element.type == DocumentChangeType.removed) {
+          if (mounted)
             setState(() {
-              int index = 0;
-              for (Project project in otherProjects) {
-                if (project.id == element.doc.id) {
-                  break;
-                }
-                index++;
+              Project? project;
+              for (project in otherProjects) {
+                if (project.id == element.doc.id) break;
               }
-              ownedProjects.removeAt(index);
+              otherProjects.remove(project);
             });
-          }
-        });
-      }
+        }
+      });
     });
   }
 
   @override
   void initState() {
     super.initState();
-    listenDB();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      listenDB();
+    });
   }
 
   @override

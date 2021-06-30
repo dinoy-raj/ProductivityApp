@@ -116,6 +116,23 @@ class _ProjectEditingState extends State<ProjectEditing> {
     });
   }
 
+  deleteData() {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection("owned_projects")
+        .doc(project!.id)
+        .delete();
+    project!.collab!.forEach((element) {
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(element['uid'])
+          .collection("other_projects")
+          .doc(project!.id)
+          .delete();
+    });
+  }
+
   searchUsers() {
     bool found = false;
     bool existing = false;
@@ -222,7 +239,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 25),
                     child: Text(
-                      "Add Project",
+                      project == null ? "Add Project" : "Edit Project",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
@@ -473,39 +490,128 @@ class _ProjectEditingState extends State<ProjectEditing> {
                 ),
                 _loading
                     ? CupertinoActivityIndicator()
-                    : Container(
-                        height: 40,
-                        width: screenWidth * .4,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.black),
-                            ),
-                            onPressed: () async {
-                              FocusScopeNode currentFocus =
-                                  FocusScope.of(context);
-                              if (!currentFocus.hasPrimaryFocus) {
-                                currentFocus.unfocus();
-                              }
-                              if (_formKey.currentState!.validate() &&
-                                  _dropdownValue != null) {
-                                setState(() {
-                                  _loading = true;
-                                });
-                                await project == null
-                                    ? addData()
-                                    : updateData();
-                                Navigator.pop(context);
-                              }
-                            },
-                            child: Text(
-                              "Add Project",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            )),
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          project == null
+                              ? SizedBox()
+                              : Container(
+                                  height: 40,
+                                  width: screenWidth * .4,
+                                  child: TextButton(
+                                      onPressed: () async {
+                                        FocusScopeNode currentFocus =
+                                            FocusScope.of(context);
+                                        if (!currentFocus.hasPrimaryFocus) {
+                                          currentFocus.unfocus();
+                                        }
+                                        showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) {
+                                              return Container(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Text(
+                                                      "Are you sure you want to delete this project?",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              "Cancel",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black),
+                                                            )),
+                                                        OutlinedButton(
+                                                            onPressed: () {
+                                                              deleteData();
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context);
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(
+                                                              "Confirm",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .red),
+                                                            ))
+                                                      ],
+                                                    ),
+                                                    SizedBox(
+                                                      height: 20,
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            });
+                                      },
+                                      child: Text(
+                                        "Delete Project",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                        ),
+                                      )),
+                                ),
+                          Container(
+                            height: 40,
+                            width: screenWidth * .4,
+                            child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.black),
+                                ),
+                                onPressed: () async {
+                                  FocusScopeNode currentFocus =
+                                      FocusScope.of(context);
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+                                  if (_formKey.currentState!.validate() &&
+                                      _dropdownValue != null) {
+                                    setState(() {
+                                      _loading = true;
+                                    });
+                                    await project == null
+                                        ? addData()
+                                        : updateData();
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: Text(
+                                  project == null ? "Add Project" : "Update Project",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                )),
+                          ),
+                        ],
                       ),
                 SizedBox(
                   height: screenHeight * .15,
