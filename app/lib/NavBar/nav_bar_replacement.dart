@@ -24,16 +24,29 @@ class _NavBarNewState extends State<NavBarNew> {
     ];
   }
 
+  int _selectedIndex=0;
+  PageController _controlerPage = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        controller: _controlerPage,
+        pageSnapping: true,
+
+        onPageChanged:(index){
+          setState(() {
+          _selectedIndex = index;
+          print(index);
+          });
+        },
         children: [
           MainScreen(),
           PersonalScreen(),
           NotesScreen(),
           ProjectScreen(),
-        ]
+        ],
+
       ),
       bottomNavigationBar: Container(
         height: 60,
@@ -41,25 +54,50 @@ class _NavBarNewState extends State<NavBarNew> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             NeumorphicButton(
-              onPressed: (){},
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 0;
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+                });
+
+              },
               child: Icon(CupertinoIcons.home),
             ),
             NeumorphicButton(
-              onPressed: (){},
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 1;
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+                });
+
+              },
               child: Icon(CupertinoIcons.square_list),
             ),
             NeumorphicButton(
-              onPressed: (){},
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 2;
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+
+                });
+
+              },
               child: Icon(CupertinoIcons.square_favorites_alt_fill),
             ),
             NeumorphicButton(
-              onPressed: (){},
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 3;
+                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 200), curve:Curves.ease );
+
+                });
+
+              },
               child: Icon(CupertinoIcons.group_solid),
             ),
           ],
         ),
       ),
     );
-    
   }
 }
