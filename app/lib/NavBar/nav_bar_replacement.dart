@@ -24,7 +24,7 @@ class _NavBarNewState extends State<NavBarNew> {
   }
 
   int _selectedIndex = 0;
-  PageController _controlerPage = PageController();
+  PageController _controllerPage = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class _NavBarNewState extends State<NavBarNew> {
     double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       body: PageView(
-        controller: _controlerPage,
+        controller: _controllerPage,
         pageSnapping: true,
         onPageChanged: (index) {
           setState(() {
@@ -64,8 +64,12 @@ class _NavBarNewState extends State<NavBarNew> {
                 setState(() {
                   int prev = _selectedIndex;
                   _selectedIndex = 0;
+<<<<<<< HEAD
                   int diff = prev-_selectedIndex;
                   diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
+=======
+                  _controllerPage.animateToPage(_selectedIndex,
+>>>>>>> 05a258343dc70231ada5442d2a9d4b06494960ba
                       duration: Duration(milliseconds: 900),
                       curve: Curves.ease);
                 });
@@ -86,8 +90,12 @@ class _NavBarNewState extends State<NavBarNew> {
                 setState(() {
                   int prev = _selectedIndex;
                   _selectedIndex = 1;
+<<<<<<< HEAD
                   int diff = prev-_selectedIndex;
                   diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
+=======
+                  _controllerPage.animateToPage(_selectedIndex,
+>>>>>>> 05a258343dc70231ada5442d2a9d4b06494960ba
                       duration: Duration(milliseconds: 900),
                       curve: Curves.ease);
                 });
@@ -108,8 +116,12 @@ class _NavBarNewState extends State<NavBarNew> {
                 setState(() {
                   int prev = _selectedIndex;
                   _selectedIndex = 2;
+<<<<<<< HEAD
                   int diff = prev-_selectedIndex;
                   diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
+=======
+                  _controllerPage.animateToPage(_selectedIndex,
+>>>>>>> 05a258343dc70231ada5442d2a9d4b06494960ba
                       duration: Duration(milliseconds: 900),
                       curve: Curves.ease);
                 });
@@ -130,15 +142,27 @@ class _NavBarNewState extends State<NavBarNew> {
                 setState(() {
                   int prev = _selectedIndex;
                   _selectedIndex = 3;
+<<<<<<< HEAD
                   int diff = prev-_selectedIndex;
                   diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds:  900),
                       curve: Curves.ease);
+=======
+                  _controllerPage.animateToPage(_selectedIndex,
+                      duration: Duration(milliseconds: 900),
+                      curve: Curves.linearToEaseOut);
+>>>>>>> 05a258343dc70231ada5442d2a9d4b06494960ba
                 });
               },
               child: _selectedIndex == 3
-                  ? Icon(CupertinoIcons.group_solid)
-                  : Icon(CupertinoIcons.group),
+                  ? Icon(
+                      CupertinoIcons.group_solid,
+                      size: 27,
+                    )
+                  : Icon(
+                      CupertinoIcons.group,
+                      size: 27,
+                    ),
             ),
           ],
         ),
