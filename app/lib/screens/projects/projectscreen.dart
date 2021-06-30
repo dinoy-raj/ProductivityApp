@@ -85,7 +85,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .collection("other_projects")
         .snapshots()
         .listen((event) {
-      if (event.docs.isEmpty && mounted)
+      if (mounted)
         setState(() {
           _loading2 = false;
         });
@@ -118,7 +118,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     },
                     collab: value.get('collab'),
                   ));
-                  _loading2 = false;
                 });
             });
           });
