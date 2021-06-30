@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProjectManagement extends StatefulWidget {
   ProjectManagement({this.project});
@@ -122,15 +121,21 @@ class _ProjectState extends State<ProjectManagement> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 10),
               child: ExpansionTile(
                 textColor: Colors.black,
                 iconColor: Colors.black,
-                backgroundColor: Colors.green[100],
-                collapsedBackgroundColor: Colors.green[100],
-                leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Image.network(project!.owner!['image']),
+                leading: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.yellowAccent,
+                      borderRadius: BorderRadius.circular(30)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(project!.owner!['image']),
+                    ),
+                  ),
                 ),
                 title: Text(project!.owner!['uid'] == _user.uid
                     ? project!.owner!['name'] + " (You)"
@@ -253,14 +258,17 @@ class _ProjectState extends State<ProjectManagement> {
             ),
             Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.only(top: 15),
+                padding: EdgeInsets.only(top: 0),
                 itemCount: project!.collab!.length,
                 itemBuilder: (context, index) => ExpansionTile(
                   textColor: Colors.black,
                   iconColor: Colors.black,
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(30),
-                    child: Image.network(project!.collab![index]['image']),
+                  leading: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(project!.collab![index]['image']),
+                    ),
                   ),
                   title: Text(project!.collab![index]['uid'] == _user.uid
                       ? project!.collab![index]['name'] + " (You)"
