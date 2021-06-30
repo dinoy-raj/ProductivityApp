@@ -14,7 +14,6 @@ class NavBarNew extends StatefulWidget {
 }
 
 class _NavBarNewState extends State<NavBarNew> {
-
   List<Widget> _buildScreens() {
     return [
       MainScreen(),
@@ -24,7 +23,7 @@ class _NavBarNewState extends State<NavBarNew> {
     ];
   }
 
-  int _selectedIndex=0;
+  int _selectedIndex = 0;
   PageController _controlerPage = PageController();
 
   @override
@@ -35,11 +34,10 @@ class _NavBarNewState extends State<NavBarNew> {
       body: PageView(
         controller: _controlerPage,
         pageSnapping: true,
-
-        onPageChanged:(index){
+        onPageChanged: (index) {
           setState(() {
-          _selectedIndex = index;
-          print(index);
+            _selectedIndex = index;
+            print(index);
           });
         },
         children: [
@@ -48,54 +46,91 @@ class _NavBarNewState extends State<NavBarNew> {
           NotesScreen(),
           ProjectScreen(),
         ],
-
       ),
       bottomNavigationBar: Container(
-        height: screenHeight*.2,
+        height: screenHeight * .2,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             NeumorphicButton(
+              style: NeumorphicStyle(
+                  shape: NeumorphicShape.concave,
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  //depth: 8,
+                  lightSource: LightSource.topLeft,
+                  color: Colors.white),
               onPressed: () {
                 setState(() {
                   _selectedIndex = 0;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
+                  _controlerPage.animateToPage(_selectedIndex,
+                      duration: Duration(milliseconds: 900),
+                      curve: Curves.linearToEaseOut);
                 });
-
               },
-              child: _selectedIndex==0?Icon(CupertinoIcons.house_fill):Icon(CupertinoIcons.house),
+              child: _selectedIndex == 0
+                  ? Icon(CupertinoIcons.house_fill)
+                  : Icon(CupertinoIcons.house),
             ),
             NeumorphicButton(
+              style: NeumorphicStyle(
+                  shape: NeumorphicShape.concave,
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  //depth: 8,
+                  lightSource: LightSource.topLeft,
+                  color: Colors.white),
               onPressed: () {
                 setState(() {
                   _selectedIndex = 1;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
+                  _controlerPage.animateToPage(_selectedIndex,
+                      duration: Duration(milliseconds: 900),
+                      curve: Curves.linearToEaseOut);
                 });
-
               },
-              child: _selectedIndex==1?Icon(CupertinoIcons.square_favorites_fill):Icon(CupertinoIcons.square_favorites),
+              child: _selectedIndex == 1
+                  ? Icon(CupertinoIcons.square_favorites_fill)
+                  : Icon(CupertinoIcons.square_favorites),
             ),
             NeumorphicButton(
+              style: NeumorphicStyle(
+                  shape: NeumorphicShape.concave,
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  //depth: 8,
+                  lightSource: LightSource.topLeft,
+                  color: Colors.white),
               onPressed: () {
                 setState(() {
                   _selectedIndex = 2;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
-
+                  _controlerPage.animateToPage(_selectedIndex,
+                      duration: Duration(milliseconds: 900),
+                      curve: Curves.linearToEaseOut);
                 });
-
               },
-              child:  _selectedIndex==2?Icon(CupertinoIcons.square_favorites_alt_fill):Icon(CupertinoIcons.square_favorites_alt),
+              child: _selectedIndex == 2
+                  ? Icon(CupertinoIcons.square_favorites_alt_fill)
+                  : Icon(CupertinoIcons.square_favorites_alt),
             ),
             NeumorphicButton(
+              style: NeumorphicStyle(
+                  shape: NeumorphicShape.concave,
+                  boxShape:
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  //depth: 8,
+                  lightSource: LightSource.topLeft,
+                  color: Colors.white),
               onPressed: () {
                 setState(() {
                   _selectedIndex = 3;
-                  _controlerPage.animateToPage(_selectedIndex, duration: Duration(milliseconds: 900), curve:Curves.linearToEaseOut );
-
+                  _controlerPage.animateToPage(_selectedIndex,
+                      duration: Duration(milliseconds: 900),
+                      curve: Curves.linearToEaseOut);
                 });
-
               },
-              child:  _selectedIndex==3?Icon(CupertinoIcons.group_solid):Icon(CupertinoIcons.group),
+              child: _selectedIndex == 3
+                  ? Icon(CupertinoIcons.group_solid)
+                  : Icon(CupertinoIcons.group),
             ),
           ],
         ),
