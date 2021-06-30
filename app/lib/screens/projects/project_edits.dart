@@ -570,7 +570,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                         children: [
                           Container(
                             height: 40,
-                            width: screenWidth * .4,
+                            width: screenWidth * .35,
                             child: TextButton(
                                 style: ButtonStyle(
                                     overlayColor: MaterialStateProperty.all(
