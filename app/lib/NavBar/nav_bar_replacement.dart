@@ -29,6 +29,8 @@ class _NavBarNewState extends State<NavBarNew> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       body: PageView(
         controller: _controlerPage,
@@ -49,7 +51,7 @@ class _NavBarNewState extends State<NavBarNew> {
 
       ),
       bottomNavigationBar: Container(
-        height: 60,
+        height: screenHeight*.2,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -61,7 +63,7 @@ class _NavBarNewState extends State<NavBarNew> {
                 });
 
               },
-              child: Icon(CupertinoIcons.home),
+              child: _selectedIndex==0?Icon(CupertinoIcons.house_fill):Icon(CupertinoIcons.house),
             ),
             NeumorphicButton(
               onPressed: () {
@@ -71,7 +73,7 @@ class _NavBarNewState extends State<NavBarNew> {
                 });
 
               },
-              child: Icon(CupertinoIcons.square_list),
+              child: _selectedIndex==1?Icon(CupertinoIcons.square_favorites_fill):Icon(CupertinoIcons.square_favorites),
             ),
             NeumorphicButton(
               onPressed: () {
@@ -82,7 +84,7 @@ class _NavBarNewState extends State<NavBarNew> {
                 });
 
               },
-              child: Icon(CupertinoIcons.square_favorites_alt_fill),
+              child:  _selectedIndex==2?Icon(CupertinoIcons.square_favorites_alt_fill):Icon(CupertinoIcons.square_favorites_alt),
             ),
             NeumorphicButton(
               onPressed: () {
@@ -93,7 +95,7 @@ class _NavBarNewState extends State<NavBarNew> {
                 });
 
               },
-              child: Icon(CupertinoIcons.group_solid),
+              child:  _selectedIndex==3?Icon(CupertinoIcons.group_solid):Icon(CupertinoIcons.group),
             ),
           ],
         ),
