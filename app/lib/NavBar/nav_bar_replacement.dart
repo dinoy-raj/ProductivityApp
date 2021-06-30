@@ -62,10 +62,12 @@ class _NavBarNewState extends State<NavBarNew> {
                   color: Colors.white),
               onPressed: () {
                 setState(() {
+                  int prev = _selectedIndex;
                   _selectedIndex = 0;
-                  _controlerPage.animateToPage(_selectedIndex,
+                  int diff = prev-_selectedIndex;
+                  diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 900),
-                      curve: Curves.linearToEaseOut);
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 0
@@ -82,10 +84,12 @@ class _NavBarNewState extends State<NavBarNew> {
                   color: Colors.white),
               onPressed: () {
                 setState(() {
+                  int prev = _selectedIndex;
                   _selectedIndex = 1;
-                  _controlerPage.animateToPage(_selectedIndex,
+                  int diff = prev-_selectedIndex;
+                  diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 900),
-                      curve: Curves.linearToEaseOut);
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 1
@@ -102,10 +106,12 @@ class _NavBarNewState extends State<NavBarNew> {
                   color: Colors.white),
               onPressed: () {
                 setState(() {
+                  int prev = _selectedIndex;
                   _selectedIndex = 2;
-                  _controlerPage.animateToPage(_selectedIndex,
+                  int diff = prev-_selectedIndex;
+                  diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 900),
-                      curve: Curves.linearToEaseOut);
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 2
@@ -122,10 +128,12 @@ class _NavBarNewState extends State<NavBarNew> {
                   color: Colors.white),
               onPressed: () {
                 setState(() {
+                  int prev = _selectedIndex;
                   _selectedIndex = 3;
-                  _controlerPage.animateToPage(_selectedIndex,
-                      duration: Duration(milliseconds: 900),
-                      curve: Curves.linearToEaseOut);
+                  int diff = prev-_selectedIndex;
+                  diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,
+                      duration: Duration(milliseconds:  900),
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 3
