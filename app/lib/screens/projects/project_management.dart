@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class ProjectManagement extends StatefulWidget {
@@ -22,6 +23,8 @@ class _ProjectState extends State<ProjectManagement> {
   User _user = FirebaseAuth.instance.currentUser!;
   final Project? project;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  double _progress = 0;
+  bool _progressClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -428,10 +431,15 @@ class _ProjectState extends State<ProjectManagement> {
             if (!snapshot.hasData || snapshot.hasError)
               return Center(child: CupertinoActivityIndicator());
 
-            project!.title = snapshot.data!.get('title');
-            project!.type = snapshot.data!.get('type');
-            project!.body = snapshot.data!.get('body');
-            project!.collab = snapshot.data!.get('collab');
+            if(snapshot.data!.exists) {
+              project!.title = snapshot.data!.get('title');
+              project!.type = snapshot.data!.get('type');
+              project!.body = snapshot.data!.get('body');
+              project!.collab = snapshot.data!.get('collab');
+              try {
+                _progress = snapshot.data!.get('progress');
+              } catch (e) {}
+            }
 
             return Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
@@ -483,9 +491,73 @@ class _ProjectState extends State<ProjectManagement> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         project!.body!,
-                        style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                       ),
                     ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 20, bottom: 8),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Progress",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        if (project!.owner!['uid'] == _user.uid &&
+                            !_progressClicked)
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _progressClicked = true;
+                              });
+                            },
+                            icon: Icon(Icons.edit_outlined),
+                            iconSize: 16,
+                            splashRadius: 16,
+                          ),
+                        if (_progressClicked)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Container(
+                              width: 60,
+                              child: TextField(
+                                keyboardType: TextInputType.number,
+                                autofocus: true,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.only(left: 5, right: 5),
+                                    hintText: "Percent",
+                                    hintStyle: TextStyle(fontSize: 12),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                      color: Colors.black,
+                                    )),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.black))),
+                                onSubmitted: (val) {
+                                  setState(() {
+                                    _progressClicked = false;
+                                    try {
+                                      _progress = double.parse(val) / 100;
+                                      FirebaseFirestore.instance
+                                          .collection("users")
+                                          .doc(_user.uid)
+                                          .collection("owned_projects")
+                                          .doc(project!.id)
+                                          .set({'progress': _progress},
+                                              SetOptions(merge: true));
+                                    } catch (e) {}
+                                  });
+                                },
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                  NeumorphicProgress(
+                    percent: _progress,
                   )
                 ],
               ),

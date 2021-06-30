@@ -39,8 +39,6 @@ class _ProjectEditingState extends State<ProjectEditing> {
       });
     });
 
-    print(list.length);
-
     const _chars =
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     Random _rnd = Random.secure();
@@ -58,7 +56,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'type': _dropdownValue,
       'body': _descController.text,
       'collab': list,
-    }, SetOptions(merge: false));
+    });
 
     list.forEach((element) async {
       await FirebaseFirestore.instance
@@ -68,7 +66,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
           .doc(id)
           .set({
         'owner': FirebaseAuth.instance.currentUser?.uid,
-      }, SetOptions(merge: false));
+      });
     });
   }
 
