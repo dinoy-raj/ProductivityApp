@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:app/screens/projects/project_edits.dart';
+import 'package:app/screens/projects/project_management.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -284,67 +285,91 @@ class _TeamScreenState extends State<TeamScreen> {
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5, right: 20, top: 20, bottom: 40),
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: color, width: 1)),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: 5,
-                                              width: 15,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                shape: BoxShape.rectangle,
-                                                color: color,
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: color, width: 1)),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                height: 5,
+                                                width: 15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  shape: BoxShape.rectangle,
+                                                  color: color,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 0,
-                                              child: Text(
-                                                ownedProjects[index].title!,
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Expanded(
+                                                flex: 0,
+                                                child: Text(
+                                                  ownedProjects[index].title!,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              Text(
+                                                ownedProjects[index].type!,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                    fontSize: 14,
+                                                    color: Colors.grey[700]),
                                               ),
-                                            ),
-                                            Text(
-                                              ownedProjects[index].type!,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[700]),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                ownedProjects[index].body!,
-                                                overflow: TextOverflow.clip,
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.grey),
+                                              Expanded(
+                                                child: Text(
+                                                  ownedProjects[index].body!,
+                                                  overflow: TextOverflow.clip,
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.grey),
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          splashColor: color.withOpacity(0.5),
+                                          highlightColor:
+                                              color.withOpacity(0.25),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ProjectManagement(
+                                                          project:
+                                                              ownedProjects[
+                                                                  index],
+                                                        )));
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }),
@@ -386,85 +411,109 @@ class _TeamScreenState extends State<TeamScreen> {
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5, right: 20, top: 20, bottom: 40),
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: color, width: 1)),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              height: 5,
-                                              width: 15,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                shape: BoxShape.rectangle,
-                                                color: color,
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Colors.white,
+                                            border: Border.all(
+                                                color: color, width: 1)),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                height: 5,
+                                                width: 15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  shape: BoxShape.rectangle,
+                                                  color: color,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    otherProjects[index].title!,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      otherProjects[index]
+                                                          .title!,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Container(
-                                                  height: 30,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    child: Image.network(
-                                                        otherProjects[index]
-                                                            .owner!['image']),
+                                                  SizedBox(
+                                                    width: 5,
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Text(
-                                              otherProjects[index].type!,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[700]),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                otherProjects[index].body!,
-                                                overflow: TextOverflow.clip,
+                                                  Container(
+                                                    height: 30,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      child: Image.network(
+                                                          otherProjects[index]
+                                                              .owner!['image']),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                otherProjects[index].type!,
                                                 style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.grey),
+                                                    fontSize: 14,
+                                                    color: Colors.grey[700]),
                                               ),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: Text(
+                                                  otherProjects[index].body!,
+                                                  overflow: TextOverflow.clip,
+                                                  style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.grey),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          splashColor: color.withOpacity(0.5),
+                                          highlightColor:
+                                              color.withOpacity(0.25),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ProjectManagement(
+                                                          project:
+                                                              ownedProjects[
+                                                                  index],
+                                                        )));
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }),
