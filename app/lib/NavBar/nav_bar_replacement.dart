@@ -65,9 +65,12 @@ class _NavBarNewState extends State<NavBarNew> {
                   int prev = _selectedIndex;
                   _selectedIndex = 0;
 
-                  int diff = prev-_selectedIndex;
-                  diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,  duration: Duration(milliseconds: 900),
-                      curve: Curves.ease);
+                  int diff = prev - _selectedIndex;
+                  diff.abs() > 1
+                      ? _controlerPage.jumpToPage(_selectedIndex)
+                      : _controlerPage.animateToPage(_selectedIndex,
+                          duration: Duration(milliseconds: 900),
+                          curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 0
@@ -87,10 +90,12 @@ class _NavBarNewState extends State<NavBarNew> {
                   int prev = _selectedIndex;
                   _selectedIndex = 1;
 
-                  int diff = prev-_selectedIndex;
-                  diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,  duration: Duration(milliseconds: 900),
-                      curve: Curves.ease);
-
+                  int diff = prev - _selectedIndex;
+                  diff.abs() > 1
+                      ? _controlerPage.jumpToPage(_selectedIndex)
+                      : _controlerPage.animateToPage(_selectedIndex,
+                          duration: Duration(milliseconds: 900),
+                          curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 1
@@ -110,10 +115,12 @@ class _NavBarNewState extends State<NavBarNew> {
                   int prev = _selectedIndex;
                   _selectedIndex = 2;
 
-                  int diff = prev-_selectedIndex;
-                  diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,  duration: Duration(milliseconds: 900),
-                      curve: Curves.ease);
-
+                  int diff = prev - _selectedIndex;
+                  diff.abs() > 1
+                      ? _controlerPage.jumpToPage(_selectedIndex)
+                      : _controlerPage.animateToPage(_selectedIndex,
+                          duration: Duration(milliseconds: 900),
+                          curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 2
@@ -132,16 +139,21 @@ class _NavBarNewState extends State<NavBarNew> {
                 setState(() {
                   int prev = _selectedIndex;
                   _selectedIndex = 3;
+
                   int diff = prev-_selectedIndex;
                   diff.abs()>1?_controlerPage.jumpToPage(_selectedIndex):_controlerPage.animateToPage(_selectedIndex,  duration: Duration(milliseconds: 900),
                       curve: Curves.ease);
-
-
                 });
               },
               child: _selectedIndex == 3
-                  ? Icon(CupertinoIcons.group_solid)
-                  : Icon(CupertinoIcons.group),
+                  ? Icon(
+                      CupertinoIcons.group_solid,
+                      size: 27,
+                    )
+                  : Icon(
+                      CupertinoIcons.group,
+                      size: 27,
+                    ),
             ),
           ],
         ),
