@@ -3,6 +3,7 @@ import 'package:app/screens/projects/projectscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -24,8 +25,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
   TextEditingController _collabController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _dropdownValue;
-  List<Map<String, dynamic>>? collab = [];
-  List<Map<String, dynamic>>? suggestions = [];
+  List? collab = [];
+  List? suggestions = [];
   bool _loading = false;
 
   addData() async {
@@ -368,11 +369,11 @@ class _ProjectEditingState extends State<ProjectEditing> {
                               });
                             },
                             title: Text(
-                              suggestions![index]['name']!,
+                              suggestions![index]['name'],
                               style: TextStyle(fontSize: 12),
                             ),
                             subtitle: Text(
-                              suggestions![index]['email']!,
+                              suggestions![index]['email'],
                               style: TextStyle(fontSize: 10),
                             ),
                             leading: ClipRRect(
@@ -380,7 +381,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 child: Container(
                                     height: 40,
                                     child: Image.network(
-                                        suggestions![index]['image']!))),
+                                        suggestions![index]['image']))),
                           );
                         }),
                   ),
@@ -438,16 +439,20 @@ class _ProjectEditingState extends State<ProjectEditing> {
                         physics: BouncingScrollPhysics(),
                         itemCount: collab!.length,
                         itemBuilder: (context, index) {
+                          bool _contains = false;
+                          project!.collab!.forEach((element) {
+                            if(mapEquals(element, collab![index]))
+                              _contains = true;
+                          });
                           return ListTile(
                             horizontalTitleGap: 10,
                             subtitle: Text(
-                              collab![index]['email']!,
+                              collab![index]['email'],
                               style: TextStyle(fontSize: 12),
                             ),
                             dense: true,
-                            title: Text(collab![index]['name']!),
-                            trailing: project != null &&
-                                    project!.collab!.contains(collab![index])
+                            title: Text(collab![index]['name']),
+                            trailing: project != null && _contains
                                 ? IconButton(
                                     onPressed: () {
                                       showModalBottomSheet(
@@ -463,7 +468,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                                     Text(
                                                       "Remove " +
                                                           collab![index]
-                                                              ['name']! +
+                                                              ['name'] +
                                                           " as collaborator?",
                                                       textAlign:
                                                           TextAlign.center,
@@ -533,7 +538,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 child: Container(
                                     height: 40,
                                     child: Image.network(
-                                        collab![index]['image']!))),
+                                        collab![index]['image']))),
                           );
                         }),
                   ),
