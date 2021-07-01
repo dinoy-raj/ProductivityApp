@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
             textTheme: GoogleFonts.poppinsTextTheme(),
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.grey,
             textSelectionTheme:
                 TextSelectionThemeData(cursorColor: Colors.grey)),
         home: HomePage(),

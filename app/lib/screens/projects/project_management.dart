@@ -1,11 +1,13 @@
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:app/screens/projects/project_edits.dart';
 import 'package:app/screens/projects/projectscreen.dart';
+import 'package:app/screens/projects/assign_task.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:intl/intl.dart';
 
 class ProjectManagement extends StatefulWidget {
   ProjectManagement({this.project});
@@ -25,24 +27,95 @@ class _ProjectState extends State<ProjectManagement> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   double _progress = 0;
   bool _progressClicked = false;
-  List myTasks = [
-    {'title': "HELLO", 'body': "YES", 'deadline': "Tomorrow"},
-    {'title': "HELLO", 'body': "YES", 'deadline': "Tomorrow"},
-  ];
-  List collabTasks = [
-    {
-      'title': "HI",
-      'body': "NO",
-      'deadline': "Today",
-      'collab': FirebaseAuth.instance.currentUser!.photoURL
-    },
-    {
-      'title': "HI",
-      'body': "NO",
-      'deadline': "Today",
-      'collab': FirebaseAuth.instance.currentUser!.photoURL
-    },
-  ];
+  bool _loading = true;
+  List myTasks = [];
+  List collabTasks = [];
+
+  listenDB() {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(project!.owner!['uid'])
+        .collection("owned_projects")
+        .doc(project!.id)
+        .collection("tasks")
+        .snapshots()
+        .listen((event) {
+      if (event.docs.isEmpty && mounted)
+        setState(() {
+          _loading = false;
+        });
+      event.docChanges.forEach((element) {
+        if (mounted)
+          setState(() {
+            if (element.doc.get('image') == _user.photoURL) {
+              String deadline;
+              Duration? duration = element.doc.get('deadline') != null
+                  ? DateTime.now()
+                      .difference(element.doc.get('deadline').toDate())
+                  : null;
+
+              if (element.doc.get('completed')) deadline = "Completed";
+              if (element.doc.get('deadline') == null)
+                deadline = "No Deadline";
+              else if (!duration!.isNegative)
+                deadline = "Past Deadline";
+              else if (duration.inDays == 1)
+                deadline = "Today";
+              else if (duration.inDays == 2)
+                deadline = "Tomorrow";
+              else
+                deadline = DateFormat.yMEd()
+                    .add_jms()
+                    .format(element.doc.get('deadline').toDate());
+
+              myTasks.add({
+                'title': element.doc.get('title'),
+                'body': element.doc.get('body'),
+                'deadline': deadline,
+                'completed': element.doc.get('completed'),
+                'id': element.doc.id,
+              });
+            } else {
+              String deadline;
+              Duration? duration = element.doc.get('deadline') != null
+                  ? DateTime.now()
+                  .difference(element.doc.get('deadline').toDate())
+                  : null;
+
+              if (element.doc.get('completed')) deadline = "Completed";
+              if (element.doc.get('deadline') == null)
+                deadline = "No Deadline";
+              else if (!duration!.isNegative)
+                deadline = "Past Deadline";
+              else if (duration.inDays == 1)
+                deadline = "Today";
+              else if (duration.inDays == 2)
+                deadline = "Tomorrow";
+              else
+                deadline = DateFormat.yMEd()
+                    .add_jms()
+                    .format(element.doc.get('deadline').toDate());
+
+              collabTasks.add({
+                'title': element.doc.get('title'),
+                'body': element.doc.get('body'),
+                'deadline': deadline,
+                'completed': element.doc.get('completed'),
+                'collab': element.doc.get('image'),
+                'id': element.doc.id,
+              });
+              _loading = false;
+            }
+          });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenDB();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,129 +151,259 @@ class _ProjectState extends State<ProjectManagement> {
             }
 
             return Scaffold(
-                key: _scaffoldKey,
-                appBar: AppBar(
-                  elevation: 0,
-                  backgroundColor: Colors.white10,
-                  centerTitle: true,
-                  leading: IconButton(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Tooltip(
-                        message: "Exit",
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.grey[700],
-                        ),
-                      )),
-                  actions: [
-                    IconButton(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title: Text(
-                                      "Start a voice call with the collaborators?"),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "NO",
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "YES",
-                                          style: TextStyle(
-                                            color: Colors.grey[800],
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                  ],
-                                ));
-                      },
-                      icon: Tooltip(
-                        message: "Make call",
-                        child: Icon(
-                          Icons.add_call,
-                          color: Colors.grey[700],
+              key: _scaffoldKey,
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.white10,
+                centerTitle: true,
+                leading: IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Tooltip(
+                      message: "Exit",
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.grey[700],
+                      ),
+                    )),
+                actions: [
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                                title: Text(
+                                    "Start a voice call with the collaborators?"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "NO",
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "YES",
+                                        style: TextStyle(
+                                          color: Colors.grey[800],
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      )),
+                                ],
+                              ));
+                    },
+                    icon: Tooltip(
+                      message: "Make call",
+                      child: Icon(
+                        Icons.add_call,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {
+                      _scaffoldKey.currentState!.openEndDrawer();
+                    },
+                    icon: Tooltip(
+                      message: "Collaborators",
+                      child: Icon(
+                        Icons.people,
+                        color: Colors.grey[700],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  )
+                ],
+              ),
+              endDrawer: Drawer(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      height: 120,
+                      child: DrawerHeader(
+                        child: Text(
+                          "Collaborators",
+                          style: TextStyle(fontSize: 20),
                         ),
                       ),
                     ),
-                    IconButton(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onPressed: () {
-                        _scaffoldKey.currentState!.openEndDrawer();
-                      },
-                      icon: Tooltip(
-                        message: "Collaborators",
-                        child: Icon(
-                          Icons.people,
-                          color: Colors.grey[700],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    )
-                  ],
-                ),
-                endDrawer: Drawer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        height: 120,
-                        child: DrawerHeader(
-                          child: Text(
-                            "Collaborators",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: ExpansionTile(
-                          textColor: Colors.black,
-                          iconColor: Colors.black,
-                          leading: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.yellowAccent,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Image.network(project!.owner!['image']),
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: ExpansionTile(
+                        textColor: Colors.black,
+                        iconColor: Colors.black,
+                        leading: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.yellowAccent,
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: Image.network(project!.owner!['image']),
                             ),
                           ),
-                          title: Text(project!.owner!['uid'] == _user.uid
-                              ? project!.owner!['name'] + " (You)"
-                              : project!.owner!['name']),
+                        ),
+                        title: Text(project!.owner!['uid'] == _user.uid
+                            ? project!.owner!['name'] + " (You)"
+                            : project!.owner!['name']),
+                        subtitle: Text(
+                          project!.owner!['email'],
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              if (project!.owner!['uid'] != _user.uid)
+                                TextButton.icon(
+                                  label: Text(
+                                    "Call",
+                                  ),
+                                  icon: Icon(
+                                    Icons.call_outlined,
+                                    color: Colors.grey[800],
+                                  ),
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.grey[800]),
+                                      overlayColor: MaterialStateProperty.all(
+                                          Colors.transparent)),
+                                  onPressed: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) => Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            15),
+                                                    child: Text(
+                                                      "Call",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ));
+                                  },
+                                ),
+                              TextButton.icon(
+                                label: Text(
+                                  project!.owner!['uid'] == _user.uid
+                                      ? "Note"
+                                      : "Chat",
+                                ),
+                                icon: Icon(
+                                  project!.owner!['uid'] == _user.uid
+                                      ? Icons.edit_outlined
+                                      : Icons.chat_bubble_outline,
+                                  color: Colors.grey[800],
+                                ),
+                                style: ButtonStyle(
+                                    foregroundColor: MaterialStateProperty.all(
+                                        Colors.grey[800]),
+                                    overlayColor: MaterialStateProperty.all(
+                                        Colors.transparent)),
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => Container(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(15),
+                                                  child: Text(
+                                                    project!.owner!['uid'] ==
+                                                            _user.uid
+                                                        ? "Note"
+                                                        : "Chat",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ));
+                                },
+                              ),
+                              if (project!.owner!['uid'] == _user.uid)
+                                TextButton.icon(
+                                  icon: Icon(Icons.add_comment_outlined),
+                                  label: Text("Assign"),
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.grey[800]),
+                                      overlayColor: MaterialStateProperty.all(
+                                          Colors.transparent)),
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) => AssignTask(
+                                              id: project!.id,
+                                            ));
+                                  },
+                                ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(top: 0),
+                        itemCount: project!.collab!.length,
+                        itemBuilder: (context, index) => ExpansionTile(
+                          textColor: Colors.black,
+                          iconColor: Colors.black,
+                          leading: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: Image.network(
+                                  project!.collab![index]['image']),
+                            ),
+                          ),
+                          title: Text(
+                              project!.collab![index]['uid'] == _user.uid
+                                  ? project!.collab![index]['name'] + " (You)"
+                                  : project!.collab![index]['name']),
                           subtitle: Text(
-                            project!.owner!['email'],
+                            project!.collab![index]['email'],
                             style: TextStyle(fontSize: 12),
                           ),
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                if (project!.owner!['uid'] != _user.uid)
+                                if (project!.collab![index]['uid'] != _user.uid)
                                   TextButton.icon(
                                     label: Text(
                                       "Call",
@@ -241,15 +444,14 @@ class _ProjectState extends State<ProjectManagement> {
                                   ),
                                 TextButton.icon(
                                   label: Text(
-                                    project!.owner!['uid'] == _user.uid
+                                    project!.collab![index]['uid'] == _user.uid
                                         ? "Note"
                                         : "Chat",
                                   ),
                                   icon: Icon(
-                                    project!.owner!['uid'] == _user.uid
+                                    project!.collab![index]['uid'] == _user.uid
                                         ? Icons.edit_outlined
                                         : Icons.chat_bubble_outline,
-                                    color: Colors.grey[800],
                                   ),
                                   style: ButtonStyle(
                                       foregroundColor:
@@ -269,7 +471,8 @@ class _ProjectState extends State<ProjectManagement> {
                                                         const EdgeInsets.all(
                                                             15),
                                                     child: Text(
-                                                      project!.owner!['uid'] ==
+                                                      project!.collab![index]
+                                                                  ['uid'] ==
                                                               _user.uid
                                                           ? "Note"
                                                           : "Chat",
@@ -283,7 +486,8 @@ class _ProjectState extends State<ProjectManagement> {
                                             ));
                                   },
                                 ),
-                                if (project!.owner!['uid'] == _user.uid)
+                                if (project!.owner!['uid'] == _user.uid ||
+                                    project!.collab![index]['uid'] == _user.uid)
                                   TextButton.icon(
                                     icon: Icon(Icons.add_comment_outlined),
                                     label: Text("Assign"),
@@ -294,26 +498,11 @@ class _ProjectState extends State<ProjectManagement> {
                                         overlayColor: MaterialStateProperty.all(
                                             Colors.transparent)),
                                     onPressed: () {
-                                      showModalBottomSheet(
+                                      showDialog(
                                           context: context,
-                                          builder: (context) => Container(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              15),
-                                                      child: Text(
-                                                        "Assign Task",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
+                                          builder: (context) => AssignTask(
+                                                collab: project!.collab![index],
+                                                id: project!.id,
                                               ));
                                     },
                                   ),
@@ -322,189 +511,33 @@ class _ProjectState extends State<ProjectManagement> {
                           ],
                         ),
                       ),
-                      Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.only(top: 0),
-                          itemCount: project!.collab!.length,
-                          itemBuilder: (context, index) => ExpansionTile(
-                            textColor: Colors.black,
-                            iconColor: Colors.black,
-                            leading: Padding(
-                              padding: const EdgeInsets.all(3.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Image.network(
-                                    project!.collab![index]['image']),
-                              ),
-                            ),
-                            title: Text(
-                                project!.collab![index]['uid'] == _user.uid
-                                    ? project!.collab![index]['name'] + " (You)"
-                                    : project!.collab![index]['name']),
-                            subtitle: Text(
-                              project!.collab![index]['email'],
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  if (project!.collab![index]['uid'] !=
-                                      _user.uid)
-                                    TextButton.icon(
-                                      label: Text(
-                                        "Call",
-                                      ),
-                                      icon: Icon(
-                                        Icons.call_outlined,
-                                        color: Colors.grey[800],
-                                      ),
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.grey[800]),
-                                          overlayColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.transparent)),
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) => Container(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        child: Text(
-                                                          "Call",
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ));
-                                      },
-                                    ),
-                                  TextButton.icon(
-                                    label: Text(
-                                      project!.collab![index]['uid'] ==
-                                              _user.uid
-                                          ? "Note"
-                                          : "Chat",
-                                    ),
-                                    icon: Icon(
-                                      project!.collab![index]['uid'] ==
-                                              _user.uid
-                                          ? Icons.edit_outlined
-                                          : Icons.chat_bubble_outline,
-                                    ),
-                                    style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.grey[800]),
-                                        overlayColor: MaterialStateProperty.all(
-                                            Colors.transparent)),
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => Container(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              15),
-                                                      child: Text(
-                                                        project!.collab![index]
-                                                                    ['uid'] ==
-                                                                _user.uid
-                                                            ? "Note"
-                                                            : "Chat",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ));
-                                    },
-                                  ),
-                                  if (project!.owner!['uid'] == _user.uid ||
-                                      project!.collab![index]['uid'] ==
-                                          _user.uid)
-                                    TextButton.icon(
-                                      icon: Icon(Icons.add_comment_outlined),
-                                      label: Text("Assign"),
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.grey[800]),
-                                          overlayColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.transparent)),
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) => Container(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(15),
-                                                        child: Text(
-                                                          "Assign Task",
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ));
-                                      },
-                                    ),
-                                ],
-                              )
-                            ],
+                    ),
+                  ],
+                ),
+              ),
+              floatingActionButton: project!.owner!['uid'] == _user.uid
+                  ? Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: NeumorphicFloatingActionButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProjectEditing(
+                                        project: project,
+                                      )));
+                        },
+                        child: Tooltip(
+                          message: "Edit Project",
+                          child: Icon(
+                            Icons.edit,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                floatingActionButton: project!.owner!['uid'] == _user.uid
-                    ? Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: NeumorphicFloatingActionButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProjectEditing(
-                                          project: project,
-                                        )));
-                          },
-                          child: Tooltip(
-                            message: "Edit Project",
-                            child: Icon(
-                              Icons.edit,
-                            ),
-                          ),
-                        ))
-                    : null,
-                body: Padding(
+                      ))
+                  : null,
+              body: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Padding(
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -635,95 +668,123 @@ class _ProjectState extends State<ProjectManagement> {
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
-                      Expanded(
-                        child: GridView.builder(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1),
-                            itemCount: myTasks.length,
-                            itemBuilder: (context, index) {
-                              var color = RandomColorModel().getColor();
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 20, top: 10, bottom: 40),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: color, width: 1)),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              height: 5,
-                                              width: 15,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                shape: BoxShape.rectangle,
-                                                color: color,
+                      if (_loading)
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: CupertinoActivityIndicator(),
+                        )
+                      else if (myTasks.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 10, bottom: 30),
+                          child: Text(
+                            "You currently have no tasks",
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.grey[700]),
+                          ),
+                        )
+                      else
+                        Container(
+                          height: 200,
+                          child: GridView.builder(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1),
+                              itemCount: myTasks.length,
+                              itemBuilder: (context, index) {
+                                Color color;
+                                if (myTasks[index]['completed'])
+                                  color = Colors.grey;
+                                else if (myTasks[index]['deadline'] ==
+                                    "Past Deadline")
+                                  color = Colors.red;
+                                else
+                                  color = Colors.green;
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 20, top: 10, bottom: 40),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: myTasks[index]['completed']
+                                                ? color.withOpacity(0.25)
+                                                : Colors.white,
+                                            border: Border.all(
+                                                color: color, width: 2)),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                height: 5,
+                                                width: 15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  shape: BoxShape.rectangle,
+                                                  color: color,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Expanded(
-                                              flex: 0,
-                                              child: Text(
-                                                myTasks[index]['title']!,
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Expanded(
+                                                flex: 0,
+                                                child: Text(
+                                                  myTasks[index]['title']!,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              Text(
+                                                myTasks[index]['deadline'],
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                                    fontSize: 14,
+                                                    color: Colors.grey[700]),
                                               ),
-                                            ),
-                                            Text(
-                                              myTasks[index]['deadline']!,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[700]),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                myTasks[index]['body']!,
-                                                overflow: TextOverflow.clip,
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.grey),
+                                              Expanded(
+                                                child: Text(
+                                                  myTasks[index]['body']!,
+                                                  overflow: TextOverflow.clip,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(10),
-                                        splashColor: color.withOpacity(0.5),
-                                        highlightColor: color.withOpacity(0.25),
-                                        onTap: () {},
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          highlightColor:
+                                              color.withOpacity(0.5),
+                                          onTap: () {},
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
                       Padding(
                         padding: EdgeInsets.only(left: 8, top: 0),
                         child: Text(
@@ -731,116 +792,149 @@ class _ProjectState extends State<ProjectManagement> {
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
-                      Expanded(
-                        child: GridView.builder(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 1),
-                            itemCount: collabTasks.length,
-                            itemBuilder: (context, index) {
-                              var color = RandomColorModel().getColor();
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 5, right: 20, top: 20, bottom: 40),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: Colors.white,
-                                          border: Border.all(
-                                              color: color, width: 1)),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(10),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              height: 5,
-                                              width: 15,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
-                                                shape: BoxShape.rectangle,
-                                                color: color,
+                      if (_loading)
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: CupertinoActivityIndicator(),
+                        )
+                      else if (collabTasks.isEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 10, bottom: 30),
+                          child: Text(
+                            project!.owner!['uid'] == _user.uid
+                                ? "Assign tasks for the collaborators"
+                                : "There are no tasks here",
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.grey[700]),
+                          ),
+                        )
+                      else
+                        Container(
+                          height: 200,
+                          child: GridView.builder(
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1),
+                              itemCount: collabTasks.length,
+                              itemBuilder: (context, index) {
+                                Color color;
+                                if (collabTasks[index]['completed'])
+                                  color = Colors.grey;
+                                else if (collabTasks[index]['deadline'] ==
+                                    "Past Deadline")
+                                  color = Colors.red;
+                                else
+                                  color = Colors.green;
+                                return Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 5, right: 20, top: 20, bottom: 40),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: collabTasks[index]
+                                                    ['completed']
+                                                ? color.withOpacity(0.25)
+                                                : Colors.white,
+                                            border: Border.all(
+                                                color: color, width: 2)),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                height: 5,
+                                                width: 15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  shape: BoxShape.rectangle,
+                                                  color: color,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              height: 8,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    collabTasks[index]['title'],
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      collabTasks[index]
+                                                          ['title'],
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Container(
-                                                  height: 30,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    child: Image.network(
-                                                        collabTasks[index]
-                                                            ['collab']),
+                                                  SizedBox(
+                                                    width: 5,
                                                   ),
-                                                )
-                                              ],
-                                            ),
-                                            Text(
-                                              collabTasks[index]['deadline'],
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[700]),
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                collabTasks[index]['body'],
-                                                overflow: TextOverflow.clip,
+                                                  Container(
+                                                    height: 30,
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              30),
+                                                      child: Image.network(
+                                                          collabTasks[index]
+                                                              ['collab']),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                collabTasks[index]['deadline'],
                                                 style: TextStyle(
-                                                    fontSize: 10,
-                                                    color: Colors.grey),
+                                                    fontSize: 14,
+                                                    color: Colors.grey[700]),
                                               ),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: Text(
+                                                  collabTasks[index]['body'],
+                                                  overflow: TextOverflow.clip,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Colors.grey),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(10),
-                                        splashColor: color.withOpacity(0.5),
-                                        highlightColor: color.withOpacity(0.25),
-                                        onTap: () {},
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          highlightColor:
+                                              color.withOpacity(0.5),
+                                          onTap: () {},
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
-                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                        ),
                     ],
                   ),
-                ));
+                ),
+              ),
+            );
           }),
     );
   }
