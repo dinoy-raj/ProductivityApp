@@ -1,32 +1,31 @@
 import 'dart:math';
 
+import 'package:app/screens/note/note%20view/note_view_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class NoteEditing extends StatefulWidget {
-  const NoteEditing({Key? key}) : super(key: key);
+class NoteView extends StatefulWidget {
+  Map<String, dynamic> data;
+  NoteView(this.data);
 
   @override
-  _NoteEditingState createState() => _NoteEditingState();
+  _NoteViewState createState() => _NoteViewState(data);
 }
 
-class _NoteEditingState extends State<NoteEditing> {
+class _NoteViewState extends State<NoteView> {
+  Map<String, dynamic> data;
+  _NoteViewState(this.data);
   final _formKey = GlobalKey<FormState>();
-  addData() async {
-    const _chars =
-        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    Random _rnd = Random.secure();
+  bool _isEditable = false;
 
-    String id = String.fromCharCodes(Iterable.generate(
-        20, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-
+  deleteData() async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("notes")
-        .doc(id)
-        .set({"body": _bodyController.text, "title": _titleController.text});
+        .doc(data["id"])
+        .delete();
   }
 
   TextEditingController _titleController = TextEditingController();
@@ -52,12 +51,14 @@ class _NoteEditingState extends State<NoteEditing> {
           leading: IconButton(
               splashRadius: 10,
               onPressed: () {
-                Navigator.pop(context);
+                setState(() {
+                  _isEditable ? _isEditable = false : Navigator.pop(context);
+                });
               },
               icon: Tooltip(
                 message: "Exit Without Saving",
                 child: Icon(
-                  Icons.cancel,
+                  Icons.arrow_back_ios_outlined,
                   color: Colors.black,
                   size: 23,
                 ),
@@ -72,15 +73,17 @@ class _NoteEditingState extends State<NoteEditing> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.center,
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        left: screenWidth * .07, bottom: screenWidth * .055),
-                    child: Text(
-                      "Add Note",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * .0833),
+                    padding: EdgeInsets.only(bottom: screenWidth * .055),
+                    child: Container(
+                      height: 10,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        shape: BoxShape.rectangle,
+                        color: RandomColorModel().getColor(),
+                      ),
                     ),
                   ),
                 ),
@@ -95,29 +98,12 @@ class _NoteEditingState extends State<NoteEditing> {
                         bottom: screenHeight * 0.0105),
                     child: Align(
                         alignment: Alignment.topLeft,
-                        child: TextFormField(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (String? value) {
-                            return value == null || value.trim().isEmpty
-                                ? "Title Should Not Be Empty"
-                                : null;
-                          },
-                          controller: _titleController,
-                          maxLines: 3,
-                          autofocus: true,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * .055),
-                          decoration: InputDecoration(
-                            hintText: "Title",
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.red, width: 2),
-                            ),
-                            disabledBorder: InputBorder.none,
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Text(
+                            data["title"],
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         )),
                   ),
@@ -147,25 +133,18 @@ class _NoteEditingState extends State<NoteEditing> {
                       padding: EdgeInsets.only(
                           left: screenWidth * .07,
                           right: screenWidth * .0416,
-                          top: screenHeight * .0105,
+                          top: screenHeight * .03,
                           bottom: screenHeight * .0105),
                       child: Align(
-                          alignment: Alignment.topLeft,
-                          child: TextFormField(
-                            maxLines: 10,
-                            controller: _bodyController,
-                            style: TextStyle(
-                                fontSize: screenWidth * .05,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                              hintText: "Content",
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                            ),
-                          )),
+                        alignment: Alignment.topLeft,
+                        child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Text(
+                            data["body"],
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -190,10 +169,14 @@ class _NoteEditingState extends State<NoteEditing> {
                               overlayColor: MaterialStateProperty.all(
                                   Colors.redAccent.withOpacity(.5))),
                           onPressed: () {
+                            setState(() async {
+                              await deleteData();
+                              Navigator.pop(context);
+                            });
                             Navigator.pop(context);
                           },
                           child: Text(
-                            "Cancel",
+                            "Delete",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -214,13 +197,12 @@ class _NoteEditingState extends State<NoteEditing> {
                             //shape: MaterialStateProperty.all(),
                           ),
                           onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              addData();
-                              Navigator.pop(context);
-                            }
+                            setState(() {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>NoteUpdating(data)));
+                            });
                           },
                           child: Text(
-                            "Add Note",
+                            "Edit Note",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -239,5 +221,13 @@ class _NoteEditingState extends State<NoteEditing> {
         ),
       ),
     );
+  }
+}
+
+class RandomColorModel {
+  Random random = Random();
+  Color getColor() {
+    return Color.fromARGB(
+        255, random.nextInt(256), random.nextInt(256), random.nextInt(256));
   }
 }

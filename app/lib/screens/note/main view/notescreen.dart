@@ -1,5 +1,5 @@
 import 'package:app/screens/note/note_edits.dart';
-import 'package:app/screens/note/notes_fetching.dart';
+import 'package:app/screens/note/main%20view/notes_fetching.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';

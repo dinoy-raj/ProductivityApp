@@ -1,4 +1,4 @@
-import 'package:app/screens/splashscreen/splash_screen.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';

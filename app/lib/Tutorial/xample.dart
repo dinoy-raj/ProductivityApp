@@ -80,18 +80,18 @@ class _NoteViewState extends State<NoteView> {
                           offset: Offset(0, 3),
                         ),
                       ]
-                      //borderRadius: BorderRadius.circular(10),
-                      ),
+                    //borderRadius: BorderRadius.circular(10),
+                  ),
                   width: screenWidth,
                   height: screenHeight * .8,
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 25, right: 15, top: 15, bottom: 8),
                     child: Align(
-                        alignment: Alignment.topLeft,
-                        child: SingleChildScrollView(
-                            physics: BouncingScrollPhysics(),
-                            child: Text(data["body"],textAlign: TextAlign.start,)),
+                      alignment: Alignment.topLeft,
+                      child: SingleChildScrollView(
+                          physics: BouncingScrollPhysics(),
+                          child: Text(data["body"],textAlign: TextAlign.start,)),
                     ),
                   ),
                 ),
@@ -126,7 +126,7 @@ class _NoteViewState extends State<NoteView> {
                             color: Colors.red,
                           ),
                         )),
-                   SizedBox(width: 100,),
+                    SizedBox(width: 100,),
                     ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(Colors.black),

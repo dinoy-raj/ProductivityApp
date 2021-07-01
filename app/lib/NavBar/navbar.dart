@@ -1,5 +1,5 @@
 import 'package:app/screens/main/mainscreens.dart';
-import 'package:app/screens/note/notescreen.dart';
+import 'package:app/screens/note/main%20view/notescreen.dart';
 import 'package:app/screens/todo/todoscreen.dart';
 import 'package:app/screens/projects/projectscreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,8 +14,8 @@ class NavBar extends StatelessWidget {
     PersistentTabController _controller;
 
     _controller = PersistentTabController(initialIndex: 0);
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),

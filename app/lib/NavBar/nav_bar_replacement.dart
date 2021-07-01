@@ -1,5 +1,5 @@
 import 'package:app/screens/main/mainscreens.dart';
-import 'package:app/screens/note/notescreen.dart';
+import 'package:app/screens/note/main%20view/notescreen.dart';
 import 'package:app/screens/projects/projectscreen.dart';
 import 'package:app/screens/todo/todoscreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,21 +14,14 @@ class NavBarNew extends StatefulWidget {
 }
 
 class _NavBarNewState extends State<NavBarNew> {
-  List<Widget> _buildScreens() {
-    return [
-      MainScreen(),
-      PersonalScreen(),
-      NotesScreen(),
-      ProjectScreen(),
-    ];
-  }
+
 
   int _selectedIndex = 0;
   PageController _controlerPage = PageController();
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       body: PageView(

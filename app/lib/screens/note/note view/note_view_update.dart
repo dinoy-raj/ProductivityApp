@@ -1,36 +1,38 @@
-import 'dart:math';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class NoteEditing extends StatefulWidget {
-  const NoteEditing({Key? key}) : super(key: key);
+class NoteUpdating extends StatefulWidget {
+
+  Map<String, dynamic> data;
+  NoteUpdating(this.data);
+
 
   @override
-  _NoteEditingState createState() => _NoteEditingState();
+  _NoteUpdatingState createState() => _NoteUpdatingState(data);
 }
 
-class _NoteEditingState extends State<NoteEditing> {
+class _NoteUpdatingState extends State<NoteUpdating> {
+  Map<String, dynamic> data;
+  _NoteUpdatingState(this.data);
   final _formKey = GlobalKey<FormState>();
-  addData() async {
-    const _chars =
-        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    Random _rnd = Random.secure();
 
-    String id = String.fromCharCodes(Iterable.generate(
-        20, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+  addData() async {
 
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("notes")
-        .doc(id)
-        .set({"body": _bodyController.text, "title": _titleController.text});
+        .doc(data["id"])
+        .update({"body": _bodyController.text, "title": _titleController.text});
   }
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _bodyController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,7 @@ class _NoteEditingState extends State<NoteEditing> {
                     padding: EdgeInsets.only(
                         left: screenWidth * .07, bottom: screenWidth * .055),
                     child: Text(
-                      "Add Note",
+                      "Edit Note",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: screenWidth * .0833),

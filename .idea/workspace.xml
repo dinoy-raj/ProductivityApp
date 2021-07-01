@@ -5,14 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/lib/screens/projects/assign_task.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/screens/projects/group_chat.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/screens/projects/group_voice_call.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/screens/projects/private_chat.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/screens/projects/private_voice_call.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/lib/screens/projects/self_notes.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/screens/note/note view/note_view.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/lib/screens/note/note view/note_view_update.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Developer/aboutUsPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Developer/aboutUsPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Developer/reportAnyIssue.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Developer/reportAnyIssue.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/LoginPage/loginpage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/LoginPage/loginpage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/NavBar/nav_bar_replacement.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/NavBar/nav_bar_replacement.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/NavBar/navbar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/NavBar/navbar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Settings/SettingsPage.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Settings/SettingsPage.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/Tutorial/tutorial.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Tutorial/tutorial.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/main/mainscreen_body.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/main/mainscreen_body.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/main/mainscreens.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/main/mainscreens.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/note/note_edits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/note/note_edits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/note/note_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Tutorial/xample.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/note/notes_fetching.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/note/main view/notes_fetching.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/note/notescreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/note/main view/notescreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/splashscreen/splash_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/splashscreen/splash_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/todo_edits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/todo_edits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/todoscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/todoscreen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/statistics/stats.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/statistics/stats.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,30 +95,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1625136083523" />
-    <state width="1376" height="390" key="GridCell.Tab.0.bottom" timestamp="1625136236078">
+    <state width="1286" height="119" key="GridCell.Tab.0.bottom" timestamp="1625155374219">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1376" height="390" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625136236078" />
-    <state width="1376" height="390" key="GridCell.Tab.0.center" timestamp="1625136236078">
+    <state width="1286" height="119" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625155374219" />
+    <state width="1286" height="119" key="GridCell.Tab.0.center" timestamp="1625155374218">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1376" height="390" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625136236078" />
-    <state width="1376" height="390" key="GridCell.Tab.0.left" timestamp="1625136236077">
+    <state width="1286" height="119" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625155374218" />
+    <state width="1286" height="119" key="GridCell.Tab.0.left" timestamp="1625155374218">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1376" height="390" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625136236077" />
-    <state width="1376" height="390" key="GridCell.Tab.0.right" timestamp="1625136236078">
+    <state width="1286" height="119" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625155374218" />
+    <state width="1286" height="119" key="GridCell.Tab.0.right" timestamp="1625155374218">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1376" height="390" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625136236078" />
+    <state width="1286" height="119" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625155374218" />
     <state x="114" y="102" key="SettingsEditor" timestamp="1625080556686">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="114" y="102" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1625080556686" />
-    <state x="299" y="241" key="run.anything.popup" timestamp="1625132188105">
+    <state x="299" y="241" key="run.anything.popup" timestamp="1625150357065">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="299" y="241" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1625132188105" />
+    <state x="299" y="241" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1625150357065" />
     <state x="312" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1625071026989">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
