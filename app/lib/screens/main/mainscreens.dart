@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   bool isPressed = false;
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: primaryClr,

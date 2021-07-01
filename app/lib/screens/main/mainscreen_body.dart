@@ -1,4 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
+
 import 'package:app/screens/main/catalog_listview.dart';
 import 'package:app/statistics/stats.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +19,7 @@ class _ScreenBodyState extends State<ScreenBody> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.width;
     return SingleChildScrollView(
       child: Padding(
         padding:

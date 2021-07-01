@@ -14,8 +14,8 @@ class NavBar extends StatelessWidget {
     PersistentTabController _controller;
 
     _controller = PersistentTabController(initialIndex: 0);
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double screenHeight = MediaQuery.of(context).size.width;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
