@@ -45,72 +45,109 @@ class _ProjectState extends State<ProjectManagement> {
           _loading = false;
         });
       event.docChanges.forEach((element) {
-        if (mounted)
-          setState(() {
-            if (element.doc.get('image') == _user.photoURL) {
-              String deadline;
-              Duration? duration = element.doc.get('deadline') != null
-                  ? element.doc
-                      .get('deadline')
-                      .toDate()
-                      .difference(DateTime.now())
-                  : null;
+        if (element.type == DocumentChangeType.added) {
+          String deadline;
+          Duration? duration = element.doc.get('deadline') != null
+              ? element.doc.get('deadline').toDate().difference(DateTime.now())
+              : null;
 
-              if (element.doc.get('completed')) deadline = "Completed";
-              if (element.doc.get('deadline') == null)
-                deadline = "No Deadline";
-              else if (duration!.isNegative)
-                deadline = "Past Deadline";
-              else if (duration.inHours <= 24)
-                deadline = "Today";
-              else if (duration.inHours <= 48)
-                deadline = "Tomorrow";
-              else
-                deadline = DateFormat.yMEd()
-                    .add_jms()
-                    .format(element.doc.get('deadline').toDate());
+          if (element.doc.get('completed')) deadline = "Completed";
+          if (element.doc.get('deadline') == null)
+            deadline = "No Deadline";
+          else if (duration!.isNegative)
+            deadline = "Past Deadline";
+          else if (duration.inMinutes <= 24 * 60)
+            deadline = "Today";
+          else if (duration.inMinutes <= 48 * 60)
+            deadline = "Tomorrow";
+          else
+            deadline = DateFormat.yMEd()
+                .add_jms()
+                .format(element.doc.get('deadline').toDate());
 
-              myTasks.add({
-                'title': element.doc.get('title'),
-                'body': element.doc.get('body'),
-                'deadline': deadline,
-                'completed': element.doc.get('completed'),
-                'id': element.doc.id,
-              });
-            } else {
-              String deadline;
-              Duration? duration = element.doc.get('deadline') != null
-                  ? element.doc
-                      .get('deadline')
-                      .toDate()
-                      .difference(DateTime.now())
-                  : null;
+          if (mounted)
+            setState(() {
+              if (element.doc.get('image') == _user.photoURL) {
+                myTasks.add({
+                  'title': element.doc.get('title'),
+                  'body': element.doc.get('body'),
+                  'deadline': deadline,
+                  'completed': element.doc.get('completed'),
+                  'id': element.doc.id,
+                });
+              } else {
+                collabTasks.add({
+                  'title': element.doc.get('title'),
+                  'body': element.doc.get('body'),
+                  'deadline': deadline,
+                  'completed': element.doc.get('completed'),
+                  'collab': element.doc.get('image'),
+                  'id': element.doc.id,
+                });
+              }
+              _loading = false;
+            });
+        } else if (element.type == DocumentChangeType.modified) {
+          String deadline;
+          Duration? duration = element.doc.get('deadline') != null
+              ? element.doc.get('deadline').toDate().difference(DateTime.now())
+              : null;
 
-              if (element.doc.get('completed')) deadline = "Completed";
-              if (element.doc.get('deadline') == null)
-                deadline = "No Deadline";
-              else if (duration!.isNegative)
-                deadline = "Past Deadline";
-              else if (duration.inHours <= 24)
-                deadline = "Today";
-              else if (duration.inHours <= 48)
-                deadline = "Tomorrow";
-              else
-                deadline = DateFormat.yMEd()
-                    .add_jms()
-                    .format(element.doc.get('deadline').toDate());
+          if (element.doc.get('completed')) deadline = "Completed";
+          if (element.doc.get('deadline') == null)
+            deadline = "No Deadline";
+          else if (duration!.isNegative)
+            deadline = "Past Deadline";
+          else if (duration.inMinutes <= 24 * 60)
+            deadline = "Today";
+          else if (duration.inMinutes <= 48 * 60)
+            deadline = "Tomorrow";
+          else
+            deadline = DateFormat.yMEd()
+                .add_jms()
+                .format(element.doc.get('deadline').toDate());
 
-              collabTasks.add({
-                'title': element.doc.get('title'),
-                'body': element.doc.get('body'),
-                'deadline': deadline,
-                'completed': element.doc.get('completed'),
-                'collab': element.doc.get('image'),
-                'id': element.doc.id,
-              });
-            }
-            _loading = false;
-          });
+          if (mounted)
+            setState(() {
+              if (element.doc.get('image') == _user.photoURL) {
+                myTasks.forEach((task) {
+                  if (task['id'] == element.doc.id) {
+                    task['title'] = element.doc.get('title');
+                    task['body'] = element.doc.get('body');
+                    task['deadline'] = deadline;
+                    task['completed'] = element.doc.get('completed');
+                  }
+                });
+              } else {
+                collabTasks.forEach((task) {
+                  if (task['id'] == element.doc.id) {
+                    task['title'] = element.doc.get('title');
+                    task['body'] = element.doc.get('body');
+                    task['deadline'] = deadline;
+                    task['completed'] = element.doc.get('completed');
+                    task['collab'] = element.doc.get('image');
+                  }
+                });
+              }
+            });
+        } else {
+          if (mounted)
+            setState(() {
+              if (element.doc.get('image') == _user.photoURL) {
+                Map? task;
+                for (task in myTasks) {
+                  if (element.doc.id == task!['id']) break;
+                }
+                myTasks.remove(task);
+              } else {
+                Map? task;
+                for (task in collabTasks) {
+                  if (element.doc.id == task!['id']) break;
+                }
+                collabTasks.remove(task);
+              }
+            });
+        }
       });
     });
   }
@@ -704,6 +741,10 @@ class _ProjectState extends State<ProjectManagement> {
                                 if (myTasks[index]['completed'])
                                   color = Colors.grey;
                                 else if (myTasks[index]['deadline'] ==
+                                        "Today" ||
+                                    myTasks[index]['deadline'] == "Tomorrow")
+                                  color = Colors.orange;
+                                else if (myTasks[index]['deadline'] ==
                                     "Past Deadline")
                                   color = Colors.red;
                                 else
@@ -829,6 +870,11 @@ class _ProjectState extends State<ProjectManagement> {
                                 Color color;
                                 if (collabTasks[index]['completed'])
                                   color = Colors.grey;
+                                else if (collabTasks[index]['deadline'] ==
+                                        "Today" ||
+                                    collabTasks[index]['deadline'] ==
+                                        "Tomorrow")
+                                  color = Colors.orange;
                                 else if (collabTasks[index]['deadline'] ==
                                     "Past Deadline")
                                   color = Colors.red;
