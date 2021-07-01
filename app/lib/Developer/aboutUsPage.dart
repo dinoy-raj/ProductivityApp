@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:app/screens/splashscreen/splash_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
@@ -141,7 +142,7 @@ class _AboutUsState extends State<AboutUs> {
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white10,
-                      border: Border.all(color: Colors.white,width: 1),
+                      border: Border.all(color: Colors.white, width: 1),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(.1),
@@ -152,49 +153,68 @@ class _AboutUsState extends State<AboutUs> {
                       ]
                       //borderRadius: BorderRadius.circular(10),
                       ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: [
-                         Container(
-                           height: 20,
-                           width: 5,
-                           decoration:BoxDecoration(
-                               shape: BoxShape.rectangle,
-                               borderRadius: BorderRadius.circular(10),
-                               color: Colors.white10,
-                               border: Border.all(color: Colors.white,width: 1),
-                               boxShadow: [
-                                 BoxShadow(
-                                   color: Colors.black.withOpacity(.1),
-                                   blurRadius: 100,
-                                   spreadRadius: 2,
-                                   offset: Offset(0, 3),
-                                 ),
-                               ]
-                             //borderRadius: BorderRadius.circular(10),
-                           ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
 
-                         ),
-                          Container(
-                            width: 10,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 20,
+                          width: 5,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white10,
+                              border: Border.all(color: Colors.white, width: 1),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  blurRadius: 100,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ]
+                              //borderRadius: BorderRadius.circular(10),
+                              ),
+                        ),
+                        Container(
+                          width: 10,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                             Center(
+                                child: Container(
+                                  height: screenHeight * .2,
+                                  width: screenWidth * .8,
+                                  child: Center(
+                                    child: Text(
+                                      "Lets Do It Is An CrossPlatform Productivity App With Personalized Todo And Notes Section. It Also Comes With Project Tab Where We Can Schedule Projects Add Our Colleagues As Collaborators  ",
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey,
+                                          wordSpacing: 2,
+                                        height: 1.7/1
+                                        //fontWeight: FontWeight.bold,
 
-                          ),
-                          Container(
-                             height: screenHeight * .2,
-                             width: 200,
-                            child: ,
-                          )
+                                    ),
+                                ),
+                                  ),
+                              ),
+                            ),
+                          ]
 
-                        ],
-                      ),
+                        )
+                      ],
                     ),
+                  ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 Container(
-                  height: screenHeight ,
+                  height: screenHeight,
                   width: screenWidth,
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -208,8 +228,8 @@ class _AboutUsState extends State<AboutUs> {
                           offset: Offset(0, 3),
                         ),
                       ]
-                    //borderRadius: BorderRadius.circular(10),
-                  ),
+                      //borderRadius: BorderRadius.circular(10),
+                      ),
                 ),
               ],
             ),
