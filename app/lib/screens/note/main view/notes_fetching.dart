@@ -42,7 +42,11 @@ class _GridDataViewState extends State<GridDataView> {
           if (snapshot.data!.docs.length == 0) {
             return Column(
               children: [
-                Text("You Don't Have Any Notes Yet",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.grey),),
+                Text(
+                  "You Don't Have Any Notes Yet",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.grey),
+                ),
               ],
             );
           } else {
