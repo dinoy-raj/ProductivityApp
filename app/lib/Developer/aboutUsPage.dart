@@ -3,7 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutUs extends StatefulWidget {
   const AboutUs({Key? key}) : super(key: key);
@@ -13,6 +16,26 @@ class AboutUs extends StatefulWidget {
 }
 
 class _AboutUsState extends State<AboutUs> {
+  static const _lind = 'https://www.linkedin.com/in/dinoy-raj-k/';
+  void _launchlind() async => await canLaunch(_lind)
+      ? await launch(_lind)
+      : throw 'Could not launch $_lind';
+
+  final Uri emailLaunchUrid = Uri(
+    scheme: 'mailto',
+    path: 'dinoykraj@gmail.com',
+  );
+
+  static const _lina = 'https://www.linkedin.com/in/amal-nath-m-1ba12a192/';
+  void _launchlina() async => await canLaunch(_lind)
+      ? await launch(_lind)
+      : throw 'Could not launch $_lind';
+
+  final Uri emailLaunchUria = Uri(
+    scheme: 'mailto',
+    path: ' amalnathm7@gmail.com',
+  );
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -264,7 +287,9 @@ class _AboutUsState extends State<AboutUs> {
                               //borderRadius: BorderRadius.circular(10),
                               ),
                         ),
-                        SizedBox(height: 10,),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                           child: Row(
@@ -296,7 +321,7 @@ class _AboutUsState extends State<AboutUs> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Container(
-                                        height: 140,
+                                        height: 120,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.rectangle,
                                           borderRadius:
@@ -313,6 +338,8 @@ class _AboutUsState extends State<AboutUs> {
                                           // ]
                                           //borderRadius: BorderRadius.circular(10),
                                         ),
+                                        child: Image.network(
+                                            "https://avatars.githubusercontent.com/u/62199728?s=400&u=979000468dc7622a0655d6c6200e71f16c0034a3&v=4"),
                                       ),
                                       Text(
                                         "Dinoy Raj",
@@ -355,14 +382,14 @@ class _AboutUsState extends State<AboutUs> {
                                   padding: const EdgeInsets.all(10.0),
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Container(
-                                        height: 140,
+                                        height: 120,
                                         decoration: BoxDecoration(
                                           shape: BoxShape.rectangle,
                                           borderRadius:
-                                          BorderRadius.circular(13),
+                                              BorderRadius.circular(13),
                                           color: Colors.white,
                                           //border: Border.all(color: Colors.white10, width: 1),
                                           // boxShadow: [
@@ -375,6 +402,8 @@ class _AboutUsState extends State<AboutUs> {
                                           // ]
                                           //borderRadius: BorderRadius.circular(10),
                                         ),
+                                        child: Image.network(
+                                            "https://avatars.githubusercontent.com/u/64605131?v=4"),
                                       ),
                                       Text(
                                         "Amal Nath",
@@ -398,31 +427,10 @@ class _AboutUsState extends State<AboutUs> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top:20.0,bottom: 10),
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                            Container(
-                            height: screenHeight * .13,
-                            width: screenWidth * .4,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle,
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white10,
-                                border: Border.all(
-                                    color: Colors.white, width: 1),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(.1),
-                                    blurRadius: 100,
-                                    spreadRadius: 2,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ]
-                              //borderRadius: BorderRadius.circular(10),
-                            ),
-                            ),
-
                               Container(
                                 height: screenHeight * .13,
                                 width: screenWidth * .4,
@@ -440,10 +448,159 @@ class _AboutUsState extends State<AboutUs> {
                                         offset: Offset(0, 3),
                                       ),
                                     ]
-                                  //borderRadius: BorderRadius.circular(10),
+                                    //borderRadius: BorderRadius.circular(10),
+                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        "Connect",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black.withOpacity(.4),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Container(
+                                          height: 30,
+                                          width: screenWidth * .35,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              launch(
+                                                  emailLaunchUrid.toString());
+                                            },
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.white10),
+                                                elevation:
+                                                    MaterialStateProperty.all(
+                                                        0),
+                                                side: MaterialStateProperty.all(
+                                                    BorderSide(
+                                                        color: Colors.white))),
+                                            child: Text(
+                                              "Gmail",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey),
+                                            ),
+                                          )),
+                                      Container(
+                                          height: 30,
+                                          width: screenWidth * .35,
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.white10),
+                                                elevation:
+                                                    MaterialStateProperty.all(
+                                                        0),
+                                                side: MaterialStateProperty.all(
+                                                    BorderSide(
+                                                        color: Colors.white))),
+                                            onPressed: () {
+                                              _launchlind();
+                                            },
+                                            child: Text(
+                                              "Linkedin",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
                                 ),
                               ),
-
+                              Container(
+                                height: screenHeight * .13,
+                                width: screenWidth * .4,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white10,
+                                    border: Border.all(
+                                        color: Colors.white, width: 1),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(.1),
+                                        blurRadius: 100,
+                                        spreadRadius: 2,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ]
+                                    //borderRadius: BorderRadius.circular(10),
+                                    ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Text(
+                                        "Connect",
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black.withOpacity(.4),
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Container(
+                                          height: 30,
+                                          width: screenWidth * .35,
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              launch(
+                                                  emailLaunchUria.toString());
+                                            },
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.white10),
+                                                elevation:
+                                                    MaterialStateProperty.all(
+                                                        0),
+                                                side: MaterialStateProperty.all(
+                                                    BorderSide(
+                                                        color: Colors.white))),
+                                            child: Text(
+                                              "Gmail",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey),
+                                            ),
+                                          )),
+                                      Container(
+                                          height: 30,
+                                          width: screenWidth * .35,
+                                          child: ElevatedButton(
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.white10),
+                                                elevation:
+                                                    MaterialStateProperty.all(
+                                                        0),
+                                                side: MaterialStateProperty.all(
+                                                    BorderSide(
+                                                        color: Colors.white))),
+                                            onPressed: () {
+                                              _launchlina();
+                                            },
+                                            child: Text(
+                                              "Linkedin",
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.grey),
+                                            ),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         )
