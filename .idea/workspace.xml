@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/assign_task.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/assign_task.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/project_management.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,10 +93,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="114" y="102" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1625080556686" />
-    <state x="299" y="241" key="run.anything.popup" timestamp="1625150357065">
+    <state x="299" y="241" key="run.anything.popup" timestamp="1625162338004">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="299" y="241" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1625150357065" />
+    <state x="299" y="241" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1625162338004" />
     <state x="312" y="5" width="840" height="1034" key="search.everywhere.popup" timestamp="1625071026989">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
