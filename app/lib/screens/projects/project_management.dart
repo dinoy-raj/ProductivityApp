@@ -822,8 +822,9 @@ class _ProjectState extends State<ProjectManagement> {
                                         child: InkWell(
                                           borderRadius:
                                               BorderRadius.circular(10),
+                                          splashColor: color.withOpacity(0.5),
                                           highlightColor:
-                                              color.withOpacity(0.5),
+                                              color.withOpacity(0.25),
                                           onTap: () {},
                                         ),
                                       ),
@@ -973,8 +974,9 @@ class _ProjectState extends State<ProjectManagement> {
                                         child: InkWell(
                                           borderRadius:
                                               BorderRadius.circular(10),
+                                          splashColor: color.withOpacity(0.5),
                                           highlightColor:
-                                              color.withOpacity(0.5),
+                                              color.withOpacity(0.25),
                                           onTap: () {},
                                         ),
                                       ),

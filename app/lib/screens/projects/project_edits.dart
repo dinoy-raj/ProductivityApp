@@ -441,10 +441,11 @@ class _ProjectEditingState extends State<ProjectEditing> {
                         itemCount: collab.length,
                         itemBuilder: (context, index) {
                           bool _contains = false;
-                          project!.collab!.forEach((element) {
-                            if (mapEquals(element, collab[index]))
-                              _contains = true;
-                          });
+                          if (project != null)
+                            project!.collab!.forEach((element) {
+                              if (mapEquals(element, collab[index]))
+                                _contains = true;
+                            });
                           return ListTile(
                             horizontalTitleGap: 10,
                             subtitle: Text(

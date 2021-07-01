@@ -183,7 +183,7 @@ class _AssignState extends State<AssignTask> {
                                   ? "Cannot be empty"
                                   : null;
                             },
-                            maxLines: 3,
+                            maxLines: 2,
                             textCapitalization: TextCapitalization.sentences,
                             decoration: InputDecoration(
                               labelText: "Description",
