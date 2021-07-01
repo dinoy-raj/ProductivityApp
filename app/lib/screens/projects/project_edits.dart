@@ -29,16 +29,6 @@ class _ProjectEditingState extends State<ProjectEditing> {
   bool _loading = false;
 
   addData() async {
-    List<Map<String, String?>> list = [];
-    collab!.forEach((element) {
-      list.add({
-        'uid': element['uid'],
-        'name': element['name'],
-        'image': element['image'],
-        'email': element['email'],
-      });
-    });
-
     const _chars =
         'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     Random _rnd = Random.secure();
@@ -55,10 +45,10 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'title': _titleController.text,
       'type': _dropdownValue,
       'body': _descController.text,
-      'collab': list,
+      'collab': collab,
     });
 
-    list.forEach((element) async {
+    collab!.forEach((element) async {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(element['uid'])
@@ -80,16 +70,6 @@ class _ProjectEditingState extends State<ProjectEditing> {
           .delete();
     });
 
-    List<Map<String, String?>> list = [];
-    collab!.forEach((element) {
-      list.add({
-        'uid': element['uid'],
-        'name': element['name'],
-        'image': element['image'],
-        'email': element['email'],
-      });
-    });
-
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
@@ -99,10 +79,10 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'title': _titleController.text,
       'type': _dropdownValue,
       'body': _descController.text,
-      'collab': list,
+      'collab': collab,
     });
 
-    list.forEach((element) async {
+    collab!.forEach((element) async {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(element['uid'])
