@@ -372,6 +372,7 @@ class _ProjectState extends State<ProjectManagement> {
                                         context: context,
                                         builder: (context) => AssignTask(
                                               id: project!.id,
+                                              owner: project!.owner!['uid'],
                                             ));
                                   },
                                 ),
@@ -505,8 +506,9 @@ class _ProjectState extends State<ProjectManagement> {
                                       showDialog(
                                           context: context,
                                           builder: (context) => AssignTask(
-                                                collab: project!.collab![index],
                                                 id: project!.id,
+                                                owner: project!.owner!['uid'],
+                                                collab: project!.collab![index],
                                               ));
                                     },
                                   ),

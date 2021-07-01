@@ -6,23 +6,25 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 
 class AssignTask extends StatefulWidget {
-  AssignTask({this.collab, this.id, this.task});
+  AssignTask({this.collab, this.id, this.task, this.owner});
 
-  final Map<String, dynamic>? collab;
+  final String? owner;
   final String? id;
+  final Map<String, dynamic>? collab;
   final Map<String, dynamic>? task;
 
   @override
   State<StatefulWidget> createState() {
-    return _AssignState(collab: collab, id: id, task: task);
+    return _AssignState(collab: collab, id: id, task: task, owner: owner);
   }
 }
 
 class _AssignState extends State<AssignTask> {
-  _AssignState({this.collab, this.id, this.task});
+  _AssignState({this.collab, this.id, this.task, this.owner});
 
-  final Map<String, dynamic>? collab;
+  final String? owner;
   final String? id;
+  final Map<String, dynamic>? collab;
   final Map<String, dynamic>? task;
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
@@ -34,7 +36,7 @@ class _AssignState extends State<AssignTask> {
   addTask() async {
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .doc(owner)
         .collection("owned_projects")
         .doc(id)
         .collection("tasks")
