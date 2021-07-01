@@ -70,7 +70,7 @@ class _NoteEditingState extends State<NoteEditing> {
               ),
               Container(
                 width: screenWidth,
-                height: screenWidth*.06*6,
+                height: screenWidth * .06 * 6,
                 child: Padding(
                   padding: EdgeInsets.only(
                       left: screenWidth * .07,
@@ -90,7 +90,8 @@ class _NoteEditingState extends State<NoteEditing> {
                         maxLines: 3,
                         autofocus: true,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: screenWidth*.055),
+                            fontWeight: FontWeight.bold,
+                            fontSize: screenWidth * .055),
                         decoration: InputDecoration(
                           hintText: "Title",
                           border: InputBorder.none,
@@ -105,10 +106,11 @@ class _NoteEditingState extends State<NoteEditing> {
                 ),
               ),
               SizedBox(
-                height: screenHeight*.0263,
+                height: screenHeight * .0263,
               ),
               Padding(
-                padding:EdgeInsets.only(left: screenWidth * .07, right: screenWidth * .07),
+                padding: EdgeInsets.only(
+                    left: screenWidth * .07, right: screenWidth * .07),
                 child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -123,16 +125,20 @@ class _NoteEditingState extends State<NoteEditing> {
                         ),
                       ]),
                   width: screenWidth,
-                  height: screenWidth*.0416*20,
+                  height: screenWidth * .0416 * 20,
                   child: Padding(
                     padding: EdgeInsets.only(
-                        left: screenWidth*07, right: screenWidth*.416,),
+                        left: screenWidth * .07,
+                        right: screenWidth * .0416,
+                        top: screenHeight * .0105,
+                        bottom: screenHeight * .0105),
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: TextFormField(
                           maxLines: 10,
                           controller: _bodyController,
-                          style: TextStyle(fontSize: screenWidth*.0416),
+                          style: TextStyle(
+                              fontSize: screenWidth * .05, color: Colors.grey),
                           decoration: InputDecoration(
                             hintText: "Content",
                             border: InputBorder.none,
@@ -146,32 +152,64 @@ class _NoteEditingState extends State<NoteEditing> {
                 ),
               ),
               SizedBox(
-                height: screenHeight * .15,
+                height: screenHeight * .1,
               ),
-              Container(
-                  height: 40,
-                  width: screenWidth * .4,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.black),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        updateData();
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Text(
-                      "Add Note",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                      height: screenHeight * 0.0526<40?40:screenHeight * 0.0526,
+                      width: screenWidth * .4,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            elevation: MaterialStateProperty.all(0),
+                            side: MaterialStateProperty.all(
+                                BorderSide(width: 1, color: Colors.red)),
+                            overlayColor: MaterialStateProperty.all(
+                                Colors.redAccent.withOpacity(.5))),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                      )),
+                  Container(
+                      height:screenHeight * 0.0526<40?40:screenHeight * 0.0526,
+                      width: screenWidth * .4,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.black),
+                          //elevation: MaterialStateProperty.all(0),
+                          //shape: MaterialStateProperty.all(),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            updateData();
+                            Navigator.pop(context);
+                          }
+                        },
+                        child: Text(
+                          "Add Note",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )),
+                ],
+              ),
               SizedBox(
-                height: screenHeight * .3,
+                height: screenHeight * .1,
               )
             ],
           ),
