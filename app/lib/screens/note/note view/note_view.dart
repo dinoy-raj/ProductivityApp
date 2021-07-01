@@ -18,20 +18,14 @@ class _NoteViewState extends State<NoteView> {
   _NoteViewState(this.data);
   final _formKey = GlobalKey<FormState>();
   bool _isEditable = false;
-  addData() async {
-    const _chars =
-        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    Random _rnd = Random.secure();
 
-    String id = String.fromCharCodes(Iterable.generate(
-        20, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-
+  deleteData() async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("notes")
-        .doc(id)
-        .set({"body": _bodyController.text, "title": _titleController.text});
+        .doc(data["id"])
+        .delete();
   }
 
   TextEditingController _titleController = TextEditingController();
@@ -175,6 +169,10 @@ class _NoteViewState extends State<NoteView> {
                               overlayColor: MaterialStateProperty.all(
                                   Colors.redAccent.withOpacity(.5))),
                           onPressed: () {
+                            setState(() async {
+                              await deleteData();
+                              Navigator.pop(context);
+                            });
                             Navigator.pop(context);
                           },
                           child: Text(
