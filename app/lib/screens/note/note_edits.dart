@@ -29,189 +29,199 @@ class _NoteEditingState extends State<NoteEditing> {
     double screenHeight = MediaQuery.of(context).size.height;
     print(screenHeight);
     print(screenWidth);
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white10,
-        leading: IconButton(
-            splashRadius: 10,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Tooltip(
-              message: "Exit Without Saving",
-              child: Icon(
-                Icons.cancel,
-                color: Colors.black,
-                size: 23,
-              ),
-            )),
-      ),
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: screenWidth * .07, bottom: screenWidth * .055),
-                  child: Text(
-                    "Add Note",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: screenWidth * .0833),
+    return GestureDetector(
+      onTap: ()
+      {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if(!currentFocus.hasPrimaryFocus)
+          {
+            currentFocus.unfocus();
+          }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white10,
+          leading: IconButton(
+              splashRadius: 10,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Tooltip(
+                message: "Exit Without Saving",
+                child: Icon(
+                  Icons.cancel,
+                  color: Colors.black,
+                  size: 23,
+                ),
+              )),
+        ),
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: screenWidth * .07, bottom: screenWidth * .055),
+                    child: Text(
+                      "Add Note",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenWidth * .0833),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                width: screenWidth,
-                height: screenWidth * .06 * 6,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: screenWidth * .07,
-                      right: screenWidth * .0416,
-                      top: screenHeight * 0.0105,
-                      bottom: screenHeight * 0.0105),
-                  child: Align(
-                      alignment: Alignment.topLeft,
-                      child: TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (String? value) {
-                          return value == null || value.trim().isEmpty
-                              ? ""
-                              : null;
-                        },
-                        controller: _titleController,
-                        maxLines: 3,
-                        autofocus: true,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: screenWidth * .055),
-                        decoration: InputDecoration(
-                          hintText: "Title",
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.red, width: 2),
-                          ),
-                          disabledBorder: InputBorder.none,
-                        ),
-                      )),
-                ),
-              ),
-              SizedBox(
-                height: screenHeight * .0263,
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: screenWidth * .07, right: screenWidth * .07),
-                child: Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.1),
-                          blurRadius: 100,
-                          spreadRadius: 2,
-                          offset: Offset(0, 3),
-                        ),
-                      ]),
+                Container(
                   width: screenWidth,
-                  height: screenWidth * .0416 * 20,
+                  height: screenWidth * .06 * 6,
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: screenWidth * .07,
                         right: screenWidth * .0416,
-                        top: screenHeight * .0105,
-                        bottom: screenHeight * .0105),
+                        top: screenHeight * 0.0105,
+                        bottom: screenHeight * 0.0105),
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: TextFormField(
-                          maxLines: 10,
-                          controller: _bodyController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (String? value) {
+                            return value == null || value.trim().isEmpty
+                                ? "Title Should Not Be Empty"
+                                : null;
+                          },
+                          controller: _titleController,
+                          maxLines: 3,
+                          autofocus: true,
                           style: TextStyle(
-                              fontSize: screenWidth * .05, color: Colors.grey),
+                              fontWeight: FontWeight.bold,
+                              fontSize: screenWidth * .055),
                           decoration: InputDecoration(
-                            hintText: "Content",
+                            hintText: "Title",
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
+                            errorBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red, width: 2),
+                            ),
                             disabledBorder: InputBorder.none,
                           ),
                         )),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: screenHeight * .1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                      height: screenHeight * 0.0526<40?40:screenHeight * 0.0526,
-                      width: screenWidth * .4,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            elevation: MaterialStateProperty.all(0),
-                            side: MaterialStateProperty.all(
-                                BorderSide(width: 1, color: Colors.red)),
-                            overlayColor: MaterialStateProperty.all(
-                                Colors.redAccent.withOpacity(.5))),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
+                SizedBox(
+                  height: screenHeight * .0263,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: screenWidth * .07, right: screenWidth * .07),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.1),
+                            blurRadius: 100,
+                            spreadRadius: 2,
+                            offset: Offset(0, 3),
                           ),
-                        ),
-                      )),
-                  Container(
-                      height:screenHeight * 0.0526<40?40:screenHeight * 0.0526,
-                      width: screenWidth * .4,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.black),
-                          //elevation: MaterialStateProperty.all(0),
-                          //shape: MaterialStateProperty.all(),
-                        ),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            updateData();
+                        ]),
+                    width: screenWidth,
+                    height: screenWidth * .0416 * 20,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: screenWidth * .07,
+                          right: screenWidth * .0416,
+                          top: screenHeight * .0105,
+                          bottom: screenHeight * .0105),
+                      child: Align(
+                          alignment: Alignment.topLeft,
+                          child: TextFormField(
+                            maxLines: 10,
+                            controller: _bodyController,
+                            style: TextStyle(
+                                fontSize: screenWidth * .05, color: Colors.grey),
+                            decoration: InputDecoration(
+                              hintText: "Content",
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              enabledBorder: InputBorder.none,
+                              errorBorder: InputBorder.none,
+                              disabledBorder: InputBorder.none,
+                            ),
+                          )),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: screenHeight * .1,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                        height: screenHeight * 0.0526<40?40:screenHeight * 0.0526,
+                        width: screenWidth * .4,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              elevation: MaterialStateProperty.all(0),
+                              side: MaterialStateProperty.all(
+                                  BorderSide(width: 1, color: Colors.red)),
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.redAccent.withOpacity(.5))),
+                          onPressed: () {
                             Navigator.pop(context);
-                          }
-                        },
-                        child: Text(
-                          "Add Note",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          },
+                          child: Text(
+                            "Cancel",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
                           ),
-                        ),
-                      )),
-                ],
-              ),
-              SizedBox(
-                height: screenHeight * .1,
-              )
-            ],
+                        )),
+                    Container(
+                        height:screenHeight * 0.0526<40?40:screenHeight * 0.0526,
+                        width: screenWidth * .4,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.black),
+                            //elevation: MaterialStateProperty.all(0),
+                            //shape: MaterialStateProperty.all(),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              updateData();
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: Text(
+                            "Add Note",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )),
+                  ],
+                ),
+                SizedBox(
+                  height: screenHeight * .1,
+                )
+              ],
+            ),
           ),
         ),
       ),
