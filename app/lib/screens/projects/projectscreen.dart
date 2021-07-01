@@ -363,7 +363,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                                   ownedProjects[index].body!,
                                                   overflow: TextOverflow.clip,
                                                   style: TextStyle(
-                                                      fontSize: 10,
+                                                      fontSize: 12,
                                                       color: Colors.grey),
                                                 ),
                                               ),
@@ -535,7 +535,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                                   otherProjects[index].body!,
                                                   overflow: TextOverflow.clip,
                                                   style: TextStyle(
-                                                      fontSize: 10,
+                                                      fontSize: 12,
                                                       color: Colors.grey),
                                                 ),
                                               ),
