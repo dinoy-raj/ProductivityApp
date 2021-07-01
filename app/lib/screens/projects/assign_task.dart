@@ -5,26 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 
-class AssignTask extends StatefulWidget {
-  AssignTask({this.collab, this.id, this.task, this.owner});
+class AssignEditTask extends StatefulWidget {
+  AssignEditTask({this.collaborator, this.projectID, this.task, this.ownerUID});
 
-  final String? owner;
-  final String? id;
-  final Map<String, dynamic>? collab;
+  final String? ownerUID;
+  final String? projectID;
+  final Map<String, dynamic>? collaborator;
   final Map<String, dynamic>? task;
 
   @override
   State<StatefulWidget> createState() {
-    return _AssignState(collab: collab, id: id, task: task, owner: owner);
+    return _TaskState(
+        collaborator: collaborator,
+        projectID: projectID,
+        task: task,
+        ownerUID: ownerUID);
   }
 }
 
-class _AssignState extends State<AssignTask> {
-  _AssignState({this.collab, this.id, this.task, this.owner});
+class _TaskState extends State<AssignEditTask> {
+  _TaskState({this.collaborator, this.projectID, this.task, this.ownerUID});
 
-  final String? owner;
-  final String? id;
-  final Map<String, dynamic>? collab;
+  final String? ownerUID;
+  final String? projectID;
+  final Map<String, dynamic>? collaborator;
   final Map<String, dynamic>? task;
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
@@ -32,24 +36,69 @@ class _AssignState extends State<AssignTask> {
   DateTime? _dateTime;
   String _dateTimeString = "Deadline";
   bool _loading = false;
+  User _user = FirebaseAuth.instance.currentUser!;
 
   addTask() async {
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(owner)
+        .doc(ownerUID)
         .collection("owned_projects")
-        .doc(id)
+        .doc(projectID)
         .collection("tasks")
         .doc()
         .set({
       'title': _titleController.text,
       'body': _bodyController.text,
       'deadline': _dateTime,
-      'image': collab == null
-          ? FirebaseAuth.instance.currentUser!.photoURL
-          : collab!['image'],
+      'collab': collaborator == null
+          ? {
+              'name': _user.displayName,
+              'uid': _user.uid,
+              'email': _user.email,
+              'image': _user.photoURL,
+            }
+          : collaborator,
       'completed': false,
     });
+  }
+
+  updateTask() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(ownerUID)
+        .collection("owned_projects")
+        .doc(projectID)
+        .collection("tasks")
+        .doc(task!['id'])
+        .update({
+      'title': _titleController.text,
+      'body': _bodyController.text,
+      'deadline': _dateTime,
+    });
+  }
+
+  deleteTask() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(ownerUID)
+        .collection("owned_projects")
+        .doc(projectID)
+        .collection("tasks")
+        .doc(task!['id'])
+        .delete();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (task != null) {
+      _titleController.text = task!['title'];
+      _bodyController.text = task!['body'];
+      _dateTime = task!['datetime'];
+      _dateTimeString = _dateTime == null
+          ? "Deadline"
+          : DateFormat.yMEd().add_jms().format(_dateTime!);
+    }
   }
 
   @override
@@ -77,7 +126,7 @@ class _AssignState extends State<AssignTask> {
             child: Column(
               children: [
                 Text(
-                  "Assign Task",
+                  task == null ? "Assign Task" : "Edit Task",
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -100,10 +149,14 @@ class _AssignState extends State<AssignTask> {
                                   if (!currentFocus.hasPrimaryFocus) {
                                     currentFocus.unfocus();
                                   }
+                                  setState(() {
+                                    _loading = true;
+                                  });
+                                  if (task != null) await deleteTask();
                                   Navigator.pop(context);
                                 },
                                 child: Text(
-                                  "Cancel",
+                                  task == null ? "Cancel" : "Delete",
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -125,12 +178,14 @@ class _AssignState extends State<AssignTask> {
                                     setState(() {
                                       _loading = true;
                                     });
-                                    await addTask();
+                                    task == null
+                                        ? await addTask()
+                                        : await updateTask();
                                     Navigator.pop(context);
                                   }
                                 },
                                 child: Text(
-                                  "Assign",
+                                  task == null ? "Assign" : "Update",
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -207,10 +262,10 @@ class _AssignState extends State<AssignTask> {
                             children: [
                               TextButton(
                                 style: ButtonStyle(
-                                  foregroundColor:
-                                      MaterialStateProperty.all(Colors.grey[800]),
-                                  overlayColor:
-                                      MaterialStateProperty.all(Colors.transparent),
+                                  foregroundColor: MaterialStateProperty.all(
+                                      Colors.grey[800]),
+                                  overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent),
                                 ),
                                 child: Text(
                                   _dateTimeString,
@@ -235,19 +290,23 @@ class _AssignState extends State<AssignTask> {
                                     minTime: DateTime.now(),
                                     theme: DatePickerTheme(
                                       cancelStyle: TextStyle(
-                                          fontFamily: 'Poppins', color: Colors.red),
-                                      doneStyle: TextStyle(color: Colors.grey[800]),
+                                          fontFamily: 'Poppins',
+                                          color: Colors.red),
+                                      doneStyle:
+                                          TextStyle(color: Colors.grey[800]),
                                     ),
                                   );
                                 },
                               ),
                               if (_dateTime != null)
-                                IconButton(onPressed: () {
-                                  setState(() {
-                                    _dateTime = null;
-                                    _dateTimeString = "Deadline";
-                                  });
-                                }, icon: Icon(Icons.clear),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _dateTime = null;
+                                      _dateTimeString = "Deadline";
+                                    });
+                                  },
+                                  icon: Icon(Icons.clear),
                                   splashRadius: 16,
                                   iconSize: 20,
                                   color: Colors.grey[800],

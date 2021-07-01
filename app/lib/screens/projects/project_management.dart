@@ -67,10 +67,13 @@ class _ProjectState extends State<ProjectManagement> {
 
           if (mounted)
             setState(() {
-              if (element.doc.get('image') == _user.photoURL) {
+              if (element.doc.get('collab')['uid'] == _user.uid) {
                 myTasks.add({
                   'title': element.doc.get('title'),
                   'body': element.doc.get('body'),
+                  'datetime': element.doc.get('deadline') == null
+                      ? null
+                      : element.doc.get('deadline').toDate(),
                   'deadline': deadline,
                   'completed': element.doc.get('completed'),
                   'id': element.doc.id,
@@ -79,9 +82,12 @@ class _ProjectState extends State<ProjectManagement> {
                 collabTasks.add({
                   'title': element.doc.get('title'),
                   'body': element.doc.get('body'),
+                  'datetime': element.doc.get('deadline') == null
+                      ? null
+                      : element.doc.get('deadline').toDate(),
                   'deadline': deadline,
                   'completed': element.doc.get('completed'),
-                  'collab': element.doc.get('image'),
+                  'collab': element.doc.get('collab'),
                   'id': element.doc.id,
                 });
               }
@@ -109,11 +115,14 @@ class _ProjectState extends State<ProjectManagement> {
 
           if (mounted)
             setState(() {
-              if (element.doc.get('image') == _user.photoURL) {
+              if (element.doc.get('collab')['uid'] == _user.uid) {
                 myTasks.forEach((task) {
                   if (task['id'] == element.doc.id) {
                     task['title'] = element.doc.get('title');
                     task['body'] = element.doc.get('body');
+                    task['dateTime'] = element.doc.get('deadline') == null
+                        ? null
+                        : element.doc.get('deadline').toDate();
                     task['deadline'] = deadline;
                     task['completed'] = element.doc.get('completed');
                   }
@@ -123,9 +132,12 @@ class _ProjectState extends State<ProjectManagement> {
                   if (task['id'] == element.doc.id) {
                     task['title'] = element.doc.get('title');
                     task['body'] = element.doc.get('body');
+                    task['dateTime'] = element.doc.get('deadline') == null
+                        ? null
+                        : element.doc.get('deadline').toDate();
                     task['deadline'] = deadline;
                     task['completed'] = element.doc.get('completed');
-                    task['collab'] = element.doc.get('image');
+                    task['collab'] = element.doc.get('collab');
                   }
                 });
               }
@@ -133,7 +145,7 @@ class _ProjectState extends State<ProjectManagement> {
         } else {
           if (mounted)
             setState(() {
-              if (element.doc.get('image') == _user.photoURL) {
+              if (element.doc.get('collab')['uid'] == _user.uid) {
                 Map? task;
                 for (task in myTasks) {
                   if (element.doc.id == task!['id']) break;
@@ -407,9 +419,9 @@ class _ProjectState extends State<ProjectManagement> {
                                   onPressed: () {
                                     showDialog(
                                         context: context,
-                                        builder: (context) => AssignTask(
-                                              id: project!.id,
-                                              owner: project!.owner!['uid'],
+                                        builder: (context) => AssignEditTask(
+                                              projectID: project!.id,
+                                              ownerUID: project!.owner!['uid'],
                                             ));
                                   },
                                 ),
@@ -542,10 +554,16 @@ class _ProjectState extends State<ProjectManagement> {
                                     onPressed: () {
                                       showDialog(
                                           context: context,
-                                          builder: (context) => AssignTask(
-                                                id: project!.id,
-                                                owner: project!.owner!['uid'],
-                                                collab: project!.collab![index],
+                                          builder: (context) => AssignEditTask(
+                                                projectID: project!.id,
+                                                ownerUID:
+                                                    project!.owner!['uid'],
+                                                collaborator: project!
+                                                                .collab![index]
+                                                            ['uid'] ==
+                                                        _user.uid
+                                                    ? null
+                                                    : project!.collab![index],
                                               ));
                                     },
                                   ),
@@ -825,7 +843,157 @@ class _ProjectState extends State<ProjectManagement> {
                                           splashColor: color.withOpacity(0.5),
                                           highlightColor:
                                               color.withOpacity(0.25),
-                                          onTap: () {},
+                                          onTap: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) => Dialog(
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 15),
+                                                            child: Text(
+                                                              myTasks[index]
+                                                                  ['title'],
+                                                              style: TextStyle(
+                                                                  fontSize: 24,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      800]),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 15),
+                                                            child: Text(
+                                                              myTasks[index]
+                                                                  ['deadline'],
+                                                              style: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .grey),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: Text(
+                                                              myTasks[index]
+                                                                  ['body'],
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      800]),
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              if (project!.owner![
+                                                                      'uid'] ==
+                                                                  _user.uid)
+                                                                OutlinedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder: (context) =>
+                                                                              AssignEditTask(
+                                                                                projectID: project!.id,
+                                                                                ownerUID: project!.owner!['uid'],
+                                                                                task: myTasks[index],
+                                                                              ));
+                                                                    },
+                                                                    child: Text(
+                                                                      "Edit",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          color:
+                                                                              Colors.grey[800]),
+                                                                    )),
+                                                              OutlinedButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await FirebaseFirestore
+                                                                        .instance
+                                                                        .collection(
+                                                                            "users")
+                                                                        .doc(project!.owner![
+                                                                            'uid'])
+                                                                        .collection(
+                                                                            "owned_projects")
+                                                                        .doc(project!
+                                                                            .id)
+                                                                        .collection(
+                                                                            "tasks")
+                                                                        .doc(myTasks[index]
+                                                                            [
+                                                                            'id'])
+                                                                        .update({
+                                                                      'completed':
+                                                                          !myTasks[index]
+                                                                              [
+                                                                              'completed']
+                                                                    });
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  child: Text(
+                                                                    myTasks[index]
+                                                                            [
+                                                                            'completed']
+                                                                        ? "Reopen"
+                                                                        : "Completed",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: myTasks[index]
+                                                                              [
+                                                                              'completed']
+                                                                          ? Colors
+                                                                              .red
+                                                                          : Colors
+                                                                              .green,
+                                                                    ),
+                                                                  )),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ));
+                                          },
                                         ),
                                       ),
                                     ],
@@ -944,7 +1112,8 @@ class _ProjectState extends State<ProjectManagement> {
                                                               30),
                                                       child: Image.network(
                                                           collabTasks[index]
-                                                              ['collab']),
+                                                                  ['collab']
+                                                              ['image']),
                                                     ),
                                                   )
                                                 ],
@@ -977,7 +1146,150 @@ class _ProjectState extends State<ProjectManagement> {
                                           splashColor: color.withOpacity(0.5),
                                           highlightColor:
                                               color.withOpacity(0.25),
-                                          onTap: () {},
+                                          onTap: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) => Dialog(
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 15),
+                                                            child: Text(
+                                                              collabTasks[index]
+                                                                  ['title'],
+                                                              style: TextStyle(
+                                                                  fontSize: 24,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      800]),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 15),
+                                                            child: Text(
+                                                              collabTasks[index]
+                                                                  ['deadline'],
+                                                              style: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .grey),
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: Text(
+                                                              collabTasks[index]
+                                                                  ['body'],
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      800]),
+                                                            ),
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              if (project!.owner![
+                                                                      'uid'] ==
+                                                                  _user.uid)
+                                                                OutlinedButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                      showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          builder: (context) =>
+                                                                              AssignEditTask(
+                                                                                projectID: project!.id,
+                                                                                ownerUID: project!.owner!['uid'],
+                                                                                task: collabTasks[index],
+                                                                              ));
+                                                                    },
+                                                                    child: Text(
+                                                                      "Edit",
+                                                                      style: TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          color:
+                                                                              Colors.grey[800]),
+                                                                    )),
+                                                              if (collabTasks[index]
+                                                                          [
+                                                                          'collab']
+                                                                      ['uid'] ==
+                                                                  _user.uid)
+                                                                OutlinedButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await FirebaseFirestore
+                                                                          .instance
+                                                                          .collection(
+                                                                              "users")
+                                                                          .doc(project!.owner![
+                                                                              'uid'])
+                                                                          .collection(
+                                                                              "owned_projects")
+                                                                          .doc(project!
+                                                                              .id)
+                                                                          .collection(
+                                                                              "tasks")
+                                                                          .doc(collabTasks[index]
+                                                                              [
+                                                                              'id'])
+                                                                          .update({
+                                                                        'completed':
+                                                                            !collabTasks[index]['completed']
+                                                                      });
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    child: Text(
+                                                                      "Completed",
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            16,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        color: Colors
+                                                                            .green,
+                                                                      ),
+                                                                    )),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            height: 20,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ));
+                                          },
                                         ),
                                       ),
                                     ],
