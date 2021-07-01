@@ -264,6 +264,7 @@ class _AboutUsState extends State<AboutUs> {
                               //borderRadius: BorderRadius.circular(10),
                               ),
                         ),
+                        SizedBox(height: 10,),
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                           child: Row(
@@ -350,7 +351,99 @@ class _AboutUsState extends State<AboutUs> {
                                     ]
                                     //borderRadius: BorderRadius.circular(10),
                                     ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        height: 140,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius:
+                                          BorderRadius.circular(13),
+                                          color: Colors.white,
+                                          //border: Border.all(color: Colors.white10, width: 1),
+                                          // boxShadow: [
+                                          //   BoxShadow(
+                                          //     color: Colors.black.withOpacity(.1),
+                                          //     blurRadius: 100,
+                                          //     spreadRadius: 2,
+                                          //     offset: Offset(0, 3),
+                                          //   ),
+                                          // ]
+                                          //borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Amal Nath",
+                                        style: TextStyle(
+                                          color: Colors.black.withOpacity(.5),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "| Student | Flutter Devloper |",
+                                        style: TextStyle(
+                                            color: Colors.grey,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 10),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top:20.0,bottom: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                            Container(
+                            height: screenHeight * .13,
+                            width: screenWidth * .4,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white10,
+                                border: Border.all(
+                                    color: Colors.white, width: 1),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(.1),
+                                    blurRadius: 100,
+                                    spreadRadius: 2,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ]
+                              //borderRadius: BorderRadius.circular(10),
+                            ),
+                            ),
+
+                              Container(
+                                height: screenHeight * .13,
+                                width: screenWidth * .4,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white10,
+                                    border: Border.all(
+                                        color: Colors.white, width: 1),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(.1),
+                                        blurRadius: 100,
+                                        spreadRadius: 2,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ]
+                                  //borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+
                             ],
                           ),
                         )
