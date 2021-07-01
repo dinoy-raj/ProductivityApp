@@ -25,6 +25,24 @@ class _ProjectState extends State<ProjectManagement> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   double _progress = 0;
   bool _progressClicked = false;
+  List myTasks = [
+    {'title': "HELLO", 'body': "YES", 'deadline': "Tomorrow"},
+    {'title': "HELLO", 'body': "YES", 'deadline': "Tomorrow"},
+  ];
+  List collabTasks = [
+    {
+      'title': "HI",
+      'body': "NO",
+      'deadline': "Today",
+      'collab': FirebaseAuth.instance.currentUser!.photoURL
+    },
+    {
+      'title': "HI",
+      'body': "NO",
+      'deadline': "Today",
+      'collab': FirebaseAuth.instance.currentUser!.photoURL
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +125,7 @@ class _ProjectState extends State<ProjectManagement> {
                                         child: Text(
                                           "YES",
                                           style: TextStyle(
-                                            color: Colors.black,
+                                            color: Colors.grey[800],
                                             fontWeight: FontWeight.bold,
                                           ),
                                         )),
@@ -609,7 +627,217 @@ class _ProjectState extends State<ProjectManagement> {
                       ),
                       NeumorphicProgress(
                         percent: _progress,
-                      )
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8, top: 40),
+                        child: Text(
+                          "My Tasks",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      Expanded(
+                        child: GridView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1),
+                            itemCount: myTasks.length,
+                            itemBuilder: (context, index) {
+                              var color = RandomColorModel().getColor();
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5, right: 20, top: 10, bottom: 40),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: color, width: 1)),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Container(
+                                              height: 5,
+                                              width: 15,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                shape: BoxShape.rectangle,
+                                                color: color,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Expanded(
+                                              flex: 0,
+                                              child: Text(
+                                                myTasks[index]['title']!,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Text(
+                                              myTasks[index]['deadline']!,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey[700]),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                myTasks[index]['body']!,
+                                                overflow: TextOverflow.clip,
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(10),
+                                        splashColor: color.withOpacity(0.5),
+                                        highlightColor: color.withOpacity(0.25),
+                                        onTap: () {},
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8, top: 0),
+                        child: Text(
+                          "Collaborators' Tasks",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      Expanded(
+                        child: GridView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1),
+                            itemCount: collabTasks.length,
+                            itemBuilder: (context, index) {
+                              var color = RandomColorModel().getColor();
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 5, right: 20, top: 20, bottom: 40),
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                              color: color, width: 1)),
+                                      child: Padding(
+                                        padding: EdgeInsets.all(10),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: 5,
+                                              width: 15,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                shape: BoxShape.rectangle,
+                                                color: color,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    collabTasks[index]['title'],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Container(
+                                                  height: 30,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    child: Image.network(
+                                                        collabTasks[index]
+                                                            ['collab']),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            Text(
+                                              collabTasks[index]['deadline'],
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey[700]),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                collabTasks[index]['body'],
+                                                overflow: TextOverflow.clip,
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(10),
+                                        splashColor: color.withOpacity(0.5),
+                                        highlightColor: color.withOpacity(0.25),
+                                        onTap: () {},
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                      ),
                     ],
                   ),
                 ));
