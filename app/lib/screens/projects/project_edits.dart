@@ -24,8 +24,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
   TextEditingController _collabController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _dropdownValue;
-  List<Map<String, String>>? collab = [];
-  List<Map<String, String>>? suggestions = [];
+  List<Map<String, dynamic>>? collab = [];
+  List<Map<String, dynamic>>? suggestions = [];
   bool _loading = false;
 
   addData() async {
