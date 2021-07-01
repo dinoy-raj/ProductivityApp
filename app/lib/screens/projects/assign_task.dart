@@ -6,22 +6,24 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 
 class AssignTask extends StatefulWidget {
-  AssignTask({this.collab, this.id});
+  AssignTask({this.collab, this.id, this.task});
 
   final Map<String, dynamic>? collab;
   final String? id;
+  final Map<String, dynamic>? task;
 
   @override
   State<StatefulWidget> createState() {
-    return _AssignState(collab: collab, id: id);
+    return _AssignState(collab: collab, id: id, task: task);
   }
 }
 
 class _AssignState extends State<AssignTask> {
-  _AssignState({this.collab, this.id});
+  _AssignState({this.collab, this.id, this.task});
 
   final Map<String, dynamic>? collab;
   final String? id;
+  final Map<String, dynamic>? task;
   final _titleController = TextEditingController();
   final _bodyController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -199,41 +201,57 @@ class _AssignState extends State<AssignTask> {
                         Container(
                           height: 100,
                           padding: const EdgeInsets.only(left: 20),
-                          child: TextButton(
-                            style: ButtonStyle(
-                              foregroundColor:
-                                  MaterialStateProperty.all(Colors.grey[800]),
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            child: Text(
-                              _dateTimeString,
-                              style: TextStyle(fontSize: 18),
-                            ),
-                            onPressed: () {
-                              FocusScopeNode currentFocus =
-                                  FocusScope.of(context);
-                              if (!currentFocus.hasPrimaryFocus) {
-                                currentFocus.unfocus();
-                              }
-                              DatePicker.showDateTimePicker(
-                                context,
-                                onConfirm: (dateTime) {
-                                  setState(() {
-                                    _dateTime = dateTime;
-                                    _dateTimeString = DateFormat.yMEd()
-                                        .add_jms()
-                                        .format(_dateTime!);
-                                  });
-                                },
-                                minTime: DateTime.now(),
-                                theme: DatePickerTheme(
-                                  cancelStyle: TextStyle(
-                                      fontFamily: 'Poppins', color: Colors.red),
-                                  doneStyle: TextStyle(color: Colors.grey[800]),
+                          child: Row(
+                            children: [
+                              TextButton(
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all(Colors.grey[800]),
+                                  overlayColor:
+                                      MaterialStateProperty.all(Colors.transparent),
                                 ),
-                              );
-                            },
+                                child: Text(
+                                  _dateTimeString,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                onPressed: () {
+                                  FocusScopeNode currentFocus =
+                                      FocusScope.of(context);
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+                                  DatePicker.showDateTimePicker(
+                                    context,
+                                    onConfirm: (dateTime) {
+                                      setState(() {
+                                        _dateTime = dateTime;
+                                        _dateTimeString = DateFormat.yMEd()
+                                            .add_jms()
+                                            .format(_dateTime!);
+                                      });
+                                    },
+                                    minTime: DateTime.now(),
+                                    theme: DatePickerTheme(
+                                      cancelStyle: TextStyle(
+                                          fontFamily: 'Poppins', color: Colors.red),
+                                      doneStyle: TextStyle(color: Colors.grey[800]),
+                                    ),
+                                  );
+                                },
+                              ),
+                              if (_dateTime != null)
+                                IconButton(onPressed: () {
+                                  setState(() {
+                                    _dateTime = null;
+                                    _dateTimeString = "Deadline";
+                                  });
+                                }, icon: Icon(Icons.clear),
+                                  splashRadius: 16,
+                                  iconSize: 20,
+                                  color: Colors.grey[800],
+                                  splashColor: Colors.transparent,
+                                )
+                            ],
                           ),
                         ),
                       ],

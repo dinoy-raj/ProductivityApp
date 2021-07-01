@@ -50,18 +50,20 @@ class _ProjectState extends State<ProjectManagement> {
             if (element.doc.get('image') == _user.photoURL) {
               String deadline;
               Duration? duration = element.doc.get('deadline') != null
-                  ? DateTime.now()
-                      .difference(element.doc.get('deadline').toDate())
+                  ? element.doc
+                      .get('deadline')
+                      .toDate()
+                      .difference(DateTime.now())
                   : null;
 
               if (element.doc.get('completed')) deadline = "Completed";
               if (element.doc.get('deadline') == null)
                 deadline = "No Deadline";
-              else if (!duration!.isNegative)
+              else if (duration!.isNegative)
                 deadline = "Past Deadline";
-              else if (duration.inDays == 1)
+              else if (duration.inHours <= 24)
                 deadline = "Today";
-              else if (duration.inDays == 2)
+              else if (duration.inHours <= 48)
                 deadline = "Tomorrow";
               else
                 deadline = DateFormat.yMEd()
@@ -78,18 +80,20 @@ class _ProjectState extends State<ProjectManagement> {
             } else {
               String deadline;
               Duration? duration = element.doc.get('deadline') != null
-                  ? DateTime.now()
-                  .difference(element.doc.get('deadline').toDate())
+                  ? element.doc
+                      .get('deadline')
+                      .toDate()
+                      .difference(DateTime.now())
                   : null;
 
               if (element.doc.get('completed')) deadline = "Completed";
               if (element.doc.get('deadline') == null)
                 deadline = "No Deadline";
-              else if (!duration!.isNegative)
+              else if (duration!.isNegative)
                 deadline = "Past Deadline";
-              else if (duration.inDays == 1)
+              else if (duration.inHours <= 24)
                 deadline = "Today";
-              else if (duration.inDays == 2)
+              else if (duration.inHours <= 48)
                 deadline = "Tomorrow";
               else
                 deadline = DateFormat.yMEd()
@@ -104,8 +108,8 @@ class _ProjectState extends State<ProjectManagement> {
                 'collab': element.doc.get('image'),
                 'id': element.doc.id,
               });
-              _loading = false;
             }
+            _loading = false;
           });
       });
     });
@@ -704,11 +708,11 @@ class _ProjectState extends State<ProjectManagement> {
                                   color = Colors.green;
                                 return Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 5, right: 20, top: 10, bottom: 40),
+                                      left: 5, top: 10, bottom: 40),
                                   child: Stack(
                                     children: [
                                       Container(
-                                        width: 200,
+                                        width: 300,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -752,7 +756,7 @@ class _ProjectState extends State<ProjectManagement> {
                                               ),
                                               Text(
                                                 myTasks[index]['deadline'],
-                                                overflow: TextOverflow.ellipsis,
+                                                overflow: TextOverflow.clip,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.grey[700]),
@@ -830,11 +834,11 @@ class _ProjectState extends State<ProjectManagement> {
                                   color = Colors.green;
                                 return Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 5, right: 20, top: 20, bottom: 40),
+                                      left: 5, top: 20, bottom: 40),
                                   child: Stack(
                                     children: [
                                       Container(
-                                        width: 200,
+                                        width: 300,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -898,6 +902,7 @@ class _ProjectState extends State<ProjectManagement> {
                                               ),
                                               Text(
                                                 collabTasks[index]['deadline'],
+                                                overflow: TextOverflow.clip,
                                                 style: TextStyle(
                                                     fontSize: 14,
                                                     color: Colors.grey[700]),
