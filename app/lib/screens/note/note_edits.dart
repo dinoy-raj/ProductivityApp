@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 
 class NoteEditing extends StatefulWidget {
   const NoteEditing({Key? key}) : super(key: key);
@@ -28,13 +26,15 @@ class _NoteEditingState extends State<NoteEditing> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    print(screenHeight);
+    print(screenWidth);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white10,
         leading: IconButton(
-            splashRadius: .5,
+            splashRadius: 10,
             onPressed: () {
               Navigator.pop(context);
             },
@@ -43,6 +43,7 @@ class _NoteEditingState extends State<NoteEditing> {
               child: Icon(
                 Icons.cancel,
                 color: Colors.black,
+                size: 23,
               ),
             )),
       ),
@@ -57,19 +58,25 @@ class _NoteEditingState extends State<NoteEditing> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 25.0, bottom: 20),
+                  padding: EdgeInsets.only(
+                      left: screenWidth * .07, bottom: screenWidth * .055),
                   child: Text(
                     "Add Note",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: screenWidth * .0833),
                   ),
                 ),
               ),
               Container(
                 width: screenWidth,
-                height: screenHeight * .3,
+                height: screenWidth*.06*6,
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 25, right: 15, top: 8, bottom: 8),
+                  padding: EdgeInsets.only(
+                      left: screenWidth * .07,
+                      right: screenWidth * .0416,
+                      top: screenHeight * 0.0105,
+                      bottom: screenHeight * 0.0105),
                   child: Align(
                       alignment: Alignment.topLeft,
                       child: TextFormField(
@@ -82,9 +89,8 @@ class _NoteEditingState extends State<NoteEditing> {
                         controller: _titleController,
                         maxLines: 3,
                         autofocus: true,
-                        //autocorrect: true,
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
+                            fontWeight: FontWeight.bold, fontSize: screenWidth*.055),
                         decoration: InputDecoration(
                           hintText: "Title",
                           border: InputBorder.none,
@@ -99,10 +105,10 @@ class _NoteEditingState extends State<NoteEditing> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: screenHeight*.0263,
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding:EdgeInsets.only(left: screenWidth * .07, right: screenWidth * .07),
                 child: Container(
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -117,16 +123,16 @@ class _NoteEditingState extends State<NoteEditing> {
                         ),
                       ]),
                   width: screenWidth,
-                  height: screenHeight * .8,
+                  height: screenWidth*.0416*20,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 25, right: 15, top: 8, bottom: 8),
+                    padding: EdgeInsets.only(
+                        left: screenWidth*07, right: screenWidth*.416,),
                     child: Align(
                         alignment: Alignment.topLeft,
                         child: TextFormField(
                           maxLines: 10,
                           controller: _bodyController,
-                          style: TextStyle(fontSize: 15),
+                          style: TextStyle(fontSize: screenWidth*.0416),
                           decoration: InputDecoration(
                             hintText: "Content",
                             border: InputBorder.none,
