@@ -725,7 +725,7 @@ class _ProjectState extends State<ProjectManagement> {
                       Padding(
                         padding: EdgeInsets.only(left: 8, top: 40),
                         child: Text(
-                          "My Tasks",
+                          "Your Tasks",
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
@@ -1004,7 +1004,7 @@ class _ProjectState extends State<ProjectManagement> {
                       Padding(
                         padding: EdgeInsets.only(left: 8, top: 0),
                         child: Text(
-                          "Collaborators' Tasks",
+                          "Other Tasks",
                           style: TextStyle(fontSize: 20),
                         ),
                       ),
