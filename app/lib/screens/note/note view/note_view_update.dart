@@ -1,14 +1,10 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NoteUpdating extends StatefulWidget {
-
   Map<String, dynamic> data;
   NoteUpdating(this.data);
-
 
   @override
   _NoteUpdatingState createState() => _NoteUpdatingState(data);
@@ -20,26 +16,36 @@ class _NoteUpdatingState extends State<NoteUpdating> {
   final _formKey = GlobalKey<FormState>();
 
   addData() async {
-
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("notes")
-        .doc(data["id"])
+        .doc(data["noteid"])
         .update({"body": _bodyController.text, "title": _titleController.text});
   }
 
   TextEditingController _titleController = TextEditingController();
   TextEditingController _bodyController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _titleController = TextEditingController(text: data["title"]);
+    _bodyController = TextEditingController(text: data["body"]);
+  }
 
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _bodyController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    print(screenHeight);
-    print(screenWidth);
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -219,10 +225,11 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                             if (_formKey.currentState!.validate()) {
                               addData();
                               Navigator.pop(context);
+                              Navigator.pop(context);
                             }
                           },
                           child: Text(
-                            "Add Note",
+                            "Save Note",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
