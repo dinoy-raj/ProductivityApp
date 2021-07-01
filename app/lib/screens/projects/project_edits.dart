@@ -24,8 +24,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
   TextEditingController _collabController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _dropdownValue;
-  List? collab = [];
-  List? suggestions = [];
+  List<Map<String, String>>? collab = [];
+  List<Map<String, String>>? suggestions = [];
   bool _loading = false;
 
   addData() async {
@@ -368,11 +368,11 @@ class _ProjectEditingState extends State<ProjectEditing> {
                               });
                             },
                             title: Text(
-                              suggestions![index]['name'],
+                              suggestions![index]['name']!,
                               style: TextStyle(fontSize: 12),
                             ),
                             subtitle: Text(
-                              suggestions![index]['email'],
+                              suggestions![index]['email']!,
                               style: TextStyle(fontSize: 10),
                             ),
                             leading: ClipRRect(
@@ -380,7 +380,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 child: Container(
                                     height: 40,
                                     child: Image.network(
-                                        suggestions![index]['image']))),
+                                        suggestions![index]['image']!))),
                           );
                         }),
                   ),
@@ -441,11 +441,11 @@ class _ProjectEditingState extends State<ProjectEditing> {
                           return ListTile(
                             horizontalTitleGap: 10,
                             subtitle: Text(
-                              collab![index]['email'],
+                              collab![index]['email']!,
                               style: TextStyle(fontSize: 12),
                             ),
                             dense: true,
-                            title: Text(collab![index]['name']),
+                            title: Text(collab![index]['name']!),
                             trailing: project != null &&
                                     project!.collab!.contains(collab![index])
                                 ? IconButton(
@@ -463,7 +463,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                                     Text(
                                                       "Remove " +
                                                           collab![index]
-                                                              ['name'] +
+                                                              ['name']! +
                                                           " as collaborator?",
                                                       textAlign:
                                                           TextAlign.center,
@@ -533,7 +533,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 child: Container(
                                     height: 40,
                                     child: Image.network(
-                                        collab![index]['image']))),
+                                        collab![index]['image']!))),
                           );
                         }),
                   ),
