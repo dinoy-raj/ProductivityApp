@@ -28,8 +28,8 @@ class _AboutUsState extends State<AboutUs> {
 
   static const _lina = 'https://www.linkedin.com/in/amal-nath-m-1ba12a192/';
   void _launchlina() async => await canLaunch(_lind)
-      ? await launch(_lind)
-      : throw 'Could not launch $_lind';
+      ? await launch(_lina)
+      : throw 'Could not launch $_lina';
 
   final Uri emailLaunchUria = Uri(
     scheme: 'mailto',
