@@ -25,8 +25,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
   TextEditingController _collabController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   var _dropdownValue;
-  List? collab = [];
-  List? suggestions = [];
+  List collab = [];
+  List suggestions = [];
   bool _loading = false;
 
   addData() async {
@@ -49,7 +49,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'collab': collab,
     });
 
-    collab!.forEach((element) async {
+    collab.forEach((element) async {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(element['uid'])
@@ -83,7 +83,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'collab': collab,
     });
 
-    collab!.forEach((element) async {
+    collab.forEach((element) async {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(element['uid'])
@@ -131,14 +131,14 @@ class _ProjectEditingState extends State<ProjectEditing> {
                         .get('name')
                         .toLowerCase()
                         .contains(_collabController.text.toLowerCase()))) {
-              collab!.forEach((user) {
+              collab.forEach((user) {
                 if (user['uid'] == element.id) existing = true;
               });
-              suggestions!.forEach((user) {
+              suggestions.forEach((user) {
                 if (user['uid'] == element.id) existing = true;
               });
-              if (!existing && suggestions!.length < 5) {
-                suggestions!.add({
+              if (!existing && suggestions.length < 5) {
+                suggestions.add({
                   'name': element.get('name'),
                   'email': element.get('email'),
                   'image': element.get('image'),
@@ -153,7 +153,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
     }
     if (!found)
       setState(() {
-        suggestions!.clear();
+        suggestions.clear();
       });
   }
 
@@ -162,7 +162,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
     super.initState();
     if (project != null) {
       project!.collab!.forEach((element) {
-        collab!.add(element);
+        collab.add(element);
       });
       _titleController.text = project!.title!;
       _descController.text = project!.body!;
@@ -355,25 +355,25 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
-                    height: suggestions!.length * 70,
+                    height: suggestions.length * 70,
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
-                        itemCount: suggestions!.length,
+                        itemCount: suggestions.length,
                         itemBuilder: (context, index) {
                           return ListTile(
                             onTap: () {
                               setState(() {
-                                collab!.add(suggestions![index]);
-                                suggestions!.clear();
+                                collab.add(suggestions[index]);
+                                suggestions.clear();
                                 _collabController.clear();
                               });
                             },
                             title: Text(
-                              suggestions![index]['name'],
+                              suggestions[index]['name'],
                               style: TextStyle(fontSize: 12),
                             ),
                             subtitle: Text(
-                              suggestions![index]['email'],
+                              suggestions[index]['email'],
                               style: TextStyle(fontSize: 10),
                             ),
                             leading: ClipRRect(
@@ -381,7 +381,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 child: Container(
                                     height: 40,
                                     child: Image.network(
-                                        suggestions![index]['image']))),
+                                        suggestions[index]['image']))),
                           );
                         }),
                   ),
@@ -434,92 +434,30 @@ class _ProjectEditingState extends State<ProjectEditing> {
                   padding: const EdgeInsets.only(left: 20, right: 10),
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 200),
-                    height: collab!.length * 70,
+                    height: collab.length * 70,
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
-                        itemCount: collab!.length,
+                        itemCount: collab.length,
                         itemBuilder: (context, index) {
                           bool _contains = false;
                           project!.collab!.forEach((element) {
-                            if(mapEquals(element, collab![index]))
+                            if (mapEquals(element, collab[index]))
                               _contains = true;
                           });
                           return ListTile(
                             horizontalTitleGap: 10,
                             subtitle: Text(
-                              collab![index]['email'],
+                              collab[index]['email'],
                               style: TextStyle(fontSize: 12),
                             ),
                             dense: true,
-                            title: Text(collab![index]['name']),
+                            title: Text(collab[index]['name']),
                             trailing: project != null && _contains
                                 ? IconButton(
                                     onPressed: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => Container(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    Text(
-                                                      "Remove " +
-                                                          collab![index]
-                                                              ['name'] +
-                                                          " as collaborator?",
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        TextButton(
-                                                            onPressed: () {
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Text(
-                                                              "No",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black),
-                                                            )),
-                                                        OutlinedButton(
-                                                            onPressed: () {
-                                                              setState(() {
-                                                                collab!
-                                                                    .removeAt(
-                                                                        index);
-                                                              });
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                            child: Text(
-                                                              "Yes",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .red),
-                                                            ))
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: 20,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ));
+                                      setState(() {
+                                        collab.removeAt(index);
+                                      });
                                     },
                                     icon: Icon(
                                       Icons.delete,
@@ -529,7 +467,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                     icon: Icon(Icons.close),
                                     onPressed: () {
                                       setState(() {
-                                        collab!.removeAt(index);
+                                        collab.removeAt(index);
                                       });
                                     },
                                   ),
@@ -537,8 +475,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                 borderRadius: BorderRadius.circular(30),
                                 child: Container(
                                     height: 40,
-                                    child: Image.network(
-                                        collab![index]['image']))),
+                                    child:
+                                        Image.network(collab[index]['image']))),
                           );
                         }),
                   ),
@@ -657,9 +595,9 @@ class _ProjectEditingState extends State<ProjectEditing> {
                                     setState(() {
                                       _loading = true;
                                     });
-                                    await project == null
-                                        ? addData()
-                                        : updateData();
+                                    project == null
+                                        ? await addData()
+                                        : await updateData();
                                     Navigator.pop(context);
                                   }
                                 },
