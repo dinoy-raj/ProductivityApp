@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:app/screens/note/note_view.dart';
 import 'package:app/screens/splashscreen/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,8 +15,9 @@ class GridDataView extends StatefulWidget {
 }
 
 class _GridDataViewState extends State<GridDataView> {
+  User? _user = FirebaseAuth.instance.currentUser;
   final Stream<QuerySnapshot> _streamSnap =
-      FirebaseFirestore.instance.collection("notes").snapshots();
+      FirebaseFirestore.instance.collection("users").doc(FirebaseAuth.instance.currentUser!.uid).collection("notes").snapshots();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(

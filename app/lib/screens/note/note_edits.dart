@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NoteEditing extends StatefulWidget {
@@ -10,14 +13,20 @@ class NoteEditing extends StatefulWidget {
 
 class _NoteEditingState extends State<NoteEditing> {
   final _formKey = GlobalKey<FormState>();
-  Future<void> updateData() async {
-    Map<String, dynamic> data = {
-      "body": _bodyController.text,
-      "title": _titleController.text
-    };
-    CollectionReference collectionReference =
-        FirebaseFirestore.instance.collection("notes");
-    await collectionReference.add(data);
+  addData() async {
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random.secure();
+
+    String id = String.fromCharCodes(Iterable.generate(
+        20, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("notes")
+        .doc(id)
+        .set({"body": _bodyController.text, "title": _titleController.text});
   }
 
   TextEditingController _titleController = TextEditingController();
@@ -30,13 +39,11 @@ class _NoteEditingState extends State<NoteEditing> {
     print(screenHeight);
     print(screenWidth);
     return GestureDetector(
-      onTap: ()
-      {
+      onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
-        if(!currentFocus.hasPrimaryFocus)
-          {
-            currentFocus.unfocus();
-          }
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -107,7 +114,8 @@ class _NoteEditingState extends State<NoteEditing> {
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red, width: 2),
+                              borderSide:
+                                  BorderSide(color: Colors.red, width: 2),
                             ),
                             disabledBorder: InputBorder.none,
                           ),
@@ -147,7 +155,8 @@ class _NoteEditingState extends State<NoteEditing> {
                             maxLines: 10,
                             controller: _bodyController,
                             style: TextStyle(
-                                fontSize: screenWidth * .05, color: Colors.grey),
+                                fontSize: screenWidth * .05,
+                                color: Colors.black),
                             decoration: InputDecoration(
                               hintText: "Content",
                               border: InputBorder.none,
@@ -167,7 +176,9 @@ class _NoteEditingState extends State<NoteEditing> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                        height: screenHeight * 0.0526<40?40:screenHeight * 0.0526,
+                        height: screenHeight * 0.0526 < 40
+                            ? 40
+                            : screenHeight * 0.0526,
                         width: screenWidth * .4,
                         child: ElevatedButton(
                           style: ButtonStyle(
@@ -191,7 +202,9 @@ class _NoteEditingState extends State<NoteEditing> {
                           ),
                         )),
                     Container(
-                        height:screenHeight * 0.0526<40?40:screenHeight * 0.0526,
+                        height: screenHeight * 0.0526 < 40
+                            ? 40
+                            : screenHeight * 0.0526,
                         width: screenWidth * .4,
                         child: ElevatedButton(
                           style: ButtonStyle(
@@ -202,7 +215,7 @@ class _NoteEditingState extends State<NoteEditing> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              updateData();
+                              addData();
                               Navigator.pop(context);
                             }
                           },
