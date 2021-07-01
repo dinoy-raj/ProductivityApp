@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:app/screens/projects/project_edits.dart';
 import 'package:app/screens/projects/project_management.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,6 +42,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 title: snap.get('title'),
                 body: snap.get('body'),
                 type: snap.get('type'),
+                progress: snap.get('progress').toDouble(),
                 id: snap.id,
                 collab: snap.get('collab'),
                 owner: {
@@ -64,6 +64,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   project.type = snap.get('type');
                   project.body = snap.get('body');
                   project.collab = snap.get('collab');
+                  project.progress = snap.get('progress').toDouble();
                 }
               });
             });
@@ -110,6 +111,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     title: value.get('title'),
                     body: value.get('body'),
                     type: value.get('type'),
+                    progress: value.get('progress').toDouble(),
                     id: value.id,
                     owner: {
                       'uid': owner.id,
@@ -274,7 +276,29 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       crossAxisCount: 1),
                               itemCount: ownedProjects.length,
                               itemBuilder: (context, index) {
-                                var color = RandomColorModel().getColor();
+                                Color color;
+                                if (ownedProjects[index].progress! == 0)
+                                  color = Colors.grey;
+                                else if (ownedProjects[index].progress! <= .1)
+                                  color = Colors.grey[700]!;
+                                else if (ownedProjects[index].progress! <= .2)
+                                  color = Colors.brown[700]!;
+                                else if (ownedProjects[index].progress! <= .3)
+                                  color = Colors.red[900]!;
+                                else if (ownedProjects[index].progress! <= .4)
+                                  color = Colors.red;
+                                else if (ownedProjects[index].progress! <= .5)
+                                  color = Colors.red[300]!;
+                                else if (ownedProjects[index].progress! <= .6)
+                                  color = Colors.deepOrange;
+                                else if (ownedProjects[index].progress! <= .7)
+                                  color = Colors.orange;
+                                else if (ownedProjects[index].progress! <= .8)
+                                  color = Colors.green[300]!;
+                                else if (ownedProjects[index].progress! <= .9)
+                                  color = Colors.green;
+                                else
+                                  color = Colors.greenAccent;
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5, right: 20, top: 20, bottom: 40),
@@ -285,9 +309,15 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Colors.white,
+                                            color: color == Colors.greenAccent
+                                                ? Colors.greenAccent
+                                                    .withOpacity(0.25)
+                                                : color == Colors.grey
+                                                    ? Colors.grey
+                                                        .withOpacity(0.25)
+                                                    : Colors.white,
                                             border: Border.all(
-                                                color: color, width: 1)),
+                                                color: color, width: 1.5)),
                                         child: Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Column(
@@ -400,7 +430,29 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                       crossAxisCount: 1),
                               itemCount: otherProjects.length,
                               itemBuilder: (context, index) {
-                                var color = RandomColorModel().getColor();
+                                Color color;
+                                if (otherProjects[index].progress! == 0)
+                                  color = Colors.grey;
+                                else if (otherProjects[index].progress! <= .1)
+                                  color = Colors.grey[700]!;
+                                else if (otherProjects[index].progress! <= .2)
+                                  color = Colors.brown[700]!;
+                                else if (otherProjects[index].progress! <= .3)
+                                  color = Colors.red[900]!;
+                                else if (otherProjects[index].progress! <= .4)
+                                  color = Colors.red;
+                                else if (otherProjects[index].progress! <= .5)
+                                  color = Colors.red[300]!;
+                                else if (otherProjects[index].progress! <= .6)
+                                  color = Colors.deepOrange;
+                                else if (otherProjects[index].progress! <= .7)
+                                  color = Colors.orange;
+                                else if (otherProjects[index].progress! <= .8)
+                                  color = Colors.green[300]!;
+                                else if (otherProjects[index].progress! <= .9)
+                                  color = Colors.green;
+                                else
+                                  color = Colors.greenAccent;
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5, right: 20, top: 20, bottom: 40),
@@ -411,9 +463,15 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Colors.white,
+                                            color: color == Colors.greenAccent
+                                                ? Colors.greenAccent
+                                                    .withOpacity(0.25)
+                                                : color == Colors.grey
+                                                    ? Colors.grey
+                                                        .withOpacity(0.25)
+                                                    : Colors.white,
                                             border: Border.all(
-                                                color: color, width: 1)),
+                                                color: color, width: 1.5)),
                                         child: Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Column(
@@ -520,17 +578,25 @@ class _ProjectScreenState extends State<ProjectScreen> {
 }
 
 class Project {
-  Project({this.id, this.collab, this.type, this.body, this.title, this.owner});
+  Project(
+      {this.id,
+      this.collab,
+      this.type,
+      this.body,
+      this.title,
+      this.owner,
+      this.progress});
 
   String? id;
   String? title;
   String? body;
   String? type;
+  double? progress;
   Map<String, dynamic>? owner;
   List<dynamic>? collab;
 }
 
-class RandomColorModel {
+/*class RandomColorModel {
   Color getColor() {
     Random random = Random();
     List<Color> colorList = [
@@ -547,4 +613,4 @@ class RandomColorModel {
     ];
     return colorList[random.nextInt(10)];
   }
-}
+}*/
