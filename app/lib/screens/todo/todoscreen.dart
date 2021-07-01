@@ -127,8 +127,8 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           ),
                           child: IconButton(
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => TodoEditing()));
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (context) => TodoEditing()));
                             },
                             icon: Icon(Icons.add),
                             color: Colors.white,
@@ -141,7 +141,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Expanded(child: GridDataView())
+                // Expanded(child: GridDataView())
               ],
             ),
           ),

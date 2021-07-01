@@ -26,7 +26,11 @@ class _NoteEditingState extends State<NoteEditing> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("notes")
         .doc(id)
-        .set({"body": _bodyController.text, "title": _titleController.text});
+        .set({
+      "noteid": id,
+      "body": _bodyController.text,
+      "title": _titleController.text
+    });
   }
 
   TextEditingController _titleController = TextEditingController();

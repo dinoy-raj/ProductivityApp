@@ -24,7 +24,7 @@ class _NoteViewState extends State<NoteView> {
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("notes")
-        .doc(data["id"])
+        .doc(data["noteid"])
         .delete();
   }
 
@@ -169,10 +169,7 @@ class _NoteViewState extends State<NoteView> {
                               overlayColor: MaterialStateProperty.all(
                                   Colors.redAccent.withOpacity(.5))),
                           onPressed: () {
-                            setState(() async {
-                              await deleteData();
-                              Navigator.pop(context);
-                            });
+                            deleteData();
                             Navigator.pop(context);
                           },
                           child: Text(
@@ -198,7 +195,11 @@ class _NoteViewState extends State<NoteView> {
                           ),
                           onPressed: () {
                             setState(() {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>NoteUpdating(data)));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          NoteUpdating(data)));
                             });
                           },
                           child: Text(

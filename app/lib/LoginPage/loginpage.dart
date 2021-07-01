@@ -89,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                         "Login With Google",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          color: Colors.white
                         ),
                       ),
                     ),

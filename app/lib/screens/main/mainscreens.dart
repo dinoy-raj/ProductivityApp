@@ -323,6 +323,7 @@ class _MainScreenState extends State<MainScreen> {
                                                   child: Text(
                                                     "Log out",
                                                     style: TextStyle(
+                                                      color: Colors.white,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),

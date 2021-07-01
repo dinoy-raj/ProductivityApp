@@ -49,14 +49,12 @@ class _AboutUsState extends State<AboutUs> {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Tooltip(
-              message: "Exit Without Saving",
-              child: Icon(
+            icon: Icon(
                 Icons.arrow_back_ios_outlined,
                 color: Colors.black,
               ),
             )),
-      ),
+
       body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Padding(
