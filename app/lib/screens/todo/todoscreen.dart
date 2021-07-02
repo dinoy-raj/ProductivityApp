@@ -1,4 +1,4 @@
-import 'package:app/screens/note/main%20view/notes_fetching.dart';
+
 import 'package:app/screens/todo/todo_edits.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -128,7 +128,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           child: IconButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => TodoEditing()));
+                                  builder: (context) => TodoEdits()));
                             },
                             icon: Icon(Icons.add),
                             color: Colors.white,

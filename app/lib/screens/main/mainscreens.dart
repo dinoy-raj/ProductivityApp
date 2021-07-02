@@ -55,7 +55,8 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                     Spacer(),
-                    GestureDetector(
+                    InkWell(
+                      splashColor: Colors.grey,
                       onTap: () {
                         showModalBottomSheet(
                             context: context,
@@ -336,25 +337,36 @@ class _MainScreenState extends State<MainScreen> {
                             });
                       },
                       child: Container(
-                        height: 40,
-                        width: 40,
+                        height: 60,
+                        width: 60,
                         decoration: BoxDecoration(
-                            image: DecorationImage(
-                                //fit: BoxFit.fill,
-                                image: NetworkImage(user!.photoURL!)),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: shadColor,
-                                blurRadius: 10,
-                                spreadRadius: 2,
-                                offset: Offset(0, 3),
-                              )
-                            ]
-                            //borderRadius: BorderRadius.circular(10),
-                            ),
+                          //shape: BoxShape.circle,
+                          borderRadius: BorderRadius.circular(20),
+                          //color: Colors.red
+                        ),
+                        child: Center(
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    //fit: BoxFit.fill,
+                                    image: NetworkImage(user!.photoURL!)),
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white, width: 2),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: shadColor,
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                    offset: Offset(0, 3),
+                                  )
+                                ]
+                                //borderRadius: BorderRadius.circular(10),
+                                ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
