@@ -95,9 +95,9 @@ class _TaskState extends State<AssignEditTask> {
       _titleController.text = task!['title'];
       _bodyController.text = task!['body'];
       _dateTime = task!['datetime'];
-      _dateTimeString = _dateTime == null
+      _dateTimeString = (_dateTime == null
           ? "Deadline"
-          : DateFormat.yMEd().add_jms().format(_dateTime!);
+          : DateFormat.yMEd().add_jms().format(_dateTime!));
     }
   }
 

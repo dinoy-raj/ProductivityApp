@@ -1,7 +1,7 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:app/screens/projects/project_edits.dart';
 import 'package:app/screens/projects/projectscreen.dart';
-import 'package:app/screens/projects/assign_task.dart';
+import 'package:app/screens/projects/assign_edit_task.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -76,6 +76,7 @@ class _ProjectState extends State<ProjectManagement> {
                       : element.doc.get('deadline').toDate(),
                   'deadline': deadline,
                   'completed': element.doc.get('completed'),
+                  'collab': element.doc.get('collab'),
                   'id': element.doc.id,
                 });
               } else {
@@ -120,7 +121,7 @@ class _ProjectState extends State<ProjectManagement> {
                   if (task['id'] == element.doc.id) {
                     task['title'] = element.doc.get('title');
                     task['body'] = element.doc.get('body');
-                    task['dateTime'] = element.doc.get('deadline') == null
+                    task['datetime'] = element.doc.get('deadline') == null
                         ? null
                         : element.doc.get('deadline').toDate();
                     task['deadline'] = deadline;
@@ -132,12 +133,11 @@ class _ProjectState extends State<ProjectManagement> {
                   if (task['id'] == element.doc.id) {
                     task['title'] = element.doc.get('title');
                     task['body'] = element.doc.get('body');
-                    task['dateTime'] = element.doc.get('deadline') == null
+                    task['datetime'] = element.doc.get('deadline') == null
                         ? null
                         : element.doc.get('deadline').toDate();
                     task['deadline'] = deadline;
                     task['completed'] = element.doc.get('completed');
-                    task['collab'] = element.doc.get('collab');
                   }
                 });
               }
@@ -162,6 +162,161 @@ class _ProjectState extends State<ProjectManagement> {
         }
       });
     });
+  }
+
+  viewTask(Map<String, dynamic> task) {
+    String deadline;
+    Color color;
+    IconData icon;
+
+    if (task['completed']) {
+      deadline = "This task is completed";
+      icon = Icons.assignment_turned_in_outlined;
+      color = Colors.greenAccent;
+    } else if (task['deadline'] == "Today") {
+      deadline = "This task is due today";
+      icon = Icons.assignment_late_outlined;
+      color = Colors.orange;
+    } else if (task['deadline'] == "Tomorrow") {
+      deadline = "This task is due tomorrow";
+      icon = Icons.assignment_late_outlined;
+      color = Colors.orange[300]!;
+    } else if (task['deadline'] == "Past Deadline") {
+      deadline = "This task is late";
+      icon = Icons.assignment_late;
+      color = Colors.red;
+    } else if (task['deadline'] == "No Deadline") {
+      deadline = "This task has no deadline";
+      icon = Icons.assignment_outlined;
+      color = Colors.green;
+    } else {
+      deadline = "This task is due " + task['deadline'];
+      icon = Icons.assignment_outlined;
+      color = Colors.brown;
+    }
+    showDialog(
+        context: context,
+        builder: (context) => Dialog(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            icon,
+                            color: color,
+                          ),
+                          Text(
+                            deadline,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: color,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ]),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Text(
+                            task['title'],
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[800]),
+                          ),
+                        ),
+                      ),
+                      if (task['collab']['uid'] != _user.uid)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Container(
+                                height: 50,
+                                child: Image.network(task['collab']['image'])),
+                          ),
+                        )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: Text(
+                      task['body'],
+                      style: TextStyle(fontSize: 16, color: Colors.grey[800]),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (project!.owner!['uid'] == _user.uid)
+                        OutlinedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AssignEditTask(
+                                        projectID: project!.id,
+                                        ownerUID: project!.owner!['uid'],
+                                        task: task,
+                                      ));
+                            },
+                            child: Text(
+                              "Edit",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[800]),
+                            )),
+                      if (task['collab']['uid'] == _user.uid)
+                        OutlinedButton(
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(project!.owner!['uid'])
+                                  .collection("owned_projects")
+                                  .doc(project!.id)
+                                  .collection("tasks")
+                                  .doc(task['id'])
+                                  .update({'completed': !task['completed']});
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              task['completed'] ? "Reopen" : "Completed",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: task['completed']
+                                    ? Colors.red
+                                    : Colors.green,
+                              ),
+                            )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ));
   }
 
   @override
@@ -758,15 +913,19 @@ class _ProjectState extends State<ProjectManagement> {
                                 Color color;
                                 if (myTasks[index]['completed'])
                                   color = Colors.grey;
-                                else if (myTasks[index]['deadline'] ==
-                                        "Today" ||
-                                    myTasks[index]['deadline'] == "Tomorrow")
+                                else if (myTasks[index]['deadline'] == "Today")
                                   color = Colors.orange;
+                                else if (myTasks[index]['deadline'] ==
+                                    "Tomorrow")
+                                  color = Colors.orange[300]!;
                                 else if (myTasks[index]['deadline'] ==
                                     "Past Deadline")
                                   color = Colors.red;
-                                else
+                                else if (myTasks[index]['deadline'] ==
+                                    "No Deadline")
                                   color = Colors.green;
+                                else
+                                  color = Colors.brown;
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5, top: 10, bottom: 40),
@@ -844,155 +1003,7 @@ class _ProjectState extends State<ProjectManagement> {
                                           highlightColor:
                                               color.withOpacity(0.25),
                                           onTap: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) => Dialog(
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15),
-                                                            child: Text(
-                                                              myTasks[index]
-                                                                  ['title'],
-                                                              style: TextStyle(
-                                                                  fontSize: 24,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      800]),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15),
-                                                            child: Text(
-                                                              myTasks[index]
-                                                                  ['deadline'],
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .grey),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(15),
-                                                            child: Text(
-                                                              myTasks[index]
-                                                                  ['body'],
-                                                              style: TextStyle(
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      800]),
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              if (project!.owner![
-                                                                      'uid'] ==
-                                                                  _user.uid)
-                                                                OutlinedButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      showDialog(
-                                                                          context:
-                                                                              context,
-                                                                          builder: (context) =>
-                                                                              AssignEditTask(
-                                                                                projectID: project!.id,
-                                                                                ownerUID: project!.owner!['uid'],
-                                                                                task: myTasks[index],
-                                                                              ));
-                                                                    },
-                                                                    child: Text(
-                                                                      "Edit",
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              16,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          color:
-                                                                              Colors.grey[800]),
-                                                                    )),
-                                                              OutlinedButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await FirebaseFirestore
-                                                                        .instance
-                                                                        .collection(
-                                                                            "users")
-                                                                        .doc(project!.owner![
-                                                                            'uid'])
-                                                                        .collection(
-                                                                            "owned_projects")
-                                                                        .doc(project!
-                                                                            .id)
-                                                                        .collection(
-                                                                            "tasks")
-                                                                        .doc(myTasks[index]
-                                                                            [
-                                                                            'id'])
-                                                                        .update({
-                                                                      'completed':
-                                                                          !myTasks[index]
-                                                                              [
-                                                                              'completed']
-                                                                    });
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                    myTasks[index]
-                                                                            [
-                                                                            'completed']
-                                                                        ? "Reopen"
-                                                                        : "Completed",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          16,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: myTasks[index]
-                                                                              [
-                                                                              'completed']
-                                                                          ? Colors
-                                                                              .red
-                                                                          : Colors
-                                                                              .green,
-                                                                    ),
-                                                                  )),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ));
+                                            viewTask(myTasks[index]);
                                           },
                                         ),
                                       ),
@@ -1040,15 +1051,19 @@ class _ProjectState extends State<ProjectManagement> {
                                 if (collabTasks[index]['completed'])
                                   color = Colors.grey;
                                 else if (collabTasks[index]['deadline'] ==
-                                        "Today" ||
-                                    collabTasks[index]['deadline'] ==
-                                        "Tomorrow")
+                                    "Today")
                                   color = Colors.orange;
+                                else if (collabTasks[index]['deadline'] ==
+                                    "Tomorrow")
+                                  color = Colors.orange[200]!;
                                 else if (collabTasks[index]['deadline'] ==
                                     "Past Deadline")
                                   color = Colors.red;
+                                else if (collabTasks[index]['deadline'] ==
+                                    "No Deadline")
+                                  color = Colors.red;
                                 else
-                                  color = Colors.green;
+                                  color = Colors.brown;
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5, top: 20, bottom: 40),
@@ -1147,148 +1162,7 @@ class _ProjectState extends State<ProjectManagement> {
                                           highlightColor:
                                               color.withOpacity(0.25),
                                           onTap: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) => Dialog(
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15),
-                                                            child: Text(
-                                                              collabTasks[index]
-                                                                  ['title'],
-                                                              style: TextStyle(
-                                                                  fontSize: 24,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      800]),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 15),
-                                                            child: Text(
-                                                              collabTasks[index]
-                                                                  ['deadline'],
-                                                              style: TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: Colors
-                                                                      .grey),
-                                                            ),
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(15),
-                                                            child: Text(
-                                                              collabTasks[index]
-                                                                  ['body'],
-                                                              style: TextStyle(
-                                                                  fontSize: 16,
-                                                                  color: Colors
-                                                                          .grey[
-                                                                      800]),
-                                                            ),
-                                                          ),
-                                                          Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              if (project!.owner![
-                                                                      'uid'] ==
-                                                                  _user.uid)
-                                                                OutlinedButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      showDialog(
-                                                                          context:
-                                                                              context,
-                                                                          builder: (context) =>
-                                                                              AssignEditTask(
-                                                                                projectID: project!.id,
-                                                                                ownerUID: project!.owner!['uid'],
-                                                                                task: collabTasks[index],
-                                                                              ));
-                                                                    },
-                                                                    child: Text(
-                                                                      "Edit",
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              16,
-                                                                          fontWeight: FontWeight
-                                                                              .bold,
-                                                                          color:
-                                                                              Colors.grey[800]),
-                                                                    )),
-                                                              if (collabTasks[index]
-                                                                          [
-                                                                          'collab']
-                                                                      ['uid'] ==
-                                                                  _user.uid)
-                                                                OutlinedButton(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      await FirebaseFirestore
-                                                                          .instance
-                                                                          .collection(
-                                                                              "users")
-                                                                          .doc(project!.owner![
-                                                                              'uid'])
-                                                                          .collection(
-                                                                              "owned_projects")
-                                                                          .doc(project!
-                                                                              .id)
-                                                                          .collection(
-                                                                              "tasks")
-                                                                          .doc(collabTasks[index]
-                                                                              [
-                                                                              'id'])
-                                                                          .update({
-                                                                        'completed':
-                                                                            !collabTasks[index]['completed']
-                                                                      });
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    child: Text(
-                                                                      "Completed",
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            16,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      ),
-                                                                    )),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: 20,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ));
+                                            viewTask(collabTasks[index]);
                                           },
                                         ),
                                       ),
