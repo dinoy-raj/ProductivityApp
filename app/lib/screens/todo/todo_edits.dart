@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -13,13 +17,59 @@ class TodoEdits extends StatefulWidget {
 
 class _TodoEditsState extends State<TodoEdits> {
   TextEditingController _titleController = TextEditingController();
-  TextEditingController _bodyController = TextEditingController();
+  TextEditingController _commentController = TextEditingController();
   TextEditingController _subtaskController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
   String _dateButton = "Choose Deadline";
   bool _buttonActive = false;
   DateTime?  _dateTime;
+
+
+  addData() async {
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random _rnd = Random.secure();
+
+    String id = String.fromCharCodes(Iterable.generate(
+        20, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(id)
+        .set({
+      "title": _titleController.text,
+      "isdone": false,
+      "isdead": _buttonActive,
+      "deadline":_buttonActive?_dateButton:null,
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(id)
+        .collection("comment")
+        .doc(id)
+        .set({
+      "comment": _commentController.text,
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(id)
+        .collection("subtask")
+        .doc(id)
+        .set({
+      "subtask": _subtaskController.text,
+    });
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -218,7 +268,7 @@ class _TodoEditsState extends State<TodoEdits> {
                           alignment: Alignment.topLeft,
                           child: TextFormField(
                             maxLines: 10,
-                            controller: _bodyController,
+                            controller: _commentController,
                             style: TextStyle(
                                 fontSize: screenWidth * .04,
                                 color: Colors.black.withOpacity(.5)),
@@ -366,7 +416,7 @@ class _TodoEditsState extends State<TodoEdits> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              //addData();
+                              addData();
                               Navigator.pop(context);
                             }
                           },
