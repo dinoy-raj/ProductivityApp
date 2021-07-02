@@ -481,44 +481,6 @@ class _ProjectState extends State<ProjectManagement> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              if (project!.owner!['uid'] != _user.uid)
-                                TextButton.icon(
-                                  label: Text(
-                                    "Call",
-                                  ),
-                                  icon: Icon(
-                                    Icons.call_outlined,
-                                    color: Colors.grey[800],
-                                  ),
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.grey[800]),
-                                      overlayColor: MaterialStateProperty.all(
-                                          Colors.transparent)),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => Container(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            15),
-                                                    child: Text(
-                                                      "Call",
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ));
-                                  },
-                                ),
                               TextButton.icon(
                                 label: Text(
                                   project!.owner!['uid'] == _user.uid
@@ -612,45 +574,6 @@ class _ProjectState extends State<ProjectManagement> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                if (project!.collab![index]['uid'] != _user.uid)
-                                  TextButton.icon(
-                                    label: Text(
-                                      "Call",
-                                    ),
-                                    icon: Icon(
-                                      Icons.call_outlined,
-                                      color: Colors.grey[800],
-                                    ),
-                                    style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.grey[800]),
-                                        overlayColor: MaterialStateProperty.all(
-                                            Colors.transparent)),
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => Container(
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              15),
-                                                      child: Text(
-                                                        "Call",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ));
-                                    },
-                                  ),
                                 TextButton.icon(
                                   label: Text(
                                     project!.collab![index]['uid'] == _user.uid
@@ -695,8 +618,7 @@ class _ProjectState extends State<ProjectManagement> {
                                             ));
                                   },
                                 ),
-                                if (project!.owner!['uid'] == _user.uid ||
-                                    project!.collab![index]['uid'] == _user.uid)
+                                if (project!.owner!['uid'] == _user.uid)
                                   TextButton.icon(
                                     icon: Icon(Icons.add_comment_outlined),
                                     label: Text("Assign"),
@@ -1132,6 +1054,9 @@ class _ProjectState extends State<ProjectManagement> {
                                                     ),
                                                   )
                                                 ],
+                                              ),
+                                              SizedBox(
+                                                height: 3,
                                               ),
                                               Text(
                                                 collabTasks[index]['deadline'],
