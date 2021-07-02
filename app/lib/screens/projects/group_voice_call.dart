@@ -2,17 +2,25 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class Agora extends StatefulWidget {
+  Agora({this.host});
+
+  Map<String, dynamic>? host;
+
   @override
   State<StatefulWidget> createState() {
-    return AgoraState();
+    return AgoraState(host: host);
   }
 }
 
 class AgoraState extends State<Agora> {
+  AgoraState({this.host});
+
   final _appID = "b56fef490d8a41d38013a8841333dca8";
   final _appCertificate = "14b0edd725394c0ab1c6fa34a740abff";
   String? channel;
   String? token;
+  Map<String, dynamic>? host;
+  List<Map<String, dynamic>>? participants;
 
   createChannel() async {}
   joinChannel() async {}

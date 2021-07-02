@@ -33,6 +33,7 @@ class _ProjectState extends State<ProjectManagement> {
   bool isCallLive = false;
   List myTasks = [];
   List collabTasks = [];
+  Agora? _agora;
 
   listenDB() {
     FirebaseFirestore.instance
@@ -405,6 +406,12 @@ class _ProjectState extends State<ProjectManagement> {
                                         )),
                                     TextButton(
                                         onPressed: () {
+                                          _agora = Agora(
+                                            host: {
+                                              'uid': _user.uid,
+                                              'image': _user.photoURL,
+                                            },
+                                          );
                                           Navigator.pop(context);
                                           setState(() {
                                             isCallLive = true;
@@ -412,7 +419,7 @@ class _ProjectState extends State<ProjectManagement> {
                                           showModalBottomSheet(
                                               context: context,
                                               builder: (context) {
-                                                return Agora();
+                                                return _agora!;
                                               });
                                         },
                                         child: Text(
@@ -426,7 +433,7 @@ class _ProjectState extends State<ProjectManagement> {
                                 ));
                       else
                         showModalBottomSheet(
-                            context: context, builder: (context) => Agora());
+                            context: context, builder: (context) => _agora!);
                     },
                     icon: Tooltip(
                       message: "Make call",
