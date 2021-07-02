@@ -163,7 +163,8 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                             maxLines: 10,
                             controller: _bodyController,
                             style: TextStyle(
-                                fontSize: screenWidth * .05,
+                                fontSize: 15,
+                                height: 2/1,
                                 color: Colors.black),
                             decoration: InputDecoration(
                               hintText: "Content",

@@ -28,9 +28,6 @@ class _NoteViewState extends State<NoteView> {
         .delete();
   }
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _bodyController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -100,10 +97,12 @@ class _NoteViewState extends State<NoteView> {
                         alignment: Alignment.topLeft,
                         child: SingleChildScrollView(
                           physics: BouncingScrollPhysics(),
-                          child: Text(
+                          child: SelectableText(
                             data["title"],
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
+                                height: 1.2,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
                           ),
                         )),
                   ),
@@ -137,11 +136,17 @@ class _NoteViewState extends State<NoteView> {
                           bottom: screenHeight * .0105),
                       child: Align(
                         alignment: Alignment.topLeft,
-                        child: SingleChildScrollView(
-                          physics: BouncingScrollPhysics(),
-                          child: Text(
-                            data["body"],
-                            textAlign: TextAlign.start,
+                        child: GestureDetector(
+                          child: SingleChildScrollView(
+                            physics: BouncingScrollPhysics(),
+                            child: SelectableText(
+                              data["body"],
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  height: 2/1,
+                                  //fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
                           ),
                         ),
                       ),
