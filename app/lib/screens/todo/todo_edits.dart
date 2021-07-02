@@ -44,6 +44,7 @@ class _TodoEditsState extends State<TodoEdits> {
       "isdone": false,
       "isdead": _buttonActive,
       "deadline":_buttonActive?_dateButton:null,
+      "isfav":false,
     });
     await FirebaseFirestore.instance
         .collection("users")

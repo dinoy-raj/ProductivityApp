@@ -1,5 +1,6 @@
 
 import 'package:app/screens/todo/todo_edits.dart';
+import 'package:app/screens/todo/todo_griddataview.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -141,7 +142,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                // Expanded(child: GridDataView())
+                 Expanded(child: ListViewTodo())
               ],
             ),
           ),
