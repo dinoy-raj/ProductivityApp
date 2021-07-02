@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'group_voice_call.dart';
+
 class ProjectManagement extends StatefulWidget {
   ProjectManagement({this.project});
 
@@ -28,6 +30,7 @@ class _ProjectState extends State<ProjectManagement> {
   double _progress = 0;
   bool _progressClicked = false;
   bool _loading = true;
+  bool isCallLive = false;
   List myTasks = [];
   List collabTasks = [];
 
@@ -382,41 +385,65 @@ class _ProjectState extends State<ProjectManagement> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                                title: Text(
-                                    "Start a voice call with the collaborators?"),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "NO",
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )),
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        "YES",
-                                        style: TextStyle(
-                                          color: Colors.grey[800],
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )),
-                                ],
-                              ));
+                      if (!isCallLive)
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text(
+                                      "Start a voice call with the collaborators?"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "NO",
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          setState(() {
+                                            isCallLive = true;
+                                          });
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                return Agora();
+                                              });
+                                        },
+                                        child: Text(
+                                          "YES",
+                                          style: TextStyle(
+                                            color: Colors.grey[800],
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )),
+                                  ],
+                                ));
+                      else
+                        showModalBottomSheet(
+                            context: context, builder: (context) => Agora());
                     },
                     icon: Tooltip(
                       message: "Make call",
                       child: Icon(
-                        Icons.add_call,
+                        isCallLive ? Icons.phone_callback : Icons.add_call,
+                        color: isCallLive ? Colors.green : Colors.grey[700],
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onPressed: () {},
+                    icon: Tooltip(
+                      message: "Group chat",
+                      child: Icon(
+                        Icons.chat,
                         color: Colors.grey[700],
                       ),
                     ),
