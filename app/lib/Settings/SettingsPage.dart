@@ -34,6 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
             )),
       ),
       body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
           child: Center(
         child: Column(
           children: [
@@ -62,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      height: 80,
+                      height: screenHeight*.07,
                       width: screenWidth * .8,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +126,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ]
                                 //borderRadius: BorderRadius.circular(10),
                                 ),
-                            height: 50,
+                            height: 60,
                             width: screenWidth * .7,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -134,14 +135,16 @@ class _SettingsPageState extends State<SettingsPage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Container(
-                                    height: 20,
+                                    height: screenHeight*.06,
                                     width: 100,
-                                    child: Text(
-                                      "Dark Mode",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 15,
-                                          color: Colors.grey),
+                                    child: Center(
+                                      child: Text(
+                                        "Dark Mode",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                            color: Colors.grey),
+                                      ),
                                     ),
                                   ),
                                   Container(
