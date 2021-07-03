@@ -1,3 +1,4 @@
+import 'package:app/screens/todo/todo_viewscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,8 +18,10 @@ class _ListViewTodoState extends State<ListViewTodo> {
       .collection("users")
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("todo")
+      .orderBy("isfav",descending: true)
       .snapshots();
   bool val = false;
+  Color _color = Colors.white;
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -51,10 +54,17 @@ class _ListViewTodoState extends State<ListViewTodo> {
               );
             } else {
               return ListView(
+                physics: BouncingScrollPhysics(),
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
                   Map<String, dynamic> data =
                       document.data() as Map<String, dynamic>;
-                  print(data);
+                  if (data["isdone"]) {
+                    _color = Colors.teal.withOpacity(.5);
+                  } else if (!data["isdead"]) {
+                    _color = Colors.white;
+                  } else {
+                    _color = Colors.red.withOpacity(.5);
+                  }
                   return InkWell(
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
@@ -94,25 +104,19 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                     width: 5,
                                     color: Colors.white,
                                   ),
-
-                                      IconButton(
-                                          padding: EdgeInsets.zero,
-                                          constraints: BoxConstraints(),
-                                          onPressed: () {
-                                            taskDone(data);
-                                          },
-                                          icon: data["isdone"]
-                                              ? Icon(
-                                                  Icons.check_box,
-
-                                                )
-                                              : Icon(
-                                                  Icons.check_box_outline_blank,
-                                          )
-                                      ),
-
-
-
+                                  IconButton(
+                                      padding: EdgeInsets.zero,
+                                      constraints: BoxConstraints(),
+                                      onPressed: () {
+                                        taskDone(data);
+                                      },
+                                      icon: data["isdone"]
+                                          ? Icon(
+                                              Icons.check_box,
+                                            )
+                                          : Icon(
+                                              Icons.check_box_outline_blank,
+                                            )),
                                   Container(
                                     height: 30,
                                     width: 5,
@@ -123,176 +127,187 @@ class _ListViewTodoState extends State<ListViewTodo> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Colors.white10,
-                                    border: Border.all(
-                                        color: Colors.white, width: 1),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(.1),
-                                        blurRadius: 100,
-                                        spreadRadius: 2,
-                                        offset: Offset(0, 3),
-                                      ),
-                                    ]
-                                    //borderRadius: BorderRadius.circular(10),
-                                    ),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 60,
-                                      width: 10,
-                                      color: Colors.white,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 40,
-                                          width: 240,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              IconButton(
-                                                  onPressed: () {
-                                                    favChange(data);
-                                                  },
-                                                  icon: data["isfav"]
-                                                      ? Icon(
-                                                          Icons.push_pin,
-                                                          size: 18,
-                                                          color: Colors.orange,
-                                                        )
-                                                      : Icon(
-                                                          Icons
-                                                              .push_pin_outlined,
-                                                          size: 15,
-                                                          color: Colors.grey,
-                                                        ))
-                                            ],
-                                          ),
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TodoView(data)));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white10,
+                                      border: Border.all(
+                                          color: Colors.white, width: 1),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(.1),
+                                          blurRadius: 100,
+                                          spreadRadius: 2,
+                                          offset: Offset(0, 3),
                                         ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0),
-                                            child: Container(
-                                                width: 220,
-                                                child: Text(
-                                                  data["title"],
-                                                  style: TextStyle(
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black
-                                                        .withOpacity(.7),
-                                                  ),
-                                                ))),
-                                        Container(
-                                          height: 40,
-                                          width: 240,
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 10.0),
+                                      ]
+                                      //borderRadius: BorderRadius.circular(10),
+                                      ),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        height: 60,
+                                        width: 10,
+                                        color: _color,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 240,
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
                                               children: [
-                                                Container(
-                                                  width: 60,
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .subdirectory_arrow_right_sharp,
-                                                          size: 10,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        Text(
-                                                          data["numsub"],
-                                                          style: TextStyle(
-                                                              fontSize: 10,
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Icon(
-                                                          Icons.comment,
-                                                          size: 10,
-                                                          color: Colors.grey,
-                                                        ),
-                                                        Text(
-                                                          data["numcom"],
-                                                          style: TextStyle(
-                                                              fontSize: 10,
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  width: 60,
-                                                ),
-                                                Align(
-                                                  alignment:
-                                                      Alignment.bottomRight,
-                                                  child: Container(
-                                                    width: 100,
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.bottomRight,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                bottom: 8.0),
-                                                        child: data["isdead"]
-                                                            ? Text(
-                                                                data[
-                                                                    "deadline"],
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 9,
-                                                                ),
-                                                              )
-                                                            : Text(
-                                                                "No Deadline",
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 9,
-                                                                ),
-                                                              ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                )
+                                                IconButton(
+                                                    onPressed: () {
+                                                      favChange(data);
+                                                    },
+                                                    icon: data["isfav"]
+                                                        ? Icon(
+                                                            Icons.push_pin,
+                                                            size: 18,
+                                                            color:
+                                                                Colors.orange,
+                                                          )
+                                                        : Icon(
+                                                            Icons
+                                                                .push_pin_outlined,
+                                                            size: 15,
+                                                            color: Colors.grey,
+                                                          ))
                                               ],
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                          Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Container(
+                                                  width: 220,
+                                                  child: Text(
+                                                    data["title"],
+                                                    style: TextStyle(
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black
+                                                          .withOpacity(.7),
+                                                    ),
+                                                  ))),
+                                          Container(
+                                            height: 40,
+                                            width: 240,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 10.0),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Container(
+                                                    width: 60,
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 8.0),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .subdirectory_arrow_right_sharp,
+                                                            size: 10,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          Text(
+                                                            data["numsub"],
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Icon(
+                                                            Icons.comment,
+                                                            size: 10,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          Text(
+                                                            data["numcom"],
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 60,
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.bottomRight,
+                                                    child: Container(
+                                                      width: 100,
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .bottomRight,
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  bottom: 8.0),
+                                                          child: data["isdead"]
+                                                              ? Text(
+                                                                  data[
+                                                                      "deadline"],
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize: 9,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  "No Deadline",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize: 9,
+                                                                  ),
+                                                                ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
