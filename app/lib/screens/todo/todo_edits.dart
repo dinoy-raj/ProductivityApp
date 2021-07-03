@@ -40,11 +40,14 @@ class _TodoEditsState extends State<TodoEdits> {
         .collection("todo")
         .doc(id)
         .set({
+      "id":id,
       "title": _titleController.text,
       "isdone": false,
       "isdead": _buttonActive,
       "deadline":_buttonActive?_dateButton:null,
       "isfav":false,
+      "numcom":_commentController.text==""?"0":"1",
+      "numsub":_subtaskController.text==""?"0":"1",
     });
     await FirebaseFirestore.instance
         .collection("users")

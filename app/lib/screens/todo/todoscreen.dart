@@ -139,9 +139,6 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
                  Expanded(child: ListViewTodo())
               ],
             ),
