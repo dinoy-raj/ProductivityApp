@@ -201,8 +201,8 @@ class _ScreenBodyState extends State<ScreenBody> {
                     ],
                   ),
                   crossFadeState: switched
-                      ? CrossFadeState.showFirst
-                      : CrossFadeState.showSecond,
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
                   duration: const Duration(milliseconds: 300),
                 ),
               ),
