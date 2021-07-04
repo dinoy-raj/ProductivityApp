@@ -18,7 +18,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
       .collection("users")
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("todo")
-      .orderBy("isfav",descending: true)
+      .orderBy("isfav", descending: true)
       .snapshots();
   bool val = false;
   Color _color = Colors.white;
@@ -168,8 +168,46 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                             width: 240,
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
+                                                Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Container(
+                                                    width: 100,
+                                                    height: 40,
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.topLeft,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                bottom: 8.0,
+                                                                top: 10),
+                                                        child: data["isdead"]
+                                                            ? Text(
+                                                                data[
+                                                                    "deadline"],
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 9,
+                                                                ),
+                                                              )
+                                                            : Text(
+                                                                "No Deadline",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 9,
+                                                                ),
+                                                              ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  width: 40,
+                                                  height: 40,
+                                                ),
                                                 IconButton(
                                                     onPressed: () {
                                                       favChange(data);
@@ -211,10 +249,11 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                             width: 240,
                                             child: Padding(
                                               padding: const EdgeInsets.only(
-                                                  right: 10.0),
+                                                  right: 0),
                                               child: Row(
                                                 mainAxisAlignment:
-                                                    MainAxisAlignment.end,
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
                                                 children: [
@@ -225,6 +264,9 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                           const EdgeInsets.only(
                                                               bottom: 8.0),
                                                       child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
                                                         children: [
                                                           Icon(
                                                             Icons
@@ -267,39 +309,30 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                   Container(
                                                     width: 60,
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: Container(
-                                                      width: 100,
-                                                      child: Align(
-                                                        alignment: Alignment
-                                                            .bottomRight,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 8.0),
-                                                          child: data["isdead"]
-                                                              ? Text(
-                                                                  data[
-                                                                      "deadline"],
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize: 9,
-                                                                  ),
-                                                                )
-                                                              : Text(
-                                                                  "No Deadline",
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize: 9,
-                                                                  ),
-                                                                ),
+                                                  Container(
+                                                    width: 100,
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.bottomRight,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                right: 8.0),
+                                                        child: IconButton(
+                                                          icon: Icon(
+                                                            Icons.delete,
+                                                            size: 15,
+                                                            color: Colors.grey,
+                                                          ),
+                                                          onPressed: () {
+                                                            displayDialogue(
+                                                                data);
+                                                          },
                                                         ),
                                                       ),
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -344,5 +377,62 @@ class _ListViewTodoState extends State<ListViewTodo> {
         .update({
       "isdone": true,
     });
+  }
+
+  void displayDialogue(Map<String, dynamic> data) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: Text("Do You Want To Delete The Task ?"),
+              content: Text(data["title"]),
+              actions: [
+                Container(
+                    height: 35,
+                    width: 80,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                          elevation: MaterialStateProperty.all(0),
+                          side: MaterialStateProperty.all(
+                              BorderSide(width: 1, color: Colors.red)),
+                          overlayColor: MaterialStateProperty.all(
+                              Colors.redAccent.withOpacity(.5))),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                    )),
+                Container(
+                    height: 35,
+                    width: 80,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.black),
+                        //elevation: MaterialStateProperty.all(0),
+                        //shape: MaterialStateProperty.all(),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "Delete",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )),
+              ],
+            ));
   }
 }
