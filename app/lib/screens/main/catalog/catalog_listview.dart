@@ -73,7 +73,7 @@ class _ListCatalogState extends State<ListCatalog> {
                           right: 20.0, left: 20, bottom: 20, top: 20),
                       child: Container(
                         height: 100,
-                        width: 300,
+                        width: 270,
                         decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20), color: Colors.white,
@@ -91,15 +91,7 @@ class _ListCatalogState extends State<ListCatalog> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(left: 15.0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TodoView(data)));
-                                },
+                              padding: const EdgeInsets.only(left: 10.0),
                                 child: Container(
                                   decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
@@ -110,14 +102,7 @@ class _ListCatalogState extends State<ListCatalog> {
                                               ? Colors.white10
                                               : Colors.white,
                                           width: 1),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(.1),
-                                          blurRadius: 100,
-                                          spreadRadius: 2,
-                                          offset: Offset(0, 3),
-                                        ),
-                                      ]
+
                                       //borderRadius: BorderRadius.circular(10),
                                       ),
                                   child: Row(
@@ -326,7 +311,7 @@ class _ListCatalogState extends State<ListCatalog> {
                                     ],
                                   ),
                                 ),
-                              ),
+
                             ),
                           ],
                         ),

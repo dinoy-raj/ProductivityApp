@@ -235,15 +235,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                               decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(6),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(.1),
-                                      blurRadius: 100,
-                                      spreadRadius: 2,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ]
+                                  color: Colors.white10,
                                   //borderRadius: BorderRadius.circular(10),
                                   ),
                               child: Center(
