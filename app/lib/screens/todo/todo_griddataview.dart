@@ -235,9 +235,9 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                   width: 220,
                                                   child: Text(
                                                     data["title"],
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: TextStyle(
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       color: Colors.black
