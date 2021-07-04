@@ -106,29 +106,34 @@ class _ScreenBodyState extends State<ScreenBody> {
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.white,
                                   border: Border.all(
-                                      color: Colors.white10, width: 1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(.2),
-                                      blurRadius: 100,
-                                      spreadRadius: 2,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ]
+                                      color: Colors.black.withOpacity(.2), width: 1),
+
                                   //borderRadius: BorderRadius.circular(10),
                                   ),
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Pinned Todo",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Pinned Todo",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child:Padding(
+                                        padding: const EdgeInsets.only(right: 8.0),
+                                        child: Icon(CupertinoIcons.square_favorites,color: Colors.grey,size: 15,),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )),
                         ),
@@ -158,29 +163,33 @@ class _ScreenBodyState extends State<ScreenBody> {
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.white,
                                   border: Border.all(
-                                      color: Colors.white10, width: 1),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(.2),
-                                      blurRadius: 100,
-                                      spreadRadius: 2,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ]
+                                      color: Colors.black.withOpacity(.2), width: 1),
                                   //borderRadius: BorderRadius.circular(10),
                                   ),
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "Latest Task",
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(
+                                        "Latest Task",
+                                        style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child:Padding(
+                                        padding: const EdgeInsets.only(right: 8.0),
+                                        child: Icon(CupertinoIcons.group,color: Colors.grey,size: 15,),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )),
                         ),
