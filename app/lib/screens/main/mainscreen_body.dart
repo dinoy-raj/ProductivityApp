@@ -82,18 +82,9 @@ class _ScreenBodyState extends State<ScreenBody> {
               ),
               Container(
                 height: 210,
-                width: screenWidth,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      children: [
-                        ListCatalog(),
-                      ],
-                    ),
-                  ),
-                ),
+                
+                child: Expanded(child: ListCatalog()),
+                     
               ),
               Container(
                 height: 200,

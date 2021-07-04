@@ -24,9 +24,9 @@ class _ReportIssueState extends State<ReportIssue> {
               Navigator.pop(context);
             },
             icon: Tooltip(
-              message: "Exit Without Saving",
+              message: "Exit",
               child: Icon(
-                Icons.cancel,
+                Icons.arrow_back_ios_outlined,
                 color: Colors.black,
               ),
             )),
@@ -127,6 +127,10 @@ class _ReportIssueState extends State<ReportIssue> {
                                 color: Colors.grey,
                               ),
                             ),
+                            Container(
+                              height: 20,
+                            ),
+                            
                           ],
                         ),
                       ],

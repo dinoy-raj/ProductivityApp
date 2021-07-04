@@ -28,7 +28,7 @@ class _SettingsPageState extends State<SettingsPage> {
             icon: Tooltip(
               message: "Exit Settings",
               child: Icon(
-                Icons.cancel,
+                Icons.arrow_back_ios_outlined,
                 color: Colors.black,
               ),
             )),

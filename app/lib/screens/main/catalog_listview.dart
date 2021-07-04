@@ -10,6 +10,38 @@ class ListCatalog extends StatefulWidget {
 class _ListCatalogState extends State<ListCatalog> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ListView(
+          scrollDirection: Axis.horizontal,
+          children: [
+            Container(
+              height: 40,
+              width: 100,
+              child: Text("hi"),
+              color: Colors.blueAccent,
+            ),
+            Container(
+              height: 40,
+              width: 100,
+              child: Text("hi"),
+              color: Colors.blueAccent,
+            ),
+            Container(
+              height: 40,
+              width: 100,
+              child: Text("hi"),
+              color: Colors.blueAccent,
+            ),
+            Container(
+              height: 40,
+              width: 100,
+              child: Text("hi"),
+              color: Colors.blueAccent,
+            ),
+
+           ],
+        );
+
+
+
   }
 }
