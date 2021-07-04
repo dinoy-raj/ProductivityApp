@@ -233,7 +233,18 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                   left: 8.0),
                                               child: Container(
                                                   width: 220,
-                                                  child: Text(
+                                                  child: data["isdone"]?Text(
+                                                    data["title"],
+                                                    overflow:
+                                                    TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                      decoration: TextDecoration.lineThrough,
+                                                      fontWeight:
+                                                      FontWeight.bold,
+                                                      color: Colors.black
+                                                          .withOpacity(.7),
+                                                    ),
+                                                  ):Text(
                                                     data["title"],
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -243,7 +254,8 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                       color: Colors.black
                                                           .withOpacity(.7),
                                                     ),
-                                                  ))),
+                                                  ),
+                                              )),
                                           Container(
                                             height: 40,
                                             width: 240,
