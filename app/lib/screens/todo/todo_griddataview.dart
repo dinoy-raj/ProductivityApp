@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class ListViewTodo extends StatefulWidget {
   const ListViewTodo({Key? key}) : super(key: key);
@@ -404,56 +406,80 @@ class _ListViewTodoState extends State<ListViewTodo> {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-              title: Text("Do You Want To Delete The Task ?"),
+              title: Text(
+                "Do You Want To Delete The Task ?",
+                style: TextStyle(
+                    color: Colors.black.withOpacity(.8),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13),
+              ),
               content: Text(data["title"]),
               actions: [
-                Container(
-                    height: 35,
-                    width: 80,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      height: 35,
+                      width: 80,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                            elevation: MaterialStateProperty.all(0),
+                            side: MaterialStateProperty.all(
+                                BorderSide(width: 1, color: Colors.red.withOpacity(.5))),
+                            overlayColor: MaterialStateProperty.all(
+                                Colors.redAccent.withOpacity(.5))),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                        ),
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      height: 35,
+                      width: 80,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          elevation: MaterialStateProperty.all(0),
-                          side: MaterialStateProperty.all(
-                              BorderSide(width: 1, color: Colors.red)),
-                          overlayColor: MaterialStateProperty.all(
-                              Colors.redAccent.withOpacity(.5))),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
+                              MaterialStateProperty.all(Colors.black.withOpacity(.7)),
+                            overlayColor: MaterialStateProperty.all(
+                                Colors.black),
+                          //elevation: MaterialStateProperty.all(0),
+                          //shape: MaterialStateProperty.all(),
                         ),
-                      ),
-                    )),
-                Container(
-                    height: 35,
-                    width: 80,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black),
-                        //elevation: MaterialStateProperty.all(0),
-                        //shape: MaterialStateProperty.all(),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Delete",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                        onPressed: () {
+                          deleteTask(data);
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Delete",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    )),
+                      )),
+                ),
               ],
             ));
+  }
+
+  Future<void> deleteTask(Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .delete();
   }
 }
