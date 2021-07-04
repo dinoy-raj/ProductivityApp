@@ -113,6 +113,8 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                       icon: data["isdone"]
                                           ? Icon(
                                               Icons.check_box,
+                                              color:
+                                                  Colors.teal.withOpacity(.7),
                                             )
                                           : Icon(
                                               Icons.check_box_outline_blank,
@@ -141,7 +143,10 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                       borderRadius: BorderRadius.circular(10),
                                       color: Colors.white10,
                                       border: Border.all(
-                                          color: Colors.white, width: 1),
+                                          color: data["isdone"]
+                                              ? Colors.white10
+                                              : Colors.white,
+                                          width: 1),
                                       boxShadow: [
                                         BoxShadow(
                                           color: Colors.black.withOpacity(.1),
