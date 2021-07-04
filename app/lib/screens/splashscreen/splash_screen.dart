@@ -14,9 +14,10 @@ class _SplashScreenState extends State<SplashScreen> {
     // double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white10,
       body: Center(
           child: Container(
+            color: Colors.white10,
         child: CupertinoActivityIndicator(),
       )),
     );

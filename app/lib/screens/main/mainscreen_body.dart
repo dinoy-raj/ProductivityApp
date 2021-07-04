@@ -83,105 +83,119 @@ class _ScreenBodyState extends State<ScreenBody> {
                 ),
               ),
               Container(
-                  height: 210,
-                  width: double.infinity,
-                  child: AnimatedCrossFade(
-                      firstChild: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0,top: 4),
-                            child: InkWell(
-                              onTap: (){
-                                setState(() {
-                                  switched = !switched;
-                                });
-
-                              },
-                              child: Container(
-                                  height: 20,
-                                  width: 300,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white10,
-                                      border: Border.all(
-                                          color:  Colors.white,
-                                          width: 1),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(.1),
-                                          blurRadius: 100,
-                                          spreadRadius: 2,
-                                          offset: Offset(0, 3),
-                                        ),
-                                      ]
-                                    //borderRadius: BorderRadius.circular(10),
+                height: 210,
+                width: double.infinity,
+                color: Colors.white,
+                child: AnimatedCrossFade(
+                  firstChild: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0, top: 4),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              switched = !switched;
+                            });
+                          },
+                          child: Container(
+                              height: 25,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: Colors.white10, width: 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(.2),
+                                      blurRadius: 100,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ]
+                                  //borderRadius: BorderRadius.circular(10),
                                   ),
-                                  child: Text("Pinned Todo",style: TextStyle(
-                                fontSize: 10,
-                                //fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),)),
-                            ),
-                          ),
-                          Container(
-                              height: 150,
-                              width: double.infinity,
-                              child: ListCatalog()
-                          ),
-                        ],
-                      ),
-                      secondChild: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0,top: 4),
-                            child: InkWell(
-                              onTap: (){
-                                setState(() {
-                                  switched = !switched;
-                                });
-
-                              },
-                              child: Container(
-                                  height: 20,
-                                  width: 300,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white10,
-                                      border: Border.all(
-                                          color:  Colors.white,
-                                          width: 1),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black.withOpacity(.1),
-                                          blurRadius: 100,
-                                          spreadRadius: 2,
-                                          offset: Offset(0, 3),
-                                        ),
-                                      ]
-                                    //borderRadius: BorderRadius.circular(10),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Pinned Todo",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
                                   ),
-
-                                  child: Text("Latest Task",style: TextStyle(
-                                fontSize: 10,
-                                //fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),)),
-                            ),
-                          ),
-                          Container(
-                              height: 150,
-                              width: double.infinity,
-                              child: ListView2()
-                          ),
-                        ],
+                                ),
+                              )),
+                        ),
                       ),
-                      crossFadeState: switched?CrossFadeState.showFirst:CrossFadeState.showSecond,
-                      duration: const Duration(milliseconds: 300),
+                      Container(
+                          height: 150,
+                          width: double.infinity,
+                          child: ListCatalog()),
+                    ],
                   ),
+                  secondChild: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0, top: 4),
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              switched = !switched;
+                            });
+                          },
+                          child: Container(
+                              height: 25,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: Colors.white10, width: 1),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(.2),
+                                      blurRadius: 100,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ]
+                                  //borderRadius: BorderRadius.circular(10),
+                                  ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Latest Task",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                        ),
+                      ),
+                      Container(
+                          height: 150,
+                          width: double.infinity,
+                          child: ListView2()),
+                    ],
+                  ),
+                  crossFadeState: switched
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 300),
+                ),
               ),
               Container(
                 height: 200,
