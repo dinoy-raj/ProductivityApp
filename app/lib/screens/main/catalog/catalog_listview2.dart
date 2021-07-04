@@ -40,6 +40,6 @@ class _ListView2State extends State<ListView2> {
         ),
 
       ],
-    );;
+    );
   }
 }

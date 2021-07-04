@@ -1,5 +1,5 @@
-
 import 'package:app/screens/main/catalog/catalog_listview.dart';
+import 'package:app/screens/main/catalog/catalog_listview2.dart';
 import 'package:app/statistics/stats.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,6 +17,7 @@ class ScreenBody extends StatefulWidget {
 
 class _ScreenBodyState extends State<ScreenBody> {
   final user = FirebaseAuth.instance.currentUser!;
+  bool switched = false;
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -82,28 +83,105 @@ class _ScreenBodyState extends State<ScreenBody> {
                 ),
               ),
               Container(
-                height: 210,
-                width: double.infinity,
-                
-                child:Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0,top: 4),
-                      child: Container(child: Text("Pinned Todo",style: TextStyle(
-                        fontSize: 10,
-                        //fontWeight: FontWeight.bold,
-                        color: Colors.grey,
-                      ),)),
-                    ),
-                    Container(
-                      height: 150,
-                        width: double.infinity,
-                        child: ListCatalog()
-                    ),
-                  ],
-                ),
-                     
+                  height: 210,
+                  width: double.infinity,
+                  child: AnimatedCrossFade(
+                      firstChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0,top: 4),
+                            child: InkWell(
+                              onTap: (){
+                                setState(() {
+                                  switched = !switched;
+                                });
+
+                              },
+                              child: Container(
+                                  height: 20,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white10,
+                                      border: Border.all(
+                                          color:  Colors.white,
+                                          width: 1),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(.1),
+                                          blurRadius: 100,
+                                          spreadRadius: 2,
+                                          offset: Offset(0, 3),
+                                        ),
+                                      ]
+                                    //borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text("Pinned Todo",style: TextStyle(
+                                fontSize: 10,
+                                //fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),)),
+                            ),
+                          ),
+                          Container(
+                              height: 150,
+                              width: double.infinity,
+                              child: ListCatalog()
+                          ),
+                        ],
+                      ),
+                      secondChild: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0,top: 4),
+                            child: InkWell(
+                              onTap: (){
+                                setState(() {
+                                  switched = !switched;
+                                });
+
+                              },
+                              child: Container(
+                                  height: 20,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.white10,
+                                      border: Border.all(
+                                          color:  Colors.white,
+                                          width: 1),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(.1),
+                                          blurRadius: 100,
+                                          spreadRadius: 2,
+                                          offset: Offset(0, 3),
+                                        ),
+                                      ]
+                                    //borderRadius: BorderRadius.circular(10),
+                                  ),
+
+                                  child: Text("Latest Task",style: TextStyle(
+                                fontSize: 10,
+                                //fontWeight: FontWeight.bold,
+                                color: Colors.grey,
+                              ),)),
+                            ),
+                          ),
+                          Container(
+                              height: 150,
+                              width: double.infinity,
+                              child: ListView2()
+                          ),
+                        ],
+                      ),
+                      crossFadeState: switched?CrossFadeState.showFirst:CrossFadeState.showSecond,
+                      duration: const Duration(milliseconds: 300),
+                  ),
               ),
               Container(
                 height: 200,
@@ -156,14 +234,16 @@ class _ScreenBodyState extends State<ScreenBody> {
                                   ),
                               child: Center(
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
                                     FeatherIcons.checkCircle,
                                     color: Colors.black,
                                     size: 30,
                                   ),
-                                  SizedBox(height: 5,),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
                                   Text(
                                     "Lets Do It",
                                     style: TextStyle(
@@ -177,12 +257,17 @@ class _ScreenBodyState extends State<ScreenBody> {
                           ),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>StatsPage()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => StatsPage()));
                             },
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Colors.white10),
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white10),
                               elevation: MaterialStateProperty.all(0),
-                              overlayColor: MaterialStateProperty.all(Colors.white),
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.white),
                             ),
                             child: Text(
                               "See Statistics  ->",
