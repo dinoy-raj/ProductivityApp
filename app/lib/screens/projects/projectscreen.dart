@@ -19,6 +19,7 @@ class ProjectScreen extends StatefulWidget {
 }
 
 class _ProjectScreenState extends State<ProjectScreen> {
+
   _ProjectScreenState(this.agora);
 
   Agora? agora;
@@ -29,7 +30,10 @@ class _ProjectScreenState extends State<ProjectScreen> {
   bool _loading1 = true;
   bool _loading2 = true;
 
+
   listenDB() {
+
+
     _db
         .collection("users")
         .doc(_user?.uid)
@@ -165,6 +169,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
