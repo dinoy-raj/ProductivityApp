@@ -82,8 +82,22 @@ class _ScreenBodyState extends State<ScreenBody> {
               ),
               Container(
                 height: 210,
+                width: double.infinity,
                 
-                child: Expanded(child: ListCatalog()),
+                child:Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0,top: 8),
+                      child: Container(child: Text("Pinned Todo")),
+                    ),
+                    Container(
+                      height: 150,
+                        width: double.infinity,
+                        child: ListCatalog()
+                    ),
+                  ],
+                ),
                      
               ),
               Container(
