@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -23,8 +24,7 @@ class _TodoEditsState extends State<TodoEdits> {
   final _formKey = GlobalKey<FormState>();
   String _dateButton = "Choose Deadline";
   bool _buttonActive = false;
-  DateTime?  _dateTime;
-
+  DateTime? _dateTime;
 
   addData() async {
     const _chars =
@@ -40,14 +40,14 @@ class _TodoEditsState extends State<TodoEdits> {
         .collection("todo")
         .doc(id)
         .set({
-      "id":id,
+      "id": id,
       "title": _titleController.text,
       "isdone": false,
       "isdead": _buttonActive,
-      "deadline":_buttonActive?_dateButton:null,
-      "isfav":false,
-      "numcom":_commentController.text==""?"0":"1",
-      "numsub":_subtaskController.text==""?"0":"1",
+      "deadline": _buttonActive ? _dateButton : null,
+      "isfav": false,
+      "numcom": _commentController.text == "" ? "0" : "1",
+      "numsub": _subtaskController.text == "" ? "0" : "1",
     });
     await FirebaseFirestore.instance
         .collection("users")
@@ -70,9 +70,6 @@ class _TodoEditsState extends State<TodoEdits> {
       "subtask": _subtaskController.text,
     });
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -312,29 +309,31 @@ class _TodoEditsState extends State<TodoEdits> {
                         ),
                     width: screenWidth,
                     height: screenWidth * .0416 * 8,
-
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: [
-                             Text("Is This Task Have Deadline ? "),
-                             Transform.scale(
-                               scale: .6,
-                               child: CupertinoSwitch(
-                                 value: _buttonActive,
-                                 onChanged: (bool value) { setState(() { _buttonActive = !_buttonActive; }); },
-                               ),
-                             ),
-                           ],
-                         ),
-
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Is This Task Have Deadline ? "),
+                              Transform.scale(
+                                scale: .6,
+                                child: CupertinoSwitch(
+                                  value: _buttonActive,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _buttonActive = !_buttonActive;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                           Container(
-                            width: screenWidth*.7,
+                            width: screenWidth * .7,
                             child: ElevatedButton(
-                              onPressed: (){
+                              onPressed: () {
                                 DatePicker.showDateTimePicker(
                                   context,
                                   onConfirm: (dateTime) {
@@ -351,27 +350,36 @@ class _TodoEditsState extends State<TodoEdits> {
                                         fontFamily: 'Poppins',
                                         color: Colors.red),
                                     doneStyle:
-                                    TextStyle(color: Colors.grey[800]),
+                                        TextStyle(color: Colors.grey[800]),
                                   ),
                                 );
                               },
-                              child: _buttonActive?Text(_dateButton,style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),):Text("No Deadline",style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),),
+                              child: _buttonActive
+                                  ? Text(
+                                      _dateButton,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : Text(
+                                      "No Deadline",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                               style: ButtonStyle(
-                                backgroundColor: _buttonActive? MaterialStateProperty.all(Colors.black):MaterialStateProperty.all(Colors.transparent),
+                                backgroundColor: _buttonActive
+                                    ? MaterialStateProperty.all(Colors.black)
+                                    : MaterialStateProperty.all(
+                                        Colors.transparent),
                               ),
                             ),
                           ),
-
                         ],
                       ),
                     ),
-
                   ),
                 ),
                 SizedBox(
@@ -420,8 +428,46 @@ class _TodoEditsState extends State<TodoEdits> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              addData();
-                              Navigator.pop(context);
+                              if (_buttonActive == true &&
+                                  _dateButton == "Choose Deadline") {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        width: screenWidth,
+                                        height: 200,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 30,),
+                                            Align(
+                                                child: Container(
+                                                  child: IconButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      icon: Icon(
+                                                        Icons.close,
+                                                        size: 15,
+                                                      )),
+                                                )),
+                                            SizedBox(height: 30,),
+                                            Text(
+                                              "Selection Of Deadline Is Required !!",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              } else {
+                                addData();
+                                Navigator.pop(context);
+                              }
                             }
                           },
                           child: Text(
