@@ -91,7 +91,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0, top: 4),
+                        padding: const EdgeInsets.only(bottom: 10.0, top: 8),
                         child: InkWell(
                           onTap: () {
                             setState(() {
@@ -148,7 +148,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0, top: 4),
+                        padding: const EdgeInsets.only(bottom: 10.0, top: 8),
                         child: InkWell(
                           onTap: () {
                             setState(() {
