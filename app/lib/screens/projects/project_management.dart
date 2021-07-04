@@ -1,3 +1,6 @@
+import 'package:app/screens/note/note_edits.dart';
+import 'package:app/screens/projects/group_chat.dart';
+import 'package:app/screens/todo/todo_edits.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:app/screens/projects/project_edits.dart';
 import 'package:app/screens/projects/projectscreen.dart';
@@ -8,32 +11,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'group_voice_call.dart';
 
 class ProjectManagement extends StatefulWidget {
-  ProjectManagement({this.project});
+  ProjectManagement({this.project, this.agora});
 
   final Project? project;
+  final Agora? agora;
 
   @override
   State<StatefulWidget> createState() {
-    return _ProjectState(project: project);
+    return ProjectState(project: project, agora: agora);
   }
 }
 
-class _ProjectState extends State<ProjectManagement> {
-  _ProjectState({this.project});
-  User _user = FirebaseAuth.instance.currentUser!;
-  final Project? project;
+class ProjectState extends State<ProjectManagement> {
+  ProjectState({this.project, this.agora});
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final Project? project;
+  Agora? agora;
+  User _user = FirebaseAuth.instance.currentUser!;
   double _progress = 0;
   bool _progressClicked = false;
   bool _loading = true;
-  bool isCallLive = false;
   List myTasks = [];
   List collabTasks = [];
-  Agora? _agora;
+  String? hostUID;
+
+  _callback() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      if (mounted) setState(() {});
+    });
+  }
 
   listenDB() {
     FirebaseFirestore.instance
@@ -42,129 +52,84 @@ class _ProjectState extends State<ProjectManagement> {
         .collection("owned_projects")
         .doc(project!.id)
         .collection("tasks")
+        .orderBy('datetime')
         .snapshots()
         .listen((event) {
-      if (event.docs.isEmpty && mounted)
+      if (mounted)
         setState(() {
           _loading = false;
         });
-      event.docChanges.forEach((element) {
-        if (element.type == DocumentChangeType.added) {
-          String deadline;
-          Duration? duration = element.doc.get('deadline') != null
-              ? element.doc.get('deadline').toDate().difference(DateTime.now())
-              : null;
+      myTasks.clear();
+      collabTasks.clear();
 
-          if (element.doc.get('completed')) deadline = "Completed";
-          if (element.doc.get('deadline') == null)
-            deadline = "No Deadline";
-          else if (duration!.isNegative)
-            deadline = "Past Deadline";
-          else if (duration.inMinutes <= 24 * 60)
-            deadline = "Today";
-          else if (duration.inMinutes <= 48 * 60)
-            deadline = "Tomorrow";
-          else
-            deadline = DateFormat.yMEd()
-                .add_jms()
-                .format(element.doc.get('deadline').toDate());
+      event.docs.forEach((element) {
+        String deadline;
+        Duration? duration =
+            element.get('datetime')?.toDate().difference(DateTime.now());
 
-          if (mounted)
-            setState(() {
-              if (element.doc.get('collab')['uid'] == _user.uid) {
-                myTasks.add({
-                  'title': element.doc.get('title'),
-                  'body': element.doc.get('body'),
-                  'datetime': element.doc.get('deadline') == null
-                      ? null
-                      : element.doc.get('deadline').toDate(),
-                  'deadline': deadline,
-                  'completed': element.doc.get('completed'),
-                  'collab': element.doc.get('collab'),
-                  'id': element.doc.id,
-                });
-              } else {
-                collabTasks.add({
-                  'title': element.doc.get('title'),
-                  'body': element.doc.get('body'),
-                  'datetime': element.doc.get('deadline') == null
-                      ? null
-                      : element.doc.get('deadline').toDate(),
-                  'deadline': deadline,
-                  'completed': element.doc.get('completed'),
-                  'collab': element.doc.get('collab'),
-                  'id': element.doc.id,
-                });
-              }
-              _loading = false;
-            });
-        } else if (element.type == DocumentChangeType.modified) {
-          String deadline;
-          Duration? duration = element.doc.get('deadline') != null
-              ? element.doc.get('deadline').toDate().difference(DateTime.now())
-              : null;
+        if (element.get('completed'))
+          deadline = "Completed";
+        else if (element.get('datetime') == null)
+          deadline = "No Deadline";
+        else if (duration!.isNegative)
+          deadline = "Past Deadline";
+        else if (duration.inMinutes <= 24 * 60)
+          deadline = "Today";
+        else if (duration.inMinutes <= 48 * 60)
+          deadline = "Tomorrow";
+        else
+          deadline = DateFormat.yMEd()
+              .add_jms()
+              .format(element.get('datetime').toDate());
 
-          if (element.doc.get('completed')) deadline = "Completed";
-          if (element.doc.get('deadline') == null)
-            deadline = "No Deadline";
-          else if (duration!.isNegative)
-            deadline = "Past Deadline";
-          else if (duration.inMinutes <= 24 * 60)
-            deadline = "Today";
-          else if (duration.inMinutes <= 48 * 60)
-            deadline = "Tomorrow";
-          else
-            deadline = DateFormat.yMEd()
-                .add_jms()
-                .format(element.doc.get('deadline').toDate());
-
-          if (mounted)
-            setState(() {
-              if (element.doc.get('collab')['uid'] == _user.uid) {
-                myTasks.forEach((task) {
-                  if (task['id'] == element.doc.id) {
-                    task['title'] = element.doc.get('title');
-                    task['body'] = element.doc.get('body');
-                    task['datetime'] = element.doc.get('deadline') == null
-                        ? null
-                        : element.doc.get('deadline').toDate();
-                    task['deadline'] = deadline;
-                    task['completed'] = element.doc.get('completed');
-                  }
-                });
-              } else {
-                collabTasks.forEach((task) {
-                  if (task['id'] == element.doc.id) {
-                    task['title'] = element.doc.get('title');
-                    task['body'] = element.doc.get('body');
-                    task['datetime'] = element.doc.get('deadline') == null
-                        ? null
-                        : element.doc.get('deadline').toDate();
-                    task['deadline'] = deadline;
-                    task['completed'] = element.doc.get('completed');
-                  }
-                });
-              }
-            });
-        } else {
-          if (mounted)
-            setState(() {
-              if (element.doc.get('collab')['uid'] == _user.uid) {
-                Map? task;
-                for (task in myTasks) {
-                  if (element.doc.id == task!['id']) break;
-                }
-                myTasks.remove(task);
-              } else {
-                Map? task;
-                for (task in collabTasks) {
-                  if (element.doc.id == task!['id']) break;
-                }
-                collabTasks.remove(task);
-              }
-            });
-        }
+        if (mounted)
+          setState(() {
+            if (element.get('collab')['uid'] == _user.uid) {
+              Map map = element.data();
+              map['deadline'] = deadline;
+              map['id'] = element.id;
+              myTasks.add(map);
+            } else {
+              Map map = element.data();
+              map['deadline'] = deadline;
+              map['id'] = element.id;
+              collabTasks.add(map);
+            }
+          });
       });
+
+      myTasks.sort((a, b) {
+        if (a['completed'])
+          return 1;
+        if (a['datetime'] == null && b['completed'])
+          return -1;
+        if (a['datetime'] == null)
+          return 1;
+        return 0;
+      });
+
+      collabTasks.sort((a, b) {
+        if (a['completed'])
+          return 1;
+        if (a['datetime'] == null && b['completed'])
+          return -1;
+        if (a['datetime'] == null)
+          return 1;
+        return 0;
+      });
+    });
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(project!.owner!['uid'])
+        .collection("owned_projects")
+        .doc(project!.id)
+        .snapshots()
+        .listen((event) {
+      if (event.exists && mounted)
+        setState(() {
+          agora!.isCallLive = event.get('isCallLive');
+        });
     });
   }
 
@@ -180,11 +145,11 @@ class _ProjectState extends State<ProjectManagement> {
     } else if (task['deadline'] == "Today") {
       deadline = "This task is due today";
       icon = Icons.assignment_late_outlined;
-      color = Colors.orange;
+      color = Colors.orange[700]!;
     } else if (task['deadline'] == "Tomorrow") {
       deadline = "This task is due tomorrow";
       icon = Icons.assignment_late_outlined;
-      color = Colors.orange[300]!;
+      color = Colors.yellow[700]!;
     } else if (task['deadline'] == "Past Deadline") {
       deadline = "This task is late";
       icon = Icons.assignment_late;
@@ -192,11 +157,11 @@ class _ProjectState extends State<ProjectManagement> {
     } else if (task['deadline'] == "No Deadline") {
       deadline = "This task has no deadline";
       icon = Icons.assignment_outlined;
-      color = Colors.green;
+      color = Colors.grey[700]!;
     } else {
       deadline = "This task is due " + task['deadline'];
       icon = Icons.assignment_outlined;
-      color = Colors.brown;
+      color = Colors.green;
     }
     showDialog(
         context: context,
@@ -357,9 +322,7 @@ class _ProjectState extends State<ProjectManagement> {
               project!.type = snapshot.data!.get('type');
               project!.body = snapshot.data!.get('body');
               project!.collab = snapshot.data!.get('collab');
-              try {
-                _progress = snapshot.data!.get('progress');
-              } catch (e) {}
+              _progress = snapshot.data!.get('progress');
             }
 
             return Scaffold(
@@ -385,72 +348,103 @@ class _ProjectState extends State<ProjectManagement> {
                   IconButton(
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onPressed: () {
-                      if (!isCallLive)
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                                  title: Text(
-                                      "Start a voice call with the collaborators?"),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "NO",
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                    TextButton(
-                                        onPressed: () {
-                                          _agora = Agora(
-                                            host: {
-                                              'uid': _user.uid,
-                                              'image': _user.photoURL,
-                                            },
-                                          );
-                                          Navigator.pop(context);
-                                          setState(() {
-                                            isCallLive = true;
-                                          });
-                                          showModalBottomSheet(
-                                              context: context,
-                                              builder: (context) {
-                                                return _agora!;
-                                              });
-                                        },
-                                        child: Text(
-                                          "YES",
-                                          style: TextStyle(
-                                            color: Colors.grey[800],
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )),
-                                  ],
-                                ));
-                      else
-                        showModalBottomSheet(
-                            context: context, builder: (context) => _agora!);
+                    onPressed: () async {
+                      if (await Permission.microphone.request().isGranted) {
+                        if (agora!.isInCall || agora!.isCreating)
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                agora!.context = context;
+                                return Call(agora);
+                              });
+                        else if (agora!.isCallLive) {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                agora!.context = context;
+                                agora!.projectID = project!.id;
+                                agora!.projectTitle = project!.title;
+                                agora!.ownerUID = project!.owner!['uid'];
+                                agora!.addListener(_callback);
+                                return Call(agora);
+                              });
+                        } else
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(
+                                        "Start a voice call with the collaborators?"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "NO",
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )),
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            showModalBottomSheet(
+                                                context: context,
+                                                builder: (context) {
+                                                  agora!.hostUID = _user.uid;
+                                                  agora!.context = context;
+                                                  agora!.projectID =
+                                                      project!.id;
+                                                  agora!.projectTitle =
+                                                      project!.title;
+                                                  agora!.ownerUID =
+                                                      project!.owner!['uid'];
+                                                  agora!.addListener(_callback);
+                                                  return Call(agora);
+                                                });
+                                          },
+                                          child: Text(
+                                            "YES",
+                                            style: TextStyle(
+                                              color: Colors.grey[800],
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          )),
+                                    ],
+                                  ));
+                      }
                     },
                     icon: Tooltip(
-                      message: "Make call",
+                      message: agora!.isCallLive ? "Join call" : "Make call",
                       child: Icon(
-                        isCallLive ? Icons.phone_callback : Icons.add_call,
-                        color: isCallLive ? Colors.green : Colors.grey[700],
+                        agora!.isInCall
+                            ? Icons.call_end
+                            : agora!.isCallLive
+                                ? Icons.phone_callback
+                                : Icons.add_call,
+                        color: agora!.isInCall
+                            ? Colors.red
+                            : agora!.isCallLive
+                                ? Colors.green
+                                : Colors.grey[700],
                       ),
                     ),
                   ),
                   IconButton(
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return GroupChat();
+                          });
+                    },
                     icon: Tooltip(
                       message: "Group chat",
                       child: Icon(
-                        Icons.chat,
+                        Icons.messenger_outline,
                         color: Colors.grey[700],
                       ),
                     ),
@@ -515,48 +509,50 @@ class _ProjectState extends State<ProjectManagement> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              TextButton.icon(
-                                label: Text(
-                                  project!.owner!['uid'] == _user.uid
-                                      ? "Note"
-                                      : "Chat",
+                              if (project!.owner!['uid'] == _user.uid)
+                                TextButton.icon(
+                                  label: Text(
+                                    "Note",
+                                  ),
+                                  icon: Icon(
+                                    Icons.edit_outlined,
+                                    color: Colors.grey[800],
+                                  ),
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.grey[800]),
+                                      overlayColor: MaterialStateProperty.all(
+                                          Colors.transparent)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                NoteEditing()));
+                                  },
                                 ),
-                                icon: Icon(
-                                  project!.owner!['uid'] == _user.uid
-                                      ? Icons.edit_outlined
-                                      : Icons.chat_bubble_outline,
-                                  color: Colors.grey[800],
+                              if (project!.owner!['uid'] == _user.uid)
+                                TextButton.icon(
+                                  label: Text(
+                                    "Todo",
+                                  ),
+                                  icon: Icon(
+                                    Icons.add_task,
+                                  ),
+                                  style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.grey[800]),
+                                      overlayColor: MaterialStateProperty.all(
+                                          Colors.transparent)),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => TodoEdits()));
+                                  },
                                 ),
-                                style: ButtonStyle(
-                                    foregroundColor: MaterialStateProperty.all(
-                                        Colors.grey[800]),
-                                    overlayColor: MaterialStateProperty.all(
-                                        Colors.transparent)),
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) => Container(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(15),
-                                                  child: Text(
-                                                    project!.owner!['uid'] ==
-                                                            _user.uid
-                                                        ? "Note"
-                                                        : "Chat",
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ));
-                                },
-                              ),
                               if (project!.owner!['uid'] == _user.uid)
                                 TextButton.icon(
                                   icon: Icon(Icons.add_comment_outlined),
@@ -573,6 +569,12 @@ class _ProjectState extends State<ProjectManagement> {
                                         builder: (context) => AssignEditTask(
                                               projectID: project!.id,
                                               ownerUID: project!.owner!['uid'],
+                                              collaborator: {
+                                                'name': _user.displayName,
+                                                'uid': _user.uid,
+                                                'email': _user.email,
+                                                'image': _user.photoURL,
+                                              },
                                             ));
                                   },
                                 ),
@@ -608,50 +610,50 @@ class _ProjectState extends State<ProjectManagement> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                TextButton.icon(
-                                  label: Text(
-                                    project!.collab![index]['uid'] == _user.uid
-                                        ? "Note"
-                                        : "Chat",
+                                if (project!.collab![index]['uid'] == _user.uid)
+                                  TextButton.icon(
+                                    label: Text(
+                                      "Note",
+                                    ),
+                                    icon: Icon(
+                                      Icons.edit_outlined,
+                                    ),
+                                    style: ButtonStyle(
+                                        foregroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.grey[800]),
+                                        overlayColor: MaterialStateProperty.all(
+                                            Colors.transparent)),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NoteEditing()));
+                                    },
                                   ),
-                                  icon: Icon(
-                                    project!.collab![index]['uid'] == _user.uid
-                                        ? Icons.edit_outlined
-                                        : Icons.chat_bubble_outline,
+                                if (project!.collab![index]['uid'] == _user.uid)
+                                  TextButton.icon(
+                                    label: Text(
+                                      "Todo",
+                                    ),
+                                    icon: Icon(
+                                      Icons.add_task,
+                                    ),
+                                    style: ButtonStyle(
+                                        foregroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.grey[800]),
+                                        overlayColor: MaterialStateProperty.all(
+                                            Colors.transparent)),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TodoEdits()));
+                                    },
                                   ),
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.grey[800]),
-                                      overlayColor: MaterialStateProperty.all(
-                                          Colors.transparent)),
-                                  onPressed: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) => Container(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            15),
-                                                    child: Text(
-                                                      project!.collab![index]
-                                                                  ['uid'] ==
-                                                              _user.uid
-                                                          ? "Note"
-                                                          : "Chat",
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ));
-                                  },
-                                ),
                                 if (project!.owner!['uid'] == _user.uid)
                                   TextButton.icon(
                                     icon: Icon(Icons.add_comment_outlined),
@@ -669,12 +671,8 @@ class _ProjectState extends State<ProjectManagement> {
                                                 projectID: project!.id,
                                                 ownerUID:
                                                     project!.owner!['uid'],
-                                                collaborator: project!
-                                                                .collab![index]
-                                                            ['uid'] ==
-                                                        _user.uid
-                                                    ? null
-                                                    : project!.collab![index],
+                                                collaborator:
+                                                    project!.collab![index],
                                               ));
                                     },
                                   ),
@@ -870,18 +868,18 @@ class _ProjectState extends State<ProjectManagement> {
                                 if (myTasks[index]['completed'])
                                   color = Colors.grey;
                                 else if (myTasks[index]['deadline'] == "Today")
-                                  color = Colors.orange;
+                                  color = Colors.orange[700]!;
                                 else if (myTasks[index]['deadline'] ==
                                     "Tomorrow")
-                                  color = Colors.orange[300]!;
+                                  color = Colors.yellow[700]!;
                                 else if (myTasks[index]['deadline'] ==
                                     "Past Deadline")
                                   color = Colors.red;
                                 else if (myTasks[index]['deadline'] ==
                                     "No Deadline")
-                                  color = Colors.green;
+                                  color = Colors.grey[700]!;
                                 else
-                                  color = Colors.brown;
+                                  color = Colors.green;
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 5, top: 10, bottom: 40),
@@ -1008,16 +1006,16 @@ class _ProjectState extends State<ProjectManagement> {
                                   color = Colors.grey;
                                 else if (collabTasks[index]['deadline'] ==
                                     "Today")
-                                  color = Colors.orange;
+                                  color = Colors.orange[700]!;
                                 else if (collabTasks[index]['deadline'] ==
                                     "Tomorrow")
-                                  color = Colors.orange[200]!;
+                                  color = Colors.yellow[700]!;
                                 else if (collabTasks[index]['deadline'] ==
                                     "Past Deadline")
                                   color = Colors.red;
                                 else if (collabTasks[index]['deadline'] ==
                                     "No Deadline")
-                                  color = Colors.red;
+                                  color = Colors.grey[700]!;
                                 else
                                   color = Colors.brown;
                                 return Padding(

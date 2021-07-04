@@ -1,5 +1,6 @@
 import 'package:app/screens/main/mainscreens.dart';
 import 'package:app/screens/note/main%20view/notescreen.dart';
+import 'package:app/screens/projects/group_voice_call.dart';
 import 'package:app/screens/todo/todoscreen.dart';
 import 'package:app/screens/projects/projectscreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +15,7 @@ class NavBar extends StatelessWidget {
     PersistentTabController _controller;
 
     _controller = PersistentTabController(initialIndex: 0);
+    Agora agora = Agora();
     // double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.width;
 
@@ -22,7 +24,7 @@ class NavBar extends StatelessWidget {
       child: PersistentTabView(
         context,
         controller: _controller,
-        screens: _buildScreens(),
+        screens: _buildScreens(agora),
         items: _navBarsItems(),
         confineInSafeArea: true,
         backgroundColor: Colors.white, // Default is Colors.white.
@@ -57,12 +59,12 @@ class NavBar extends StatelessWidget {
   }
 }
 
-List<Widget> _buildScreens() {
+List<Widget> _buildScreens(agora) {
   return [
     MainScreen(),
     PersonalScreen(),
     NotesScreen(),
-    ProjectScreen(),
+    ProjectScreen(agora),
   ];
 }
 

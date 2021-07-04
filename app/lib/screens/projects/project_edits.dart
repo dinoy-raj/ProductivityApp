@@ -47,7 +47,8 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'type': _dropdownValue,
       'body': _descController.text,
       'collab': collab,
-      'progress': 0,
+      'progress': 0.0,
+      'isCallLive': false,
     });
 
     collab.forEach((element) async {

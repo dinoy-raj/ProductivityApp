@@ -232,29 +232,33 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                               padding: const EdgeInsets.only(
                                                   left: 8.0),
                                               child: Container(
-                                                  width: 220,
-                                                  child: data["isdone"]?Text(
-                                                    data["title"],
-                                                    overflow:
-                                                    TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      decoration: TextDecoration.lineThrough,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      color: Colors.black
-                                                          .withOpacity(.7),
-                                                    ),
-                                                  ):Text(
-                                                    data["title"],
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black
-                                                          .withOpacity(.7),
-                                                    ),
-                                                  ),
+                                                width: 220,
+                                                child: data["isdone"]
+                                                    ? Text(
+                                                        data["title"],
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          decoration:
+                                                              TextDecoration
+                                                                  .lineThrough,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black
+                                                              .withOpacity(.7),
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        data["title"],
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.black
+                                                              .withOpacity(.7),
+                                                        ),
+                                                      ),
                                               )),
                                           Container(
                                             height: 40,

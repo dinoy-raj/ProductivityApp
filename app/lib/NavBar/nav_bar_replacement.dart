@@ -1,5 +1,6 @@
 import 'package:app/screens/main/mainscreens.dart';
 import 'package:app/screens/note/main%20view/notescreen.dart';
+import 'package:app/screens/projects/group_voice_call.dart';
 import 'package:app/screens/projects/projectscreen.dart';
 import 'package:app/screens/todo/todoscreen.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +17,7 @@ class NavBarNew extends StatefulWidget {
 class _NavBarNewState extends State<NavBarNew> {
   int _selectedIndex = 0;
   PageController _controlerPage = PageController();
+  Agora agora = Agora();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class _NavBarNewState extends State<NavBarNew> {
           MainScreen(),
           PersonalScreen(),
           NotesScreen(),
-          ProjectScreen(),
+          ProjectScreen(agora),
         ],
       ),
       bottomNavigationBar: Container(
@@ -47,7 +49,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -60,8 +62,8 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controlerPage.jumpToPage(_selectedIndex)
                       : _controlerPage.animateToPage(_selectedIndex,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.ease);
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 0
@@ -72,7 +74,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -85,8 +87,8 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controlerPage.jumpToPage(_selectedIndex)
                       : _controlerPage.animateToPage(_selectedIndex,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.ease);
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 1
@@ -97,7 +99,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -110,8 +112,8 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controlerPage.jumpToPage(_selectedIndex)
                       : _controlerPage.animateToPage(_selectedIndex,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.ease);
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 2
@@ -122,7 +124,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -135,19 +137,19 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controlerPage.jumpToPage(_selectedIndex)
                       : _controlerPage.animateToPage(_selectedIndex,
-                          duration: Duration(milliseconds: 300),
-                          curve: Curves.ease);
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 3
                   ? Icon(
-                      CupertinoIcons.group_solid,
-                      size: 27,
-                    )
+                CupertinoIcons.group_solid,
+                size: 27,
+              )
                   : Icon(
-                      CupertinoIcons.group,
-                      size: 27,
-                    ),
+                CupertinoIcons.group,
+                size: 27,
+              ),
             ),
           ],
         ),

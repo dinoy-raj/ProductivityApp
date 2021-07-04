@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:app/screens/projects/project_edits.dart';
 import 'package:app/screens/projects/project_management.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,15 +7,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'group_voice_call.dart';
 
 class ProjectScreen extends StatefulWidget {
-  const ProjectScreen({Key? key}) : super(key: key);
+  ProjectScreen(this.agora);
+
+  final Agora? agora;
 
   @override
-  _ProjectScreenState createState() => _ProjectScreenState();
+  _ProjectScreenState createState() => _ProjectScreenState(agora);
 }
 
 class _ProjectScreenState extends State<ProjectScreen> {
+  _ProjectScreenState(this.agora);
+
+  Agora? agora;
   List<Project> ownedProjects = [];
   List<Project> otherProjects = [];
   FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -79,6 +87,11 @@ class _ProjectScreenState extends State<ProjectScreen> {
             });
         }
       });
+
+      if (mounted)
+        setState(() {
+          ownedProjects.sort((a, b) => a.progress!.compareTo(b.progress!));
+        });
     });
 
     _db
@@ -122,6 +135,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     collab: value.get('collab'),
                   ));
                   _loading2 = false;
+                  otherProjects
+                      .sort((a, b) => a.progress!.compareTo(b.progress!));
                 });
             });
           });
@@ -133,6 +148,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 if (project.id == element.doc.id) break;
               }
               otherProjects.remove(project);
+              otherProjects.sort((a, b) => a.progress!.compareTo(b.progress!));
             });
         }
       });
@@ -277,25 +293,15 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               itemCount: ownedProjects.length,
                               itemBuilder: (context, index) {
                                 Color color;
-                                if (ownedProjects[index].progress! == 0)
+                                if (ownedProjects[index].progress! <= .2)
                                   color = Colors.grey;
-                                else if (ownedProjects[index].progress! <= .1)
-                                  color = Colors.grey[700]!;
-                                else if (ownedProjects[index].progress! <= .2)
-                                  color = Colors.brown[700]!;
-                                else if (ownedProjects[index].progress! <= .3)
-                                  color = Colors.red[900]!;
                                 else if (ownedProjects[index].progress! <= .4)
                                   color = Colors.red;
-                                else if (ownedProjects[index].progress! <= .5)
-                                  color = Colors.red[300]!;
                                 else if (ownedProjects[index].progress! <= .6)
-                                  color = Colors.deepOrange;
-                                else if (ownedProjects[index].progress! <= .7)
                                   color = Colors.orange;
                                 else if (ownedProjects[index].progress! <= .8)
-                                  color = Colors.green[300]!;
-                                else if (ownedProjects[index].progress! <= .9)
+                                  color = Colors.lime;
+                                else if (ownedProjects[index].progress! < 1)
                                   color = Colors.green;
                                 else
                                   color = Colors.greenAccent;
@@ -309,10 +315,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: color == Colors.greenAccent
+                                            color: ownedProjects[index]
+                                                        .progress! ==
+                                                    1
                                                 ? Colors.greenAccent
                                                     .withOpacity(0.25)
-                                                : color == Colors.grey
+                                                : ownedProjects[index]
+                                                            .progress! ==
+                                                        0
                                                     ? Colors.grey
                                                         .withOpacity(0.25)
                                                     : Colors.white,
@@ -385,6 +395,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         ProjectManagement(
+                                                          agora: agora,
                                                           project:
                                                               ownedProjects[
                                                                   index],
@@ -431,25 +442,15 @@ class _ProjectScreenState extends State<ProjectScreen> {
                               itemCount: otherProjects.length,
                               itemBuilder: (context, index) {
                                 Color color;
-                                if (otherProjects[index].progress! == 0)
+                                if (otherProjects[index].progress! <= .2)
                                   color = Colors.grey;
-                                else if (otherProjects[index].progress! <= .1)
-                                  color = Colors.grey[700]!;
-                                else if (otherProjects[index].progress! <= .2)
-                                  color = Colors.brown[700]!;
-                                else if (otherProjects[index].progress! <= .3)
-                                  color = Colors.red[900]!;
                                 else if (otherProjects[index].progress! <= .4)
                                   color = Colors.red;
-                                else if (otherProjects[index].progress! <= .5)
-                                  color = Colors.red[300]!;
                                 else if (otherProjects[index].progress! <= .6)
-                                  color = Colors.deepOrange;
-                                else if (otherProjects[index].progress! <= .7)
                                   color = Colors.orange;
                                 else if (otherProjects[index].progress! <= .8)
-                                  color = Colors.green[300]!;
-                                else if (otherProjects[index].progress! <= .9)
+                                  color = Colors.lime;
+                                else if (otherProjects[index].progress! < 1)
                                   color = Colors.green;
                                 else
                                   color = Colors.greenAccent;
@@ -463,10 +464,14 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: color == Colors.greenAccent
+                                            color: otherProjects[index]
+                                                        .progress! ==
+                                                    1
                                                 ? Colors.greenAccent
                                                     .withOpacity(0.25)
-                                                : color == Colors.grey
+                                                : otherProjects[index]
+                                                            .progress! ==
+                                                        0
                                                     ? Colors.grey
                                                         .withOpacity(0.25)
                                                     : Colors.white,
@@ -557,6 +562,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         ProjectManagement(
+                                                          agora: agora,
                                                           project:
                                                               otherProjects[
                                                                   index],
@@ -594,6 +600,204 @@ class Project {
   double? progress;
   Map<String, dynamic>? owner;
   List<dynamic>? collab;
+
+  Future<int> getCompletedProjectCount() {
+    int count = 0;
+    final _db = FirebaseFirestore.instance;
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final completer = Completer<int>();
+
+    _db
+        .collection("users")
+        .doc(uid)
+        .collection("owned_projects")
+        .get()
+        .then((ownedProjects) {
+      ownedProjects.docs.forEach((ownedProject) {
+        if (ownedProject.get('progress') == 1) count++;
+      });
+
+      _db
+          .collection("users")
+          .doc(uid)
+          .collection("other_projects")
+          .get()
+          .then((otherProjects) {
+        int index = 0;
+        otherProjects.docs.forEach((otherProject) {
+          _db
+              .collection("users")
+              .doc(otherProject.get('owner'))
+              .collection("owned_projects")
+              .doc(otherProject.id)
+              .get()
+              .then((project) {
+            if (project.get('progress') == 1) count++;
+            index++;
+            if (index == otherProjects.docs.length) completer.complete(count);
+          });
+        });
+      });
+    });
+
+    return completer.future;
+  }
+
+  Future<int> getCompletedTaskCount() {
+    int count = 0;
+    final _db = FirebaseFirestore.instance;
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final completer = Completer<int>();
+
+    _db
+        .collection("users")
+        .doc(uid)
+        .collection("owned_projects")
+        .get()
+        .then((ownedProjects) async {
+      for (var ownedProject in ownedProjects.docs) {
+        var tasks = await ownedProject.reference.collection("tasks").get();
+        tasks.docs.forEach((task) {
+          if (task.get('collab')['uid'] == uid && task.get('completed'))
+            count++;
+        });
+      }
+
+      _db
+          .collection("users")
+          .doc(uid)
+          .collection("other_projects")
+          .get()
+          .then((otherProjects) async {
+        for (var otherProject in otherProjects.docs) {
+          var project = await _db
+              .collection("users")
+              .doc(otherProject.get('owner'))
+              .collection("owned_projects")
+              .doc(otherProject.id)
+              .get();
+          var tasks = await project.reference.collection("tasks").get();
+          tasks.docs.forEach((task) {
+            if (task.get('collab')['uid'] == uid && task.get('completed'))
+              count++;
+          });
+        }
+        completer.complete(count);
+      });
+    });
+
+    return completer.future;
+  }
+
+  Future<List<Map>> getLatestTasks() {
+    List<Map> allTasks = [];
+    final _db = FirebaseFirestore.instance;
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final completer = Completer<List<Map>>();
+
+    _db
+        .collection("users")
+        .doc(uid)
+        .collection("owned_projects")
+        .get()
+        .then((ownedProjects) async {
+      for (var ownedProject in ownedProjects.docs) {
+        var tasks = await ownedProject.reference.collection("tasks").get();
+        tasks.docs.forEach((task) {
+          if (task.get('collab')['uid'] == uid) {
+            Map data = task.data();
+
+            data.remove('collab');
+
+            String deadline;
+            Duration? duration =
+                data['datetime']?.toDate().difference(DateTime.now());
+            if (data['completed']) deadline = "Completed";
+            if (data['datetime'] == null)
+              deadline = "No Deadline";
+            else if (duration!.isNegative)
+              deadline = "Past Deadline";
+            else if (duration.inMinutes <= 24 * 60)
+              deadline = "Today";
+            else if (duration.inMinutes <= 48 * 60)
+              deadline = "Tomorrow";
+            else
+              deadline =
+                  DateFormat.yMEd().add_jms().format(data['datetime'].toDate());
+
+            data.remove('datetime');
+            data['deadline'] = deadline;
+
+            data['project'] = ownedProject.get('title');
+
+            bool completed = data.remove('completed');
+
+            if (!completed) allTasks.add(data);
+          }
+        });
+      }
+
+      _db
+          .collection("users")
+          .doc(uid)
+          .collection("other_projects")
+          .get()
+          .then((otherProjects) async {
+        for (var otherProject in otherProjects.docs) {
+          var project = await _db
+              .collection("users")
+              .doc(otherProject.get('owner'))
+              .collection("owned_projects")
+              .doc(otherProject.id)
+              .get();
+          var tasks = await project.reference.collection("tasks").get();
+          tasks.docs.forEach((task) {
+            if (task.get('collab')['uid'] == uid) {
+              Map data = task.data();
+
+              data.remove('collab');
+
+              String deadline;
+              Duration? duration =
+                  data['datetime']?.toDate().difference(DateTime.now());
+              if (data['completed']) deadline = "Completed";
+              if (data['datetime'] == null)
+                deadline = "No Deadline";
+              else if (duration!.isNegative)
+                deadline = "Past Deadline";
+              else if (duration.inMinutes <= 24 * 60)
+                deadline = "Today";
+              else if (duration.inMinutes <= 48 * 60)
+                deadline = "Tomorrow";
+              else
+                deadline = DateFormat.yMEd()
+                    .add_jms()
+                    .format(data['datetime'].toDate());
+
+              data.remove('datetime');
+              data['deadline'] = deadline;
+
+              data['project'] = project.get('title');
+
+              bool completed = data.remove('completed');
+
+              if (!completed) allTasks.add(data);
+            }
+          });
+        }
+
+        allTasks.sort((a, b) {
+          if (a['datetime'] == null) return 1;
+          return a['datetime'].compareTo(b['datetime']);
+        });
+
+        completer.complete(
+            allTasks.sublist(0, allTasks.length >= 5 ? 5 : allTasks.length));
+      });
+    });
+
+    return completer.future;
+  }
 }
 
 /*class RandomColorModel {

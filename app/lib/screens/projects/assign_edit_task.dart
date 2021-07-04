@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -36,7 +35,6 @@ class _TaskState extends State<AssignEditTask> {
   DateTime? _dateTime;
   String _dateTimeString = "Deadline";
   bool _loading = false;
-  User _user = FirebaseAuth.instance.currentUser!;
 
   addTask() async {
     await FirebaseFirestore.instance
@@ -49,15 +47,8 @@ class _TaskState extends State<AssignEditTask> {
         .set({
       'title': _titleController.text,
       'body': _bodyController.text,
-      'deadline': _dateTime,
-      'collab': collaborator == null
-          ? {
-              'name': _user.displayName,
-              'uid': _user.uid,
-              'email': _user.email,
-              'image': _user.photoURL,
-            }
-          : collaborator,
+      'datetime': _dateTime,
+      'collab': collaborator,
       'completed': false,
     });
   }
@@ -73,7 +64,7 @@ class _TaskState extends State<AssignEditTask> {
         .update({
       'title': _titleController.text,
       'body': _bodyController.text,
-      'deadline': _dateTime,
+      'datetime': _dateTime,
     });
   }
 
@@ -94,7 +85,7 @@ class _TaskState extends State<AssignEditTask> {
     if (task != null) {
       _titleController.text = task!['title'];
       _bodyController.text = task!['body'];
-      _dateTime = task!['datetime'];
+      _dateTime = task!['datetime']?.toDate();
       _dateTimeString = (_dateTime == null
           ? "Deadline"
           : DateFormat.yMEd().add_jms().format(_dateTime!));
@@ -135,7 +126,10 @@ class _TaskState extends State<AssignEditTask> {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: _loading
-                      ? CupertinoActivityIndicator()
+                      ? Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: CupertinoActivityIndicator(),
+                        )
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
