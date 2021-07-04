@@ -1,9 +1,10 @@
 
-import 'package:app/screens/main/catalog_listview.dart';
+import 'package:app/screens/main/catalog/catalog_listview.dart';
 import 'package:app/statistics/stats.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:lottie/lottie.dart';
 
@@ -77,7 +78,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Colors.grey),
+                      color: Colors.black.withOpacity(.6)),
                 ),
               ),
               Container(
@@ -88,8 +89,12 @@ class _ScreenBodyState extends State<ScreenBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 10.0,top: 8),
-                      child: Container(child: Text("Pinned Todo")),
+                      padding: const EdgeInsets.only(bottom: 10.0,top: 4),
+                      child: Container(child: Text("Pinned Todo",style: TextStyle(
+                        fontSize: 10,
+                        //fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),)),
                     ),
                     Container(
                       height: 150,
