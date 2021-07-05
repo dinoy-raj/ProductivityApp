@@ -47,14 +47,21 @@ class _TodoViewState extends State<TodoView> {
                 size: 23,
               ),
             )),
-
         actions: [
-          data["isfav"]?Padding(
-            padding:  EdgeInsets.only(left: screenWidth*.25),
-            child: Icon(Icons.push_pin,color: Colors.orange,),
-          ):Icon(Icons.push_pin_outlined,color: Colors.grey,),
+          data["isfav"]
+              ? Padding(
+                  padding: EdgeInsets.only(left: screenWidth * .25),
+                  child: Icon(
+                    Icons.push_pin,
+                    color: Colors.orange,
+                  ),
+                )
+              : Icon(
+                  Icons.push_pin_outlined,
+                  color: Colors.grey,
+                ),
           Container(
-            width: screenWidth*.05,
+            width: screenWidth * .05,
           ),
         ],
       ),
@@ -199,9 +206,7 @@ class _TodoViewState extends State<TodoView> {
                         right: screenWidth * .0416,
                         top: screenHeight * .0105,
                         bottom: screenHeight * .0105),
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text("")),
+                    child: Align(alignment: Alignment.topLeft, child: Text("")),
                   ),
                 ),
               ),
@@ -288,24 +293,37 @@ class _TodoViewState extends State<TodoView> {
                           ? 40
                           : screenHeight * 0.0526,
                       width: screenWidth * .4,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.black.withOpacity(.7)),
-                          overlayColor: MaterialStateProperty.all(Colors.black)
-                          //elevation: MaterialStateProperty.all(0),
-                          //shape: MaterialStateProperty.all(),
-                        ),
-                        onPressed: () {
-                         taskDone(data);
-                         Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Mark As Done",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                      child: Tooltip(
+                        message: data["isdone"]?"Task Already Done":"Mark This Task As Done ",
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.black.withOpacity(.7)),
+                              overlayColor:
+                                  MaterialStateProperty.all(Colors.black)
+                              //elevation: MaterialStateProperty.all(0),
+                              //shape: MaterialStateProperty.all(),
+                              ),
+                          onPressed: () {
+                            if(!data["isdone"]) {
+                              taskDone(data);
+                              Navigator.pop(context);
+                            }
+                          },
+                          child:data["isdone"]? Text(
+                            "Already Done",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ):Text(
+                            "Mark As Done",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       )),
