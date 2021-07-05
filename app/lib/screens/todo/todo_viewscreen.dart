@@ -291,20 +291,17 @@ class _TodoViewState extends State<TodoView> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.black),
+                              MaterialStateProperty.all(Colors.black.withOpacity(.7)),
+                          overlayColor: MaterialStateProperty.all(Colors.black)
                           //elevation: MaterialStateProperty.all(0),
                           //shape: MaterialStateProperty.all(),
                         ),
-                        onPressed: () {},
-                        child: data["isfav"]?Text(
-                          "UnPin Todo",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ):Text(
-                          "Pin Todo",
+                        onPressed: () {
+                         taskDone(data);
+                         Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Mark As Done",
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -331,5 +328,16 @@ class _TodoViewState extends State<TodoView> {
         .collection("todo")
         .doc(data["id"])
         .delete();
+  }
+
+  Future<void> taskDone(Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .update({
+      "isdone": true,
+    });
   }
 }
