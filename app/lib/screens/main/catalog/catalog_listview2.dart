@@ -10,14 +10,21 @@ class ListView2 extends StatefulWidget {
 }
 
 class _ListView2State extends State<ListView2> {
-  List<Map> list = [];
+  List<Map<dynamic, dynamic>> list = [];
 
-  listenDB() async {
-    await Project().getLatestTasks().then((value) {
-      list = value;
+  listenDB()  async {
+
+      await Project().getLatestTasks().then((value) {
+        list = value;
+      });
+
+  }
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      listenDB();
     });
   }
-
   @override
   Widget build(BuildContext context) {
     print(list);

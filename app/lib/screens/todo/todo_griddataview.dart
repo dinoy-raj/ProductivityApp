@@ -425,8 +425,8 @@ class _ListViewTodoState extends State<ListViewTodo> {
                             backgroundColor:
                                 MaterialStateProperty.all(Colors.white),
                             elevation: MaterialStateProperty.all(0),
-                            side: MaterialStateProperty.all(
-                                BorderSide(width: 1, color: Colors.red.withOpacity(.5))),
+                            side: MaterialStateProperty.all(BorderSide(
+                                width: 1, color: Colors.red.withOpacity(.5))),
                             overlayColor: MaterialStateProperty.all(
                                 Colors.redAccent.withOpacity(.5))),
                         onPressed: () {
@@ -449,10 +449,9 @@ class _ListViewTodoState extends State<ListViewTodo> {
                       width: 80,
                       child: ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.black.withOpacity(.7)),
-                            overlayColor: MaterialStateProperty.all(
-                                Colors.black),
+                          backgroundColor: MaterialStateProperty.all(
+                              Colors.black.withOpacity(.7)),
+                          overlayColor: MaterialStateProperty.all(Colors.black),
                           //elevation: MaterialStateProperty.all(0),
                           //shape: MaterialStateProperty.all(),
                         ),
