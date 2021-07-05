@@ -1,6 +1,6 @@
 import 'package:app/screens/note/note_edits.dart';
 import 'package:app/screens/projects/group_chat.dart';
-import 'package:app/screens/todo/todo_edits.dart';
+import 'package:app/screens/todo/TodoEdit/todo_edits.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:app/screens/projects/project_edits.dart';
 import 'package:app/screens/projects/projectscreen.dart';
