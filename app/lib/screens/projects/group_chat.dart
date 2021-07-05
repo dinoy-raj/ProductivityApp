@@ -125,7 +125,16 @@ class GroupChatState extends State<GroupChat> {
                                           DateFormat('dd-MM-yyyy')
                                               .format(DateTime.now())
                                       ? "Today"
-                                      : _groupChats[index]['date'],
+                                      : DateTime.now()
+                                                  .difference(
+                                                      DateFormat('dd-MM-yyyy')
+                                                          .parse(
+                                                              _groupChats[index]
+                                                                  ['date']))
+                                                  .inHours <=
+                                              48
+                                          ? "Yesterday"
+                                          : _groupChats[index]['date'],
                                 ),
                               ),
                             Padding(

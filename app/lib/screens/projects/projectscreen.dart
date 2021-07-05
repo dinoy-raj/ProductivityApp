@@ -19,7 +19,6 @@ class ProjectScreen extends StatefulWidget {
 }
 
 class _ProjectScreenState extends State<ProjectScreen> {
-
   _ProjectScreenState(this.agora);
 
   Agora? agora;
@@ -30,8 +29,9 @@ class _ProjectScreenState extends State<ProjectScreen> {
   bool _loading1 = true;
   bool _loading2 = true;
 
-
   listenDB() {
+    Project().getLatestTasks().then((value) => print(value.toString()));
+
     _db
         .collection("users")
         .doc(_user?.uid)
@@ -727,7 +727,6 @@ class Project {
               deadline =
                   DateFormat.yMEd().add_jms().format(data['datetime'].toDate());
 
-            data.remove('datetime');
             data['deadline'] = deadline;
 
             data['project'] = ownedProject.get('title');
@@ -776,7 +775,6 @@ class Project {
                     .add_jms()
                     .format(data['datetime'].toDate());
 
-              data.remove('datetime');
               data['deadline'] = deadline;
 
               data['project'] = project.get('title');
@@ -790,7 +788,12 @@ class Project {
 
         allTasks.sort((a, b) {
           if (a['datetime'] == null) return 1;
+          if (b['datetime'] == null) return -1;
           return a['datetime'].compareTo(b['datetime']);
+        });
+
+        allTasks.forEach((element) {
+          element.remove('datetime');
         });
 
         completer.complete(
