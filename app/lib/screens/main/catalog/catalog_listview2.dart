@@ -28,7 +28,6 @@ class _ListView2State extends State<ListView2> {
 
   @override
   Widget build(BuildContext context) {
-    print(list);
 
     return list.length == 0
         ? Column(
@@ -119,7 +118,7 @@ class _ListView2State extends State<ListView2> {
                                 overflow: TextOverflow.clip,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 14,
+                                    fontSize: 12,
                                     color: Colors.black.withOpacity(.6)),
                               ),
                             ),

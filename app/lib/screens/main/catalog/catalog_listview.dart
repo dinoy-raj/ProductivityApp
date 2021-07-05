@@ -17,7 +17,7 @@ class _ListCatalogState extends State<ListCatalog> {
       .collection("users")
       .doc(FirebaseAuth.instance.currentUser!.uid)
       .collection("todo")
-      .where("isfav" ,isEqualTo: true)
+      .where("isfav", isEqualTo: true)
       .snapshots();
   bool val = false;
   Color _color = Colors.white;
@@ -42,7 +42,7 @@ class _ListCatalogState extends State<ListCatalog> {
               return Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0,bottom: 20),
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                     child: Text(
                       "You Don't Have Any Todo Pinned Yet",
                       style: TextStyle(
@@ -52,7 +52,8 @@ class _ListCatalogState extends State<ListCatalog> {
                   Container(
                     height: 40,
                     width: 40,
-                    child: Lottie.network("https://assets7.lottiefiles.com/packages/lf20_f03c4dci.json"),
+                    child: Lottie.network(
+                        "https://assets7.lottiefiles.com/packages/lf20_f03c4dci.json"),
                   ),
                 ],
               );
@@ -169,11 +170,10 @@ class _ListCatalogState extends State<ListCatalog> {
                                                     favChange(data);
                                                   },
                                                   icon: Icon(
-                                                          Icons.push_pin,
-                                                          size: 18,
-                                                          color: Colors.orange,
-                                                        )
-                                                      )
+                                                    Icons.push_pin,
+                                                    size: 18,
+                                                    color: Colors.orange,
+                                                  ))
                                             ],
                                           ),
                                         ),
