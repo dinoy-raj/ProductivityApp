@@ -159,7 +159,7 @@ class GroupChatState extends State<GroupChat> {
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               child: Container(
-                                                  height: 50,
+                                                  height: 40,
                                                   child: Image.network(
                                                       _groupChats[index]
                                                           ['image']))),
@@ -182,9 +182,6 @@ class GroupChatState extends State<GroupChat> {
                                                   ? TextAlign.end
                                                   : TextAlign.start,
                                               overflow: TextOverflow.clip,
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                              ),
                                             ),
                                             Text(
                                               _groupChats[index]['time'],
@@ -205,7 +202,7 @@ class GroupChatState extends State<GroupChat> {
                                             borderRadius:
                                                 BorderRadius.circular(30),
                                             child: Container(
-                                                height: 50,
+                                                height: 40,
                                                 child: Image.network(
                                                     _groupChats[index]
                                                         ['image'])),
