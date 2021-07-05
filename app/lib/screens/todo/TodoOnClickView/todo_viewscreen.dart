@@ -1,3 +1,5 @@
+import 'package:app/screens/todo/TodoOnClickView/CommentAnTask/todocomment.dart';
+import 'package:app/screens/todo/TodoOnClickView/CommentAnTask/todosubtask.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -206,48 +208,58 @@ class _TodoViewState extends State<TodoView> {
                       padding: EdgeInsets.only(),
                       child: Row(
                         children: [
-                          Container(
-                            color: Colors.white10,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                elevation: MaterialStateProperty.all(0),
-                                backgroundColor: MaterialStateProperty.all(
-                                    _button1 ? Colors.black : Colors.white),
-                              ),
-                              child: Text(
-                                "Sub Tasks",
-                                style: TextStyle(
-                                  color: _button1 ? Colors.white : Colors.black,
+                          Expanded(
+                            child: Container(
+                              color: Colors.white10,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all(0),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      _button1 ? Colors.black : Colors.white),
                                 ),
+                                child: Text(
+                                  "Sub Tasks",
+                                  style: TextStyle(
+                                    color:
+                                        _button1 ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (!_button1) {
+                                      _button1 = !_button1;
+                                      _button2 = !_button2;
+                                    }
+                                  });
+                                },
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  _button1 = !_button1;
-                                  _button2 = !_button2;
-                                });
-                              },
                             ),
                           ),
-                          Container(
-                            color: Colors.white10,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                elevation: MaterialStateProperty.all(0),
-                                backgroundColor: MaterialStateProperty.all(
-                                    _button2 ? Colors.black : Colors.white),
-                              ),
-                              child: Text(
-                                "Comments",
-                                style: TextStyle(
-                                  color: _button2 ? Colors.white : Colors.black,
+                          Expanded(
+                            child: Container(
+                              color: Colors.white10,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  elevation: MaterialStateProperty.all(0),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      _button2 ? Colors.black : Colors.white),
                                 ),
+                                child: Text(
+                                  "Comments",
+                                  style: TextStyle(
+                                    color:
+                                        _button2 ? Colors.white : Colors.black,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (!_button2) {
+                                      _button1 = !_button1;
+                                      _button2 = !_button2;
+                                    }
+                                  });
+                                },
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  _button1 = !_button1;
-                                  _button2 = !_button2;
-                                });
-                              },
                             ),
                           ),
                         ],
@@ -277,13 +289,21 @@ class _TodoViewState extends State<TodoView> {
                       //borderRadius: BorderRadius.circular(10),
                       ),
                   width: screenWidth,
-                  height: screenWidth * .0416 * 20,
+                  height: 330,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
                         Container(
                           width: screenWidth * .7,
+                          child: AnimatedCrossFade(
+                            firstChild: TodoSubTask(screenWidth),
+                            secondChild: TodoComment(screenWidth),
+                            crossFadeState: _button1
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
+                            duration: const Duration(milliseconds: 200),
+                          ),
                         ),
                       ],
                     ),
