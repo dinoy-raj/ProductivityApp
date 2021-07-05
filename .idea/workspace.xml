@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="" />
+    <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/group_chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/group_chat.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -68,26 +74,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="386" y="284" key="#com.intellij.ide.util.TreeFileChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1624900602512" />
-    <state x="92" y="92" width="1736" height="856" key="AVDManager" timestamp="1625469693274">
+    <state x="92" y="92" width="1736" height="856" key="AVDManager" timestamp="1625481157116">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1625469693274" />
-    <state width="1312" height="382" key="GridCell.Tab.0.bottom" timestamp="1625473998047">
+    <state x="92" y="92" width="1736" height="856" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1625481157116" />
+    <state width="1312" height="477" key="GridCell.Tab.0.bottom" timestamp="1625481416947">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1312" height="382" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625473998047" />
-    <state width="1312" height="382" key="GridCell.Tab.0.center" timestamp="1625473998047">
+    <state width="1312" height="477" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625481416947" />
+    <state width="1312" height="477" key="GridCell.Tab.0.center" timestamp="1625481416946">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1312" height="382" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625473998047" />
-    <state width="1312" height="382" key="GridCell.Tab.0.left" timestamp="1625473998047">
+    <state width="1312" height="477" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625481416946" />
+    <state width="1312" height="477" key="GridCell.Tab.0.left" timestamp="1625481416946">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1312" height="382" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625473998047" />
-    <state width="1312" height="382" key="GridCell.Tab.0.right" timestamp="1625473998047">
+    <state width="1312" height="477" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625481416946" />
+    <state width="1312" height="477" key="GridCell.Tab.0.right" timestamp="1625481416946">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1312" height="382" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625473998047" />
+    <state width="1312" height="477" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625481416946" />
     <state x="114" y="102" key="SettingsEditor" timestamp="1625080556686">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

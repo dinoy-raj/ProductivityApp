@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app/screens/projects/projectscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,12 +22,13 @@ class GroupChatState extends State<GroupChat> {
 
   final Project project;
   final _textController = TextEditingController();
+  StreamSubscription? _streamSubscription;
   List _chats = [];
   List _chatList = [];
   bool _loading = true;
 
   getMessages() {
-    FirebaseFirestore.instance
+    _streamSubscription = FirebaseFirestore.instance
         .collection("users")
         .doc(project.owner!['uid'])
         .collection("owned_projects")
@@ -36,7 +39,6 @@ class GroupChatState extends State<GroupChat> {
       event.docs.forEach((date) {
         _chats = date.get('chats');
         _chatList.add(_chats);
-        print(_chatList.toString());
       });
       setState(() {
         _loading = false;
@@ -48,7 +50,7 @@ class GroupChatState extends State<GroupChat> {
     var _now = DateTime.now();
 
     _chats.add({
-      'datetime': _now,
+      'time': DateFormat('hh:mm a').format(_now),
       'message': _textController.text.trim(),
       'image': FirebaseAuth.instance.currentUser!.photoURL,
     });
@@ -72,7 +74,15 @@ class GroupChatState extends State<GroupChat> {
   }
 
   @override
+  void dispose() {
+    _streamSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    //int count = 0;
+    //_chatList.fo
     return Scaffold(
       appBar: AppBar(
         shadowColor: Colors.transparent,
@@ -88,6 +98,11 @@ class GroupChatState extends State<GroupChat> {
             )
           : Column(
               children: [
+                //ListView.builder(
+                //  itemCount: ,
+                //itemBuilder: (context, index) {
+
+                // }),
                 Row(
                   children: [
                     Expanded(
