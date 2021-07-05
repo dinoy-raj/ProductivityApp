@@ -82,18 +82,18 @@ class _ListView2State extends State<ListView2> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Container(
-                              height: 5,
-                              width: 15,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                shape: BoxShape.rectangle,
-                                color: color,
+                            Expanded(
+                              child: Container(
+                                height: 5,
+                                width: 15,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  shape: BoxShape.rectangle,
+                                  color: color,
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              height: 8,
-                            ),
+                            
                             Expanded(
                               flex: 0,
                               child: Text(
