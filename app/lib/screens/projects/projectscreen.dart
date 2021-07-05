@@ -30,8 +30,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
   bool _loading2 = true;
 
   listenDB() {
-    Project().getLatestTasks().then((value) => print(value.toString()));
-
     _db
         .collection("users")
         .doc(_user?.uid)

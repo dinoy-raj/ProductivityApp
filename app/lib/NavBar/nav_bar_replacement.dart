@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:app/screens/main/mainscreens.dart';
 import 'package:app/screens/note/main%20view/notescreen.dart';
 import 'package:app/screens/projects/group_voice_call.dart';
 import 'package:app/screens/projects/projectscreen.dart';
 import 'package:app/screens/todo/Todoview/todoscreen.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NavBarNew extends StatefulWidget {
   const NavBarNew({Key? key}) : super(key: key);
@@ -18,6 +22,37 @@ class _NavBarNewState extends State<NavBarNew> {
   int _selectedIndex = 0;
   PageController _controllerPage = PageController();
   Agora agora = Agora();
+
+  StreamSubscription? _subscription;
+
+  @override
+  void initState() {
+    super.initState();
+    listenToNetwork();
+    Connectivity().checkConnectivity().then((value) {
+      if (value == ConnectivityResult.none)
+        Fluttertoast.showToast(
+            msg:
+                "No Internet connection detected. Some app functions might not work properly.");
+    });
+  }
+
+  listenToNetwork() async {
+    _subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none)
+        Fluttertoast.showToast(
+            msg:
+                "No Internet connection detected. Some app functions might not work properly.");
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +84,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -62,8 +97,8 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controllerPage.jumpToPage(_selectedIndex)
                       : _controllerPage.animateToPage(_selectedIndex,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease);
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 0
@@ -74,7 +109,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -87,8 +122,8 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controllerPage.jumpToPage(_selectedIndex)
                       : _controllerPage.animateToPage(_selectedIndex,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease);
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 1
@@ -99,7 +134,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -112,8 +147,8 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controllerPage.jumpToPage(_selectedIndex)
                       : _controllerPage.animateToPage(_selectedIndex,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease);
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 2
@@ -124,7 +159,7 @@ class _NavBarNewState extends State<NavBarNew> {
               style: NeumorphicStyle(
                   shape: NeumorphicShape.concave,
                   boxShape:
-                  NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                      NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
                   color: Colors.white),
@@ -137,19 +172,19 @@ class _NavBarNewState extends State<NavBarNew> {
                   diff.abs() > 1
                       ? _controllerPage.jumpToPage(_selectedIndex)
                       : _controllerPage.animateToPage(_selectedIndex,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.ease);
+                          duration: Duration(milliseconds: 300),
+                          curve: Curves.ease);
                 });
               },
               child: _selectedIndex == 3
                   ? Icon(
-                CupertinoIcons.group_solid,
-                size: 27,
-              )
+                      CupertinoIcons.group_solid,
+                      size: 27,
+                    )
                   : Icon(
-                CupertinoIcons.group,
-                size: 27,
-              ),
+                      CupertinoIcons.group,
+                      size: 27,
+                    ),
             ),
           ],
         ),
