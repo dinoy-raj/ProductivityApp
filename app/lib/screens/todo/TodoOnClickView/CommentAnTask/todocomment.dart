@@ -175,24 +175,35 @@ class _TodoComment extends State<TodoComment> {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Container(
                                     height: 50,
+
                                     decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white10,
+
                                       border: Border.all(
                                           color: Colors.white, width: 1),
 
-                                      //borderRadius: BorderRadius.circular(10),
+
                                     ),
                                     child: Row(
                                       children: [
                                         Container(
                                             height: 20,
                                             width: 20,
-                                            color: Colors.white,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              borderRadius: BorderRadius.circular(5),
+                                              color: Colors.grey.withOpacity(.4),
+                                              border: Border.all(
+                                                  color: Colors.white, width: 1),
+
+
+                                            ),
+
                                             child: Center(
                                                 child: Text(
-                                                    datan["no"].toString()))),
+                                                    "#"+datan["no"].toString()))),
                                         Padding(
                                           padding:
                                           const EdgeInsets.only(left: 8.0),
