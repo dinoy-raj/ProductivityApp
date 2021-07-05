@@ -253,6 +253,7 @@ class _TaskState extends State<AssignEditTask> {
                           height: 100,
                           padding: const EdgeInsets.only(left: 20),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextButton(
                                 style: ButtonStyle(

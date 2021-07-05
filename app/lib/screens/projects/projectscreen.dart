@@ -32,10 +32,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
 
   listenDB() {
-
-
-
-
     _db
         .collection("users")
         .doc(_user?.uid)
@@ -171,7 +167,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
