@@ -1,4 +1,5 @@
 import 'package:app/screens/projects/projectscreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -12,19 +13,19 @@ class ListView2 extends StatefulWidget {
 class _ListView2State extends State<ListView2> {
   List<Map<dynamic, dynamic>> list = [];
 
-  listenDB()  async {
-
-      await Project().getLatestTasks().then((value) {
-        list = value;
-      });
-
+  listenDB() async {
+    await Project().getLatestTasks().then((value) {
+      list = value;
+    });
   }
+
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       listenDB();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     print(list);
@@ -54,8 +55,88 @@ class _ListView2State extends State<ListView2> {
             itemCount: list.length,
             itemBuilder: (BuildContext context, int index) {
               List<Map> data = list;
-              return Container(
-                child: Text(data[index]["title"]),
+              Color color;
+              if (data[index]['deadline'] == "Today")
+                color = Colors.orange[700]!;
+              else if (data[index]['deadline'] == "Tomorrow")
+                color = Colors.yellow[700]!;
+              else if (data[index]['deadline'] == "Past Deadline")
+                color = Colors.red;
+              else if (data[index]['deadline'] == "No Deadline")
+                color = Colors.grey[700]!;
+              else
+                color = Colors.green;
+              return Padding(
+                padding: const EdgeInsets.only(
+                    left: 20, top: 20, bottom: 20, right: 20),
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 270,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          border: Border.all(color: color, width: 1)),
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              height: 5,
+                              width: 15,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                shape: BoxShape.rectangle,
+                                color: color,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Expanded(
+                              flex: 0,
+                              child: Text(
+                                data[index]['project']!,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                data[index]['deadline'],
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.grey[700]),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                data[index]['title']!,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Colors.black.withOpacity(.6)),
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                data[index]['body']!,
+                                overflow: TextOverflow.clip,
+                                style:
+                                    TextStyle(fontSize: 12, color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           );
