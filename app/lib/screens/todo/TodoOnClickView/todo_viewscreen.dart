@@ -297,7 +297,7 @@ class _TodoViewState extends State<TodoView> {
                         Container(
                           width: screenWidth * .7,
                           child: AnimatedCrossFade(
-                            firstChild: TodoSubTask(screenWidth),
+                            firstChild: TodoSubTask(screenWidth,data),
                             secondChild: TodoComment(screenWidth),
                             crossFadeState: _button1
                                 ? CrossFadeState.showFirst

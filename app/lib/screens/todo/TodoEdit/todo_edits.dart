@@ -49,26 +49,33 @@ class _TodoEditsState extends State<TodoEdits> {
       "numcom": _commentController.text == "" ? "0" : "1",
       "numsub": _subtaskController.text == "" ? "0" : "1",
     });
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("todo")
-        .doc(id)
-        .collection("comment")
-        .doc(id)
-        .set({
-      "comment": _commentController.text,
-    });
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("todo")
-        .doc(id)
-        .collection("subtask")
-        .doc(id)
-        .set({
-      "subtask": _subtaskController.text,
-    });
+    if(_commentController.text!="") {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("todo")
+          .doc(id)
+          .collection("comment")
+          .doc(id)
+          .set({
+        "comment": _commentController.text,
+        "no": 1,
+      });
+    }
+
+    if(_subtaskController.text!="") {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("todo")
+          .doc(id)
+          .collection("subtask")
+          .doc(id)
+          .set({
+        "subtask": _subtaskController.text,
+        "no": 1,
+      });
+    }
   }
 
   @override
