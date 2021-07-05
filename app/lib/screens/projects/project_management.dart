@@ -99,22 +99,16 @@ class ProjectState extends State<ProjectManagement> {
       });
 
       myTasks.sort((a, b) {
-        if (a['completed'])
-          return 1;
-        if (a['datetime'] == null && b['completed'])
-          return -1;
-        if (a['datetime'] == null)
-          return 1;
+        if (a['completed']) return 1;
+        if (a['datetime'] == null && b['completed']) return -1;
+        if (a['datetime'] == null) return 1;
         return 0;
       });
 
       collabTasks.sort((a, b) {
-        if (a['completed'])
-          return 1;
-        if (a['datetime'] == null && b['completed'])
-          return -1;
-        if (a['datetime'] == null)
-          return 1;
+        if (a['completed']) return 1;
+        if (a['datetime'] == null && b['completed']) return -1;
+        if (a['datetime'] == null) return 1;
         return 0;
       });
     });
@@ -438,7 +432,7 @@ class ProjectState extends State<ProjectManagement> {
                       showDialog(
                           context: context,
                           builder: (context) {
-                            return GroupChat();
+                            return GroupChat(project!);
                           });
                     },
                     icon: Tooltip(
