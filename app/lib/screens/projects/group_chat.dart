@@ -28,6 +28,15 @@ class GroupChatState extends State<GroupChat> {
   List _groupChats = [];
   bool _loading = true;
 
+  getColour(image) {
+    int index = 0;
+    for (var element in project.collab!) {
+      if (element['image'] == image) break;
+      index++;
+    }
+    return Colors.accents[index % 16];
+  }
+
   getMessages() {
     _streamSubscription = FirebaseFirestore.instance
         .collection("users")
@@ -173,20 +182,43 @@ class GroupChatState extends State<GroupChat> {
                                               ? CrossAxisAlignment.end
                                               : CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              _groupChats[index]['message'],
-                                              textAlign: _groupChats[index]
-                                                          ['image'] ==
-                                                      FirebaseAuth.instance
-                                                          .currentUser!.photoURL
-                                                  ? TextAlign.end
-                                                  : TextAlign.start,
-                                              overflow: TextOverflow.clip,
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  color: _groupChats[index]
+                                                              ['image'] ==
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .photoURL
+                                                      ? Colors.grey
+                                                      : getColour(
+                                                          _groupChats[index]
+                                                              ['image']),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              padding: EdgeInsets.all(10),
+                                              child: Text(
+                                                _groupChats[index]['message'],
+                                                textAlign: _groupChats[index]
+                                                            ['image'] ==
+                                                        FirebaseAuth
+                                                            .instance
+                                                            .currentUser!
+                                                            .photoURL
+                                                    ? TextAlign.end
+                                                    : TextAlign.start,
+                                                overflow: TextOverflow.clip,
+                                              ),
                                             ),
-                                            Text(
-                                              _groupChats[index]['time'],
-                                              style: TextStyle(
-                                                fontSize: 10,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 5, right: 5, top: 5),
+                                              child: Text(
+                                                _groupChats[index]['time'],
+                                                style: TextStyle(
+                                                  fontSize: 10,
+                                                ),
                                               ),
                                             ),
                                           ],
