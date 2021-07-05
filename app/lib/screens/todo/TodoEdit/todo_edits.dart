@@ -59,7 +59,7 @@ class _TodoEditsState extends State<TodoEdits> {
           .doc(id)
           .set({
         "comment": _commentController.text,
-        "no": 1,
+        "no": "1",
       });
     }
 
@@ -73,7 +73,7 @@ class _TodoEditsState extends State<TodoEdits> {
           .doc(id)
           .set({
         "subtask": _subtaskController.text,
-        "no": 1,
+        "no": "1",
       });
     }
   }

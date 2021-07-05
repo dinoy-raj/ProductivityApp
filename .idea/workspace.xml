@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidLayouts">
+    <shared>
+      <config />
+    </shared>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41fd1490-619d-41b6-96d9-666d0ece1593" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/flutter/debug/flutter_assets/NOTICES" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/flutter/debug/flutter_assets/NOTICES" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/flutter/debug/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/incremental/mergeDebugAssets/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/merged_assets/debug/out/flutter_assets/NOTICES" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/merged_assets/debug/out/flutter_assets/NOTICES" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/merged_assets/debug/out/flutter_assets/kernel_blob.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/NavBar/nav_bar_replacement.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/NavBar/nav_bar_replacement.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/screens/projects/projectscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/projects/projectscreen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/processed_res/debug/out/resources-debug.ap_" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/processed_res/debug/out/resources-debug.ap_" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/build/intermediates/res/merged/debug/drawable-v21_launch_background.xml.flat" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/build/intermediates/res/merged/debug/drawable-v21_launch_background.xml.flat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/app/src/main/res/drawable-v21/launch_background.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/app/src/main/res/drawable-v21/launch_background.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/TodoEdit/todo_edits.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/TodoEdit/todo_edits.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/TodoOnClickView/CommentAnTask/todocomment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/TodoOnClickView/CommentAnTask/todocomment.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/TodoOnClickView/CommentAnTask/todosubtask.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/TodoOnClickView/CommentAnTask/todosubtask.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/screens/todo/TodoOnClickView/todo_viewscreen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/screens/todo/TodoOnClickView/todo_viewscreen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/app/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +52,7 @@
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/lib/screens/projects" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/android" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -97,22 +103,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="92" y="92" width="1736" height="856" key="AVDManager/0.0.1920.1040@0.0.1920.1040" timestamp="1625500782228" />
-    <state width="1261" height="357" key="GridCell.Tab.0.bottom" timestamp="1625504875191">
+    <state x="616" y="220" key="FileChooserDialogImpl" timestamp="1625507106105">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1261" height="357" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625504875191" />
-    <state width="1261" height="357" key="GridCell.Tab.0.center" timestamp="1625504875191">
+    <state x="616" y="220" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1625507106105" />
+    <state width="1571" height="409" key="GridCell.Tab.0.bottom" timestamp="1625507420588">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1261" height="357" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625504875191" />
-    <state width="1261" height="357" key="GridCell.Tab.0.left" timestamp="1625504875191">
+    <state width="1571" height="409" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1625507420588" />
+    <state width="1571" height="409" key="GridCell.Tab.0.center" timestamp="1625507420588">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1261" height="357" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625504875191" />
-    <state width="1261" height="357" key="GridCell.Tab.0.right" timestamp="1625504875191">
+    <state width="1571" height="409" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1625507420588" />
+    <state width="1571" height="409" key="GridCell.Tab.0.left" timestamp="1625507420588">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1261" height="357" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625504875191" />
+    <state width="1571" height="409" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1625507420588" />
+    <state width="1571" height="409" key="GridCell.Tab.0.right" timestamp="1625507420588">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1571" height="409" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1625507420588" />
     <state x="114" y="102" key="SettingsEditor" timestamp="1625080556686">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
