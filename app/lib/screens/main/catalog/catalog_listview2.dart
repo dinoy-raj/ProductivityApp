@@ -1,4 +1,5 @@
 import 'package:app/screens/projects/projectscreen.dart';
+import 'package:app/screens/splashscreen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -12,6 +13,7 @@ class ListView2 extends StatefulWidget {
 
 class _ListView2State extends State<ListView2> {
   List<Map<dynamic, dynamic>> list = [];
+  bool _load =true;
 
   listenDB() async {
     await Project().getLatestTasks().then((value) {
@@ -24,12 +26,16 @@ class _ListView2State extends State<ListView2> {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       listenDB();
     });
+      _load = false;
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return list.length == 0
+    return _load? Padding(
+          padding: const EdgeInsets.only(top:20.0),
+          child: SplashScreen(),
+        )
+    : list.length == 0
         ? Column(
             children: [
               Padding(
@@ -83,16 +89,14 @@ class _ListView2State extends State<ListView2> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Container(
-                                height: 5,
-                                width: 15,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  shape: BoxShape.rectangle,
-                                  color: color,
-                                ),
+                              height: 5,
+                              width: 15,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                shape: BoxShape.rectangle,
+                                color: color,
                               ),
-                            
-                            
+                            ),
                             Expanded(
                               flex: 0,
                               child: Text(
