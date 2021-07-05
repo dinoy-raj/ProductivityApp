@@ -19,6 +19,11 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/app/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/app/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/app/android/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/app/android/app/build/intermediates/javac" />
+      <excludeFolder url="file://$MODULE_DIR$/app/android/app/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/app/android/app/build/tmp/kotlin-classes/debug/com" />
+      <excludeFolder url="file://$MODULE_DIR$/app/android/app/src/main/java" />
       <excludeFolder url="file://$MODULE_DIR$/app/build" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />

@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class GroupChat extends StatefulWidget {
@@ -23,8 +25,7 @@ class GroupChatState extends State<GroupChat> {
   final Project project;
   final _textController = TextEditingController();
   StreamSubscription? _streamSubscription;
-  List _chats = [];
-  List _chatList = [];
+  List _groupChats = [];
   bool _loading = true;
 
   getMessages() {
@@ -37,8 +38,7 @@ class GroupChatState extends State<GroupChat> {
         .snapshots()
         .listen((event) {
       event.docs.forEach((date) {
-        _chats = date.get('chats');
-        _chatList.add(_chats);
+        _groupChats = date.get('chats');
       });
       setState(() {
         _loading = false;
@@ -49,7 +49,8 @@ class GroupChatState extends State<GroupChat> {
   sendMessage() async {
     var _now = DateTime.now();
 
-    _chats.add({
+    _groupChats.insert(0, {
+      'date': DateFormat('dd-MM-yyyy').format(_now),
       'time': DateFormat('hh:mm a').format(_now),
       'message': _textController.text.trim(),
       'image': FirebaseAuth.instance.currentUser!.photoURL,
@@ -63,8 +64,8 @@ class GroupChatState extends State<GroupChat> {
         .collection("owned_projects")
         .doc(project.id)
         .collection("chats")
-        .doc(DateFormat('dd-MM-yyyy').format(_now))
-        .set({'chats': _chats});
+        .doc("group_chat")
+        .set({'chats': _groupChats});
   }
 
   @override
@@ -81,16 +82,20 @@ class GroupChatState extends State<GroupChat> {
 
   @override
   Widget build(BuildContext context) {
-    //int count = 0;
-    //_chatList.fo
+    bool dateSet;
+
     return Scaffold(
       appBar: AppBar(
         shadowColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.transparent,
+        backgroundColor: Colors.grey[300],
         iconTheme: IconThemeData(
           color: Colors.grey[800],
         ),
+        centerTitle: true,
+        title: Text(project.title!,
+            style: GoogleFonts.poppins(
+              fontSize: 24,
+            )),
       ),
       body: _loading
           ? Center(
@@ -98,11 +103,114 @@ class GroupChatState extends State<GroupChat> {
             )
           : Column(
               children: [
-                //ListView.builder(
-                //  itemCount: ,
-                //itemBuilder: (context, index) {
-
-                // }),
+                Expanded(
+                  child: ListView.builder(
+                      reverse: true,
+                      physics: BouncingScrollPhysics(),
+                      itemCount: _groupChats.length,
+                      itemBuilder: (context, index) {
+                        if (index == _groupChats.length - 1 ||
+                            _groupChats[index]['date'] !=
+                                _groupChats[index + 1]['date'])
+                          dateSet = true;
+                        else
+                          dateSet = false;
+                        return Column(
+                          children: [
+                            if (dateSet)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  _groupChats[index]['date'] ==
+                                          DateFormat('dd-MM-yyyy')
+                                              .format(DateTime.now())
+                                      ? "Today"
+                                      : _groupChats[index]['date'],
+                                ),
+                              ),
+                            Padding(
+                              padding: _groupChats[index]['image'] ==
+                                      FirebaseAuth
+                                          .instance.currentUser!.photoURL
+                                  ? const EdgeInsets.only(
+                                      right: 10, left: 50, top: 5, bottom: 5)
+                                  : const EdgeInsets.only(
+                                      right: 50, left: 10, top: 5, bottom: 5),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      if (_groupChats[index]['image'] !=
+                                          FirebaseAuth
+                                              .instance.currentUser!.photoURL)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              child: Container(
+                                                  height: 50,
+                                                  child: Image.network(
+                                                      _groupChats[index]
+                                                          ['image']))),
+                                        ),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment: _groupChats[index]
+                                                      ['image'] ==
+                                                  FirebaseAuth.instance
+                                                      .currentUser!.photoURL
+                                              ? CrossAxisAlignment.end
+                                              : CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              _groupChats[index]['message'],
+                                              textAlign: _groupChats[index]
+                                                          ['image'] ==
+                                                      FirebaseAuth.instance
+                                                          .currentUser!.photoURL
+                                                  ? TextAlign.end
+                                                  : TextAlign.start,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            Text(
+                                              _groupChats[index]['time'],
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      if (_groupChats[index]['image'] ==
+                                          FirebaseAuth
+                                              .instance.currentUser!.photoURL)
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 10),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            child: Container(
+                                                height: 50,
+                                                child: Image.network(
+                                                    _groupChats[index]
+                                                        ['image'])),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                ),
                 Row(
                   children: [
                     Expanded(
