@@ -16,7 +16,7 @@ class NavBarNew extends StatefulWidget {
 
 class _NavBarNewState extends State<NavBarNew> {
   int _selectedIndex = 0;
-  PageController _controlerPage = PageController();
+  PageController _controllerPage = PageController();
   Agora agora = Agora();
 
   @override
@@ -25,7 +25,7 @@ class _NavBarNewState extends State<NavBarNew> {
     double screenHeight = MediaQuery.of(context).size.width;
     return Scaffold(
       body: PageView(
-        controller: _controlerPage,
+        controller: _controllerPage,
         pageSnapping: true,
         onPageChanged: (index) {
           setState(() {
@@ -60,8 +60,8 @@ class _NavBarNewState extends State<NavBarNew> {
 
                   int diff = prev - _selectedIndex;
                   diff.abs() > 1
-                      ? _controlerPage.jumpToPage(_selectedIndex)
-                      : _controlerPage.animateToPage(_selectedIndex,
+                      ? _controllerPage.jumpToPage(_selectedIndex)
+                      : _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 300),
                       curve: Curves.ease);
                 });
@@ -85,8 +85,8 @@ class _NavBarNewState extends State<NavBarNew> {
 
                   int diff = prev - _selectedIndex;
                   diff.abs() > 1
-                      ? _controlerPage.jumpToPage(_selectedIndex)
-                      : _controlerPage.animateToPage(_selectedIndex,
+                      ? _controllerPage.jumpToPage(_selectedIndex)
+                      : _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 300),
                       curve: Curves.ease);
                 });
@@ -110,8 +110,8 @@ class _NavBarNewState extends State<NavBarNew> {
 
                   int diff = prev - _selectedIndex;
                   diff.abs() > 1
-                      ? _controlerPage.jumpToPage(_selectedIndex)
-                      : _controlerPage.animateToPage(_selectedIndex,
+                      ? _controllerPage.jumpToPage(_selectedIndex)
+                      : _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 300),
                       curve: Curves.ease);
                 });
@@ -135,8 +135,8 @@ class _NavBarNewState extends State<NavBarNew> {
 
                   int diff = prev - _selectedIndex;
                   diff.abs() > 1
-                      ? _controlerPage.jumpToPage(_selectedIndex)
-                      : _controlerPage.animateToPage(_selectedIndex,
+                      ? _controllerPage.jumpToPage(_selectedIndex)
+                      : _controllerPage.animateToPage(_selectedIndex,
                       duration: Duration(milliseconds: 300),
                       curve: Curves.ease);
                 });
