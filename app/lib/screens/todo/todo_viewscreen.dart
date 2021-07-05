@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -269,6 +271,7 @@ class _TodoViewState extends State<TodoView> {
                             overlayColor: MaterialStateProperty.all(
                                 Colors.redAccent.withOpacity(.5))),
                         onPressed: () {
+                          deleteTask(data);
                           Navigator.pop(context);
                         },
                         child: Text(
@@ -319,5 +322,14 @@ class _TodoViewState extends State<TodoView> {
         ),
       ),
     );
+  }
+
+  Future<void> deleteTask(Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .delete();
   }
 }
