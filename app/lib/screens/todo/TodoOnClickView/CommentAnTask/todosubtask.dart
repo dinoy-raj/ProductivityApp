@@ -85,7 +85,7 @@ class _TodoSubTaskState extends State<TodoSubTask> {
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
-                            hintText: "Add Tasks",
+                            hintText: "Add Sub Task",
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,

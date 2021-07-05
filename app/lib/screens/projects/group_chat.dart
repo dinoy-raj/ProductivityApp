@@ -37,18 +37,22 @@ class GroupChatState extends State<GroupChat> {
     return Colors.accents[index % 16];
   }
 
-  getMessages() {
+  getGroupChats() {
     _streamSubscription = FirebaseFirestore.instance
         .collection("users")
         .doc(project.owner!['uid'])
         .collection("owned_projects")
         .doc(project.id)
         .collection("chats")
+        .doc("group_chat")
         .snapshots()
         .listen((event) {
-      event.docs.forEach((date) {
-        _groupChats = date.get('chats');
+      _groupChats.clear();
+      event.data()?.forEach((key, value) {
+        value['datetime'] = DateTime.parse(key);
+        _groupChats.add(value);
       });
+      _groupChats.sort((a, b) => b['datetime'].compareTo(a['datetime']));
       setState(() {
         _loading = false;
       });
@@ -58,12 +62,12 @@ class GroupChatState extends State<GroupChat> {
   sendMessage() async {
     var _now = DateTime.now();
 
-    _groupChats.insert(0, {
-      'date': DateFormat('dd-MM-yyyy').format(_now),
-      'time': DateFormat('hh:mm a').format(_now),
-      'message': _textController.text.trim(),
-      'image': FirebaseAuth.instance.currentUser!.photoURL,
-    });
+    Map<String, dynamic> data = {
+      _now.toString(): {
+        'message': _textController.text.trim(),
+        'image': FirebaseAuth.instance.currentUser!.photoURL,
+      }
+    };
 
     _textController.clear();
 
@@ -74,13 +78,13 @@ class GroupChatState extends State<GroupChat> {
         .doc(project.id)
         .collection("chats")
         .doc("group_chat")
-        .set({'chats': _groupChats});
+        .set(data, SetOptions(merge: true));
   }
 
   @override
   void initState() {
     super.initState();
-    getMessages();
+    getGroupChats();
   }
 
   @override
@@ -96,7 +100,7 @@ class GroupChatState extends State<GroupChat> {
     return Scaffold(
       appBar: AppBar(
         shadowColor: Colors.transparent,
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(
           color: Colors.grey[800],
         ),
@@ -104,6 +108,8 @@ class GroupChatState extends State<GroupChat> {
         title: Text(project.title!,
             style: GoogleFonts.poppins(
               fontSize: 24,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[800],
             )),
       ),
       body: _loading
@@ -118,32 +124,33 @@ class GroupChatState extends State<GroupChat> {
                       physics: BouncingScrollPhysics(),
                       itemCount: _groupChats.length,
                       itemBuilder: (context, index) {
+                        DateTime dateTime = _groupChats[index]['datetime'];
+                        final now = DateTime.now();
+                        final today = DateTime(now.year, now.month, now.day);
+                        final yesterday =
+                            DateTime(now.year, now.month, now.day - 1);
+                        final date = DateTime(
+                            dateTime.year, dateTime.month, dateTime.day);
+
                         if (index == _groupChats.length - 1 ||
                             _groupChats[index]['date'] !=
                                 _groupChats[index + 1]['date'])
                           dateSet = true;
                         else
                           dateSet = false;
+
                         return Column(
                           children: [
                             if (dateSet)
                               Padding(
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Text(
-                                  _groupChats[index]['date'] ==
-                                          DateFormat('dd-MM-yyyy')
-                                              .format(DateTime.now())
-                                      ? "Today"
-                                      : DateTime.now()
-                                                  .difference(
-                                                      DateFormat('dd-MM-yyyy')
-                                                          .parse(
-                                                              _groupChats[index]
-                                                                  ['date']))
-                                                  .inHours <=
-                                              48
-                                          ? "Yesterday"
-                                          : _groupChats[index]['date'],
+                                  date == yesterday
+                                      ? "Yesterday"
+                                      : date == today
+                                          ? "Today"
+                                          : DateFormat('dd-MM-yyyy')
+                                              .format(dateTime),
                                 ),
                               ),
                             Padding(
@@ -215,7 +222,9 @@ class GroupChatState extends State<GroupChat> {
                                               padding: const EdgeInsets.only(
                                                   left: 5, right: 5, top: 5),
                                               child: Text(
-                                                _groupChats[index]['time'],
+                                                DateFormat('hh:mm a').format(
+                                                    _groupChats[index]
+                                                        ['datetime']),
                                                 style: TextStyle(
                                                   fontSize: 10,
                                                 ),
@@ -255,6 +264,7 @@ class GroupChatState extends State<GroupChat> {
                       child: Container(
                         padding: EdgeInsets.all(10),
                         child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
                           controller: _textController,
                           onChanged: (text) {
                             setState(() {});
