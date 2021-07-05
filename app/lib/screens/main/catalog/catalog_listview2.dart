@@ -82,8 +82,7 @@ class _ListView2State extends State<ListView2> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Expanded(
-                              child: Container(
+                            Container(
                                 height: 5,
                                 width: 15,
                                 decoration: BoxDecoration(
@@ -92,7 +91,7 @@ class _ListView2State extends State<ListView2> {
                                   color: color,
                                 ),
                               ),
-                            ),
+                            
                             
                             Expanded(
                               flex: 0,
