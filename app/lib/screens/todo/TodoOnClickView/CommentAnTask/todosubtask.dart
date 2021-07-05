@@ -91,7 +91,7 @@ class _TodoSubTaskState extends State<TodoSubTask> {
                             enabledBorder: InputBorder.none,
                             errorBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: Colors.red, width: 1),
+                                  BorderSide(color: Colors.red, width: 1),
                             ),
                             disabledBorder: InputBorder.none,
                           ),
@@ -100,7 +100,9 @@ class _TodoSubTaskState extends State<TodoSubTask> {
                       Container(
                         width: widget.screenWidth * .15,
                         child: Tooltip(
-                          message: _subtaskController.text==""?"Sub Task Should not Be Empty":"add Sub Task",
+                          message: _subtaskController.text == ""
+                              ? "Sub Task Should not Be Empty"
+                              : "add Sub Task",
                           child: ElevatedButton(
                             child: Text(
                               "add",
@@ -118,9 +120,7 @@ class _TodoSubTaskState extends State<TodoSubTask> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 addSubtask(data);
-                              }else{
-
-                              }
+                              } else {}
                             },
                           ),
                         ),
@@ -236,7 +236,11 @@ class _TodoSubTaskState extends State<TodoSubTask> {
         .doc(id)
         .get()
         .then((value) async {
-      num = int.parse(value.get("numsub"));
+      if(value.get("numsub")==null) {
+        num=1;
+      }else {
+        num = int.parse(value.get("numsub"));
+      }
       if (_subtaskController.text != "") {
         num = num + 1;
         const _chars =
@@ -269,5 +273,4 @@ class _TodoSubTaskState extends State<TodoSubTask> {
       }
     });
   }
-
 }
