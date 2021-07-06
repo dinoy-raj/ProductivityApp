@@ -156,7 +156,7 @@ class _StatsPageState extends State<StatsPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
+                      color: Colors.white10,
                       //borderRadius: BorderRadius.circular(10),
                     ),
                   ),

@@ -19,7 +19,7 @@ class _ReportIssueState extends State<ReportIssue> {
 
   final Uri emailLaunchUrid = Uri(
     scheme: 'mailto',
-    path: 'dinoykraj@gmail.com',
+    path: 'dinoykraj@gmail.com,amalnathm7@gmail.com',
   );
 
   static const _lina = 'https://www.linkedin.com/in/amal-nath-m-1ba12a192/';
@@ -179,8 +179,8 @@ class _ReportIssueState extends State<ReportIssue> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        height: 130,
-                        width: screenWidth * .4,
+                        height: 100,
+                        width: screenWidth * .8,
                         decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(10),
@@ -204,15 +204,15 @@ class _ReportIssueState extends State<ReportIssue> {
                             MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                "Dinoy Raj",
+                                "Mail Us",
                                 style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.black.withOpacity(.4),
                                     fontWeight: FontWeight.bold),
                               ),
                               Container(
-                                  height: 30,
-                                  width: screenWidth * .35,
+                                  height: 40,
+                                  width: screenWidth * .6,
                                   child: ElevatedButton(
                                     onPressed: () {
                                       launch(
@@ -229,119 +229,10 @@ class _ReportIssueState extends State<ReportIssue> {
                                             BorderSide(
                                                 color: Colors.white))),
                                     child: Text(
-                                      "Gmail",
+                                      "Click Here",
                                       style: TextStyle(
                                           fontSize: 15,
-                                          color: Colors.grey),
-                                    ),
-                                  )),
-                              Container(
-                                  height: 30,
-                                  width: screenWidth * .35,
-                                  child: ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                        MaterialStateProperty.all(
-                                            Colors.white10),
-                                        elevation:
-                                        MaterialStateProperty.all(
-                                            0),
-                                        side: MaterialStateProperty.all(
-                                            BorderSide(
-                                                color: Colors.white))),
-                                    onPressed: () {
-                                      _launchlind();
-                                    },
-                                    child: Text(
-                                      "Linkedin",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey),
-                                    ),
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 130,
-                        width: screenWidth * .4,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white10,
-                            border: Border.all(
-                                color: Colors.white, width: 1),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(.1),
-                                blurRadius: 100,
-                                spreadRadius: 2,
-                                offset: Offset(0, 3),
-                              ),
-                            ]
-                          //borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                "Amalnath",
-                                style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black.withOpacity(.4),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Container(
-                                  height: 30,
-                                  width: screenWidth * .35,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      launch(
-                                          emailLaunchUria.toString());
-                                    },
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                        MaterialStateProperty.all(
-                                            Colors.white10),
-                                        elevation:
-                                        MaterialStateProperty.all(
-                                            0),
-                                        side: MaterialStateProperty.all(
-                                            BorderSide(
-                                                color: Colors.white))),
-                                    child: Text(
-                                      "Gmail",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey),
-                                    ),
-                                  )),
-                              Container(
-                                  height: 30,
-                                  width: screenWidth * .35,
-                                  child: ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                        MaterialStateProperty.all(
-                                            Colors.white10),
-                                        elevation:
-                                        MaterialStateProperty.all(
-                                            0),
-                                        side: MaterialStateProperty.all(
-                                            BorderSide(
-                                                color: Colors.white))),
-                                    onPressed: () {
-                                      _launchlina();
-                                    },
-                                    child: Text(
-                                      "Linkedin",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: Colors.grey),
+                                          color: Colors.black.withOpacity(.7)),
                                     ),
                                   )),
                             ],
