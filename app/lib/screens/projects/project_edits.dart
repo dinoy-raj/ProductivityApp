@@ -117,43 +117,45 @@ class _ProjectEditingState extends State<ProjectEditing> {
 
   searchUsers() {
     bool found = false;
-    bool existing = false;
     if (_collabController.text.trim().isNotEmpty) {
       FirebaseFirestore.instance
           .collection("users")
           .snapshots()
-          .forEach((element) {
-        element.docs.forEach((element) {
-          setState(() {
-            if (element.id != FirebaseAuth.instance.currentUser?.uid &&
-                (element.get('email').contains(RegExp(
-                        r'' + _collabController.text,
-                        caseSensitive: false)) ||
-                    element
-                        .get('name')
-                        .toLowerCase()
-                        .contains(_collabController.text.toLowerCase()))) {
-              collab.forEach((user) {
-                if (user['uid'] == element.id) existing = true;
-              });
-              suggestions.forEach((user) {
-                if (user['uid'] == element.id) existing = true;
-              });
-              if (!existing && suggestions.length < 5) {
-                suggestions.add({
-                  'name': element.get('name'),
-                  'email': element.get('email'),
-                  'image': element.get('image'),
-                  'uid': element.id
+          .forEach((users) {
+        for (var user in users.docs) {
+          if (mounted)
+            setState(() {
+              if (user.id != FirebaseAuth.instance.currentUser?.uid &&
+                  (user.get('email').contains(RegExp(
+                          r'' + _collabController.text,
+                          caseSensitive: false)) ||
+                      user
+                          .get('name')
+                          .toLowerCase()
+                          .contains(_collabController.text.toLowerCase()))) {
+                bool existing = false;
+                collab.forEach((_user) {
+                  if (_user['uid'] == user.id) existing = true;
                 });
-                found = true;
+                suggestions.forEach((_user) {
+                  if (_user['uid'] == user.id) existing = true;
+                });
+                if (!existing) {
+                  suggestions.add({
+                    'name': user.get('name'),
+                    'email': user.get('email'),
+                    'image': user.get('image'),
+                    'uid': user.id
+                  });
+                  found = true;
+                }
               }
-            }
-          });
-        });
+            });
+          if (suggestions.length == 5) break;
+        }
       });
     }
-    if (!found)
+    if (!found && mounted)
       setState(() {
         suggestions.clear();
       });
