@@ -57,7 +57,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
         .doc(id)
         .set({
       'isCallLive': false,
-      'unreadGroupChats': 0,
+      'unreadGroupChatCount': 0,
     });
 
     collab.forEach((element) async {
