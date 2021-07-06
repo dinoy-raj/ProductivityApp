@@ -583,7 +583,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 }
 
-class Project {
+class Project extends ChangeNotifier {
   Project(
       {this.id,
       this.collab,
@@ -601,10 +601,12 @@ class Project {
   Map<String, dynamic>? owner;
   List<dynamic>? collab;
 
+  final _db = FirebaseFirestore.instance;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  bool notify = false;
+
   Future<int> getCompletedProjectCount() {
     int count = 0;
-    final _db = FirebaseFirestore.instance;
-    final uid = FirebaseAuth.instance.currentUser!.uid;
     final completer = Completer<int>();
 
     _db
@@ -645,8 +647,6 @@ class Project {
 
   Future<int> getCompletedTaskCount() {
     int count = 0;
-    final _db = FirebaseFirestore.instance;
-    final uid = FirebaseAuth.instance.currentUser!.uid;
     final completer = Completer<int>();
 
     _db
@@ -691,8 +691,6 @@ class Project {
 
   Future<List<Map>> getLatestTasks() {
     List<Map> allTasks = [];
-    final _db = FirebaseFirestore.instance;
-    final uid = FirebaseAuth.instance.currentUser!.uid;
     final completer = Completer<List<Map>>();
 
     _db
@@ -800,6 +798,20 @@ class Project {
     });
 
     return completer.future;
+  }
+
+  listenForProjectUpdates() {
+    _db
+        .collection("users")
+        .doc(uid)
+        .collection("owned_projects")
+        .snapshots()
+        .listen((event) {
+      event.docs.forEach((project) {
+        notify = project.get('isCallLive');
+        notifyListeners();
+      });
+    });
   }
 }
 
