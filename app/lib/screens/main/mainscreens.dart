@@ -311,9 +311,10 @@ class _MainScreenState extends State<MainScreen> {
                                                             .all(Colors.black),
                                                   ),
                                                   onPressed: () async {
-                                                    setState(() {
-                                                      isPressed = true;
-                                                    });
+                                                    if (mounted)
+                                                      setState(() {
+                                                        isPressed = true;
+                                                      });
                                                     final provider = Provider
                                                         .of<GoogleSignInProvider>(
                                                             context,
@@ -353,7 +354,8 @@ class _MainScreenState extends State<MainScreen> {
                                     //fit: BoxFit.fill,
                                     image: NetworkImage(user!.photoURL!)),
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.white, width: 2),
+                                border:
+                                    Border.all(color: Colors.white, width: 2),
                                 color: Colors.white,
                                 boxShadow: [
                                   BoxShadow(
