@@ -41,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
-                height: screenHeight * .8,
+                height: 600,
                 width: screenWidth,
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
@@ -63,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      height: screenHeight*.07,
+                      height: 50,
                       width: screenWidth * .8,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     Divider(),
                     Container(
-                      height: screenHeight * .6,
+                      height: 430,
                       width: screenWidth * .8,
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
@@ -166,7 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                     ),
                     Container(
-                      height: screenHeight * .06,
+                      height: 70,
                       width: screenWidth * .8,
                       child: Center(
                         child: Text(

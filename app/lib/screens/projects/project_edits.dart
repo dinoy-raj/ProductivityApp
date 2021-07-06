@@ -48,7 +48,16 @@ class _ProjectEditingState extends State<ProjectEditing> {
       'body': _descController.text,
       'collab': collab,
       'progress': 0.0,
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .collection("alerts")
+        .doc(id)
+        .set({
       'isCallLive': false,
+      'unreadGroupChatCount': 0,
     });
 
     collab.forEach((element) async {
@@ -59,6 +68,18 @@ class _ProjectEditingState extends State<ProjectEditing> {
           .doc(id)
           .set({
         'owner': FirebaseAuth.instance.currentUser?.uid,
+      });
+    });
+
+    collab.forEach((element) async {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(element['uid'])
+          .collection("alerts")
+          .doc(id)
+          .set({
+        'isCallLive': false,
+        'unreadGroupChatCount': 0,
       });
     });
   }

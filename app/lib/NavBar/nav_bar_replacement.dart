@@ -5,7 +5,9 @@ import 'package:app/screens/note/main%20view/notescreen.dart';
 import 'package:app/screens/projects/group_voice_call.dart';
 import 'package:app/screens/projects/projectscreen.dart';
 import 'package:app/screens/todo/Todoview/todoscreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -22,30 +24,12 @@ class _NavBarNewState extends State<NavBarNew> {
   int _selectedIndex = 0;
   PageController _controllerPage = PageController();
   Agora agora = Agora();
-  Project _project = Project();
-
-  StreamSubscription? _subscription;
-
-  @override
-  void initState() {
-    super.initState();
-    listenToNetwork();
-    _project.listenForProjectUpdates();
-    _project.addListener(_callback);
-    Connectivity().checkConnectivity().then((value) {
-      if (value == ConnectivityResult.none)
-        Fluttertoast.showToast(
-            msg:
-                "No Internet connection detected. Some app functions might not work properly.");
-    });
-  }
-
-  _callback() {
-    if (mounted) setState(() {});
-  }
+  bool notify = false;
+  StreamSubscription? _subscription1;
+  StreamSubscription? _subscription2;
 
   listenToNetwork() async {
-    _subscription = Connectivity()
+    _subscription1 = Connectivity()
         .onConnectivityChanged
         .listen((ConnectivityResult result) {
       if (result == ConnectivityResult.none)
@@ -55,10 +39,41 @@ class _NavBarNewState extends State<NavBarNew> {
     });
   }
 
+  listenForAlerts() {
+    _subscription2 = FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("alerts")
+        .snapshots()
+        .listen((event) {
+      event.docs.forEach((element) {
+        if (_selectedIndex != 3 &&
+            (element.get('isCallLive') ||
+                element.get('unreadGroupChatCount') > 0))
+          setState(() {
+            notify = true;
+          });
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenToNetwork();
+    listenForAlerts();
+    Connectivity().checkConnectivity().then((value) {
+      if (value == ConnectivityResult.none)
+        Fluttertoast.showToast(
+            msg:
+                "No Internet connection detected. Some app functions might not work properly.");
+    });
+  }
+
   @override
   void dispose() {
-    _subscription?.cancel();
-    _project.removeListener(_callback);
+    _subscription1?.cancel();
+    _subscription2?.cancel();
     super.dispose();
   }
 
@@ -84,8 +99,7 @@ class _NavBarNewState extends State<NavBarNew> {
         ],
       ),
       bottomNavigationBar: Container(
-        height: screenHeight*.1<=60?60:screenHeight*.1,
-
+        height: screenHeight * .1 <= 60 ? 60 : screenHeight * .1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -171,12 +185,12 @@ class _NavBarNewState extends State<NavBarNew> {
                       NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
-                  color: _project.notify ? Colors.green[100] : Colors.white),
+                  color: notify ? Colors.green[100] : Colors.white),
               onPressed: () {
                 setState(() {
                   int prev = _selectedIndex;
                   _selectedIndex = 3;
-                  _project.notify = false;
+                  notify = false;
 
                   int diff = prev - _selectedIndex;
                   diff.abs() > 1
