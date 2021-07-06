@@ -57,7 +57,8 @@ class _NavBarNewState extends State<NavBarNew> {
   @override
   Widget build(BuildContext context) {
     // double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    print(screenHeight);
     return Scaffold(
       body: PageView(
         controller: _controllerPage,
@@ -76,7 +77,8 @@ class _NavBarNewState extends State<NavBarNew> {
         ],
       ),
       bottomNavigationBar: Container(
-        height: screenHeight * .2,
+        height: screenHeight*.1<=60?60:screenHeight*.1,
+
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
