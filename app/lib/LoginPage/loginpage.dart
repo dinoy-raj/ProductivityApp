@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                   ),
                   Text(
-                    "Lets Do It",
+                    "Do - It",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 50),
                   ),
                 ],
