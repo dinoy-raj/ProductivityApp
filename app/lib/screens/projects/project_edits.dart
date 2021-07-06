@@ -54,7 +54,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .collection("alerts")
-        .doc(project!.id)
+        .doc(id)
         .set({
       'isCallLive': false,
       'unreadGroupChats': 0,
@@ -76,7 +76,7 @@ class _ProjectEditingState extends State<ProjectEditing> {
           .collection("users")
           .doc(element['uid'])
           .collection("alerts")
-          .doc(project!.id)
+          .doc(id)
           .set({
         'isCallLive': false,
         'unreadGroupChatCount': 0,
