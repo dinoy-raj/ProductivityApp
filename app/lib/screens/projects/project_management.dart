@@ -430,23 +430,45 @@ class ProjectState extends State<ProjectManagement> {
                       ),
                     ),
                   ),
-                  IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return GroupChat(project!);
-                          });
-                    },
-                    icon: Tooltip(
-                      message: "Group chat",
-                      child: Icon(
-                        Icons.messenger_outline,
-                        color: Colors.grey[700],
+                  Stack(
+                    children: [
+                      Center(
+                        child: IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return GroupChat(project!);
+                                });
+                          },
+                          icon: Tooltip(
+                            message: "Group chat",
+                            child: Icon(
+                              Icons.messenger_outline,
+                              color: Colors.grey[700],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      if (project!.unreadGroupChatCount! > 0)
+                        Positioned(
+                          top: 10,
+                          right: 5,
+                          child: Container(
+                              padding: EdgeInsets.only(
+                                  left: 3, right: 3, top: 1, bottom: 1),
+                              decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Text(
+                                project!.unreadGroupChatCount!.toString(),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12),
+                              )),
+                        )
+                    ],
                   ),
                   IconButton(
                     splashColor: Colors.transparent,
