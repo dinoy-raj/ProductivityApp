@@ -260,7 +260,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                                     height: 5,
                                   ),
                                   Text(
-                                    "Lets Do It",
+                                    "Do - It",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20),

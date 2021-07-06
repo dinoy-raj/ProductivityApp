@@ -46,7 +46,7 @@ class _GridDataViewState extends State<GridDataView> {
                 Padding(
                   padding: const EdgeInsets.only(top:20.0),
                   child: Text(
-                    "You Don't Have Any Notes Yet",
+                    "You don't have any notes yet",
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),

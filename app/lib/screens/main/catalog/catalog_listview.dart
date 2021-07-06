@@ -44,7 +44,7 @@ class _ListCatalogState extends State<ListCatalog> {
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                     child: Text(
-                      "You Don't Have Any Todo Pinned Yet",
+                      "You don't have any todo pinned yet",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.grey),
                     ),

@@ -63,7 +63,7 @@ class _AboutUsState extends State<AboutUs> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    height: screenHeight * .15,
+                    height:120,
                     width: screenWidth,
                     decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
@@ -85,7 +85,7 @@ class _AboutUsState extends State<AboutUs> {
                       children: [
                         Container(
                           height: 150,
-                          width: 150,
+                          width: screenWidth*.4155,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -98,7 +98,7 @@ class _AboutUsState extends State<AboutUs> {
                                 height: 5,
                               ),
                               Text(
-                                "Lets Do It",
+                                "Do - It",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class _AboutUsState extends State<AboutUs> {
                           ),
                         ),
                         Container(
-                          height: screenHeight * .3,
+                          height: 120,
                           width: 1,
                           color: Colors.grey,
                         ),
@@ -158,7 +158,7 @@ class _AboutUsState extends State<AboutUs> {
                   height: 20,
                 ),
                 Container(
-                  height: screenHeight * .2,
+                  height: 150,
                   width: screenWidth,
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -182,7 +182,7 @@ class _AboutUsState extends State<AboutUs> {
                       children: [
                         Container(
                           height: 20,
-                          width: 5,
+                          width: screenWidth*.0138,
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(10),
@@ -200,14 +200,14 @@ class _AboutUsState extends State<AboutUs> {
                               ),
                         ),
                         Container(
-                          width: 10,
+                          width: screenWidth*.0277,
                         ),
                         Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Center(
                                 child: Container(
-                                  height: screenHeight * .15,
+                                  height: 90,
                                   width: screenWidth * .8,
                                   child: Center(
                                     child: Text(
@@ -233,7 +233,7 @@ class _AboutUsState extends State<AboutUs> {
                   height: 20,
                 ),
                 Container(
-                  height: screenHeight * .6,
+                  height: 500,
                   width: screenWidth,
                   decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
@@ -268,7 +268,7 @@ class _AboutUsState extends State<AboutUs> {
                         ),
                         Container(
                           height: 4,
-                          width: 80,
+                          width: screenWidth*.221,
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(10),
@@ -294,7 +294,7 @@ class _AboutUsState extends State<AboutUs> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Container(
-                                height: screenHeight * .3,
+                                height: 200,
                                 width: screenWidth * .4,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
@@ -358,7 +358,7 @@ class _AboutUsState extends State<AboutUs> {
                                 ),
                               ),
                               Container(
-                                height: screenHeight * .3,
+                                height: 200,
                                 width: screenWidth * .4,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
@@ -430,7 +430,7 @@ class _AboutUsState extends State<AboutUs> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Container(
-                                height: screenHeight * .13,
+                                height: 130,
                                 width: screenWidth * .4,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,
@@ -515,7 +515,7 @@ class _AboutUsState extends State<AboutUs> {
                                 ),
                               ),
                               Container(
-                                height: screenHeight * .13,
+                                height: 130,
                                 width: screenWidth * .4,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.rectangle,

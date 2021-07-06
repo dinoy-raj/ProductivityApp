@@ -41,7 +41,7 @@ class _ListView2State extends State<ListView2> {
               Padding(
                 padding: const EdgeInsets.only(top: 20.0, bottom: 20),
                 child: Text(
-                  "You Don't Have Any Tasks Yet",
+                  "You don't have any tasks yet",
                   style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.grey),
                 ),
