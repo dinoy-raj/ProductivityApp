@@ -84,13 +84,13 @@ class _NoteEditingState extends State<NoteEditing> {
                       "Add Note",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * .0833),
+                          fontSize: 30),
                     ),
                   ),
                 ),
                 Container(
                   width: screenWidth,
-                  height: screenWidth * .06 * 6,
+                  height: 130,
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: screenWidth * .07,
@@ -111,7 +111,7 @@ class _NoteEditingState extends State<NoteEditing> {
                           autofocus: true,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * .055),
+                              fontSize: 20),
                           decoration: InputDecoration(
                             hintText: "Title",
                             border: InputBorder.none,
@@ -127,7 +127,7 @@ class _NoteEditingState extends State<NoteEditing> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * .0263,
+                  height: 20,
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -146,7 +146,7 @@ class _NoteEditingState extends State<NoteEditing> {
                           ),
                         ]),
                     width: screenWidth,
-                    height: screenWidth * .0416 * 20,
+                    height: 300,
                     child: Padding(
                       padding: EdgeInsets.only(
                           left: screenWidth * .07,
@@ -159,7 +159,7 @@ class _NoteEditingState extends State<NoteEditing> {
                             maxLines: 10,
                             controller: _bodyController,
                             style: TextStyle(
-                                fontSize: screenWidth * .05,
+                                fontSize: 17,
                                 color: Colors.black),
                             decoration: InputDecoration(
                               hintText: "Content",
@@ -174,7 +174,7 @@ class _NoteEditingState extends State<NoteEditing> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * .1,
+                  height:80,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

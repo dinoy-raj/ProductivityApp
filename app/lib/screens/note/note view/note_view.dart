@@ -32,8 +32,7 @@ class _NoteViewState extends State<NoteView> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    print(screenHeight);
-    print(screenWidth);
+
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -75,7 +74,7 @@ class _NoteViewState extends State<NoteView> {
                     padding: EdgeInsets.only(bottom: screenWidth * .055),
                     child: Container(
                       height: 10,
-                      width: 100,
+                      width: screenWidth*.277,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         shape: BoxShape.rectangle,
@@ -86,7 +85,7 @@ class _NoteViewState extends State<NoteView> {
                 ),
                 Container(
                   width: screenWidth,
-                  height: screenWidth * .06 * 6,
+                  height: 130,
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: screenWidth * .07,
@@ -108,7 +107,7 @@ class _NoteViewState extends State<NoteView> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * .0263,
+                  height: 25,
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -127,7 +126,7 @@ class _NoteViewState extends State<NoteView> {
                           ),
                         ]),
                     width: screenWidth,
-                    height: screenWidth * .0416 * 20,
+                    height: 300,
                     child: Padding(
                       padding: EdgeInsets.only(
                           left: screenWidth * .07,
@@ -143,7 +142,7 @@ class _NoteViewState extends State<NoteView> {
                               data["body"],
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                  height: 2/1,
+                                  height: 2 / 1,
                                   //fontWeight: FontWeight.bold,
                                   fontSize: 15),
                             ),
@@ -154,7 +153,7 @@ class _NoteViewState extends State<NoteView> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * .1,
+                  height: 80,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

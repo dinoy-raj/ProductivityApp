@@ -88,13 +88,13 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                       "Edit Note",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: screenWidth * .0833),
+                          fontSize: 30),
                     ),
                   ),
                 ),
                 Container(
                   width: screenWidth,
-                  height: screenWidth * .06 * 6,
+                  height: 130,
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: screenWidth * .07,
@@ -115,7 +115,7 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                           autofocus: true,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: screenWidth * .055),
+                              fontSize: 20),
                           decoration: InputDecoration(
                             hintText: "Title",
                             border: InputBorder.none,
@@ -131,7 +131,7 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * .0263,
+                  height: 30,
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -150,7 +150,7 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                           ),
                         ]),
                     width: screenWidth,
-                    height: screenWidth * .0416 * 20,
+                    height: 300,
                     child: Padding(
                       padding: EdgeInsets.only(
                           left: screenWidth * .07,
@@ -179,7 +179,7 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                   ),
                 ),
                 SizedBox(
-                  height: screenHeight * .1,
+                  height: 60,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

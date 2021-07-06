@@ -87,16 +87,15 @@ class _NotesScreenState extends State<NotesScreen> {
                       //borderRadius: BorderRadius.circular(10),
                       ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Container(
-                          height: 80,
-                          width: 80,
+                       Container(
+                          height: 70,
+                          width: 70,
                           child: Lottie.network(
                               "https://assets6.lottiefiles.com/packages/lf20_wd1udlcz.json"),
                         ),
-                      ),
+
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,15 +109,13 @@ class _NotesScreenState extends State<NotesScreen> {
                             "Add New Note   ->",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 10,
+                              fontSize: 12,
                               color: Colors.grey,
                             ),
                           ),
                         ],
                       ),
-                      SizedBox(
-                        width: 15,
-                      ),
+
                       Container(
                         height: 40,
                         width: 40,
