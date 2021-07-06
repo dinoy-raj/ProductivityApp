@@ -28,6 +28,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   User _user = FirebaseAuth.instance.currentUser!;
   bool _loading1 = true;
   bool _loading2 = true;
+  bool firstTime = true;
 
   listenDB() {
     _db
@@ -106,6 +107,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
         setState(() {
           _loading2 = false;
         });
+
+      int count = 0;
       event.docChanges.forEach((element) {
         if (element.type == DocumentChangeType.added) {
           _db
@@ -113,7 +116,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
               .doc(element.doc.get('owner'))
               .get()
               .then((owner) {
-            FirebaseFirestore.instance
+            _db
                 .collection("users")
                 .doc(element.doc.get('owner'))
                 .collection("owned_projects")
@@ -141,6 +144,27 @@ class _ProjectScreenState extends State<ProjectScreen> {
                   _loading2 = false;
                   otherProjects
                       .sort((a, b) => a.progress!.compareTo(b.progress!));
+                  count++;
+                  if (firstTime && count == event.docs.length) {
+                    _db
+                        .collection("users")
+                        .doc(_user.uid)
+                        .collection("alerts")
+                        .snapshots()
+                        .listen((event) {
+                      event.docs.forEach((element) {
+                        otherProjects.forEach((project) {
+                          if (mounted && element.id == project.id)
+                            setState(() {
+                              project.isCallLive = element.get('isCallLive');
+                              project.unreadGroupChatCount =
+                                  element.get('unreadGroupChatCount');
+                            });
+                        });
+                      });
+                    });
+                    firstTime = false;
+                  }
                 });
             });
           });
@@ -166,14 +190,6 @@ class _ProjectScreenState extends State<ProjectScreen> {
         .listen((event) {
       event.docs.forEach((element) {
         ownedProjects.forEach((project) {
-          if (mounted && element.id == project.id)
-            setState(() {
-              project.isCallLive = element.get('isCallLive');
-              project.unreadGroupChatCount =
-                  element.get('unreadGroupChatCount');
-            });
-        });
-        otherProjects.forEach((project) {
           if (mounted && element.id == project.id)
             setState(() {
               project.isCallLive = element.get('isCallLive');
