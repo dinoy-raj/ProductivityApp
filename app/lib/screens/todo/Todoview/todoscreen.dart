@@ -18,17 +18,22 @@ class _PersonalScreenState extends State<PersonalScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        // physics: BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 60),
+          padding: EdgeInsets.only(
+              left: screenWidth * .0277,
+              right: screenWidth * .0277,
+              top: screenHeight * .08 > 60 ? screenHeight * .08 : 60),
           child: Container(
-            width: MediaQuery.of(context).size.width,
+            width: screenWidth,
             child: Column(
               children: [
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(
+                        left:
+                            screenWidth * .055 > 20 ? screenWidth * .055 : 20),
                     child: Container(
                       child: Align(
                         alignment: Alignment.topLeft,
@@ -44,7 +49,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
+                    padding: EdgeInsets.only(
+                        left:
+                            screenWidth * .055 > 20 ? screenWidth * .055 : 20),
                     child: Container(
                       width: screenWidth,
                       height: 20,
@@ -66,7 +73,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  padding: EdgeInsets.only(
+                      left: screenWidth * .055 > 20 ? screenWidth * .055 : 20,
+                      right: screenWidth * .055 > 20 ? screenWidth * .055 : 20),
                   child: Container(
                     height: 100,
                     width: screenWidth,
@@ -85,15 +94,13 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         //borderRadius: BorderRadius.circular(10),
                         ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Container(
-                            height: 80,
-                            width: 80,
-                            child: Lottie.network(
-                                "https://assets3.lottiefiles.com/packages/lf20_jy1bgnpp.json"),
-                          ),
+                        Container(
+                          height: 80,
+                          width: 80,
+                          child: Lottie.network(
+                              "https://assets3.lottiefiles.com/packages/lf20_jy1bgnpp.json"),
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -113,9 +120,6 @@ class _PersonalScreenState extends State<PersonalScreen> {
                               ),
                             ),
                           ],
-                        ),
-                        SizedBox(
-                          width: 15,
                         ),
                         Container(
                           height: 40,
@@ -137,8 +141,13 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20,),
-                Container(height: screenHeight, child: ListViewTodo())
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    height:
+                        screenHeight * .473 > 360 ? screenHeight * .473 : 360,
+                    child: ListViewTodo()),
               ],
             ),
           ),
