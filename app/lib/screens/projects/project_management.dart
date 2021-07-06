@@ -115,8 +115,8 @@ class ProjectState extends State<ProjectManagement> {
 
     FirebaseFirestore.instance
         .collection("users")
-        .doc(project!.owner!['uid'])
-        .collection("owned_projects")
+        .doc(_user.uid)
+        .collection("alerts")
         .doc(project!.id)
         .snapshots()
         .listen((event) {
@@ -358,6 +358,7 @@ class ProjectState extends State<ProjectManagement> {
                                 agora!.context = context;
                                 agora!.projectID = project!.id;
                                 agora!.projectTitle = project!.title;
+                                agora!.collab = project!.collab;
                                 agora!.ownerUID = project!.owner!['uid'];
                                 agora!.addListener(_callback);
                                 return Call(agora);
@@ -392,6 +393,7 @@ class ProjectState extends State<ProjectManagement> {
                                                       project!.id;
                                                   agora!.projectTitle =
                                                       project!.title;
+                                                  agora!.collab = project!.collab;
                                                   agora!.ownerUID =
                                                       project!.owner!['uid'];
                                                   agora!.addListener(_callback);

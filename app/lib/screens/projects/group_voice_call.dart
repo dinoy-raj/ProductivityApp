@@ -20,6 +20,7 @@ class Agora extends ChangeNotifier {
   String? ownerUID;
   String? hostUID;
   String? token;
+  List? collab;
   BuildContext? context;
   RtcEngine? _engine;
   StreamSubscription? _streamSubscription;
@@ -80,9 +81,22 @@ class Agora extends ChangeNotifier {
           await _db
               .collection("users")
               .doc(ownerUID)
-              .collection("owned_projects")
+              .collection("alerts")
               .doc(projectID)
-              .update({'isCallLive': true});
+              .set({
+            'isCallLive': true,
+          }, SetOptions(merge: true));
+
+          collab?.forEach((element) async {
+            await _db
+                .collection("users")
+                .doc(element['uid'])
+                .collection("alerts")
+                .doc(projectID)
+                .set({
+              'isCallLive': true,
+            }, SetOptions(merge: true));
+          });
 
           _streamSubscription = await _db
               .collection("users")
@@ -337,12 +351,27 @@ class Agora extends ChangeNotifier {
         .collection("calls")
         .doc(_channel)
         .delete();
+
+    collab?.forEach((element) async {
+      await _db
+          .collection("users")
+          .doc(element['uid'])
+          .collection("alerts")
+          .doc(projectID)
+          .set({
+        'isCallLive': false,
+      }, SetOptions(merge: true));
+    });
+
     await _db
         .collection("users")
         .doc(ownerUID)
-        .collection("owned_projects")
+        .collection("alerts")
         .doc(projectID)
-        .update({'isCallLive': false});
+        .set({
+      'isCallLive': false,
+    }, SetOptions(merge: true));
+
     await _engine?.leaveChannel();
     await _engine?.destroy();
     _engine = null;

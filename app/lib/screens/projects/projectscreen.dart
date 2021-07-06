@@ -602,8 +602,7 @@ class Project extends ChangeNotifier {
   List<dynamic>? collab;
 
   final _db = FirebaseFirestore.instance;
-  final uid = FirebaseAuth.instance.currentUser!.uid;
-  bool notify = false;
+  final _uid = FirebaseAuth.instance.currentUser!.uid;
 
   Future<int> getCompletedProjectCount() {
     int count = 0;
@@ -611,7 +610,7 @@ class Project extends ChangeNotifier {
 
     _db
         .collection("users")
-        .doc(uid)
+        .doc(_uid)
         .collection("owned_projects")
         .get()
         .then((ownedProjects) {
@@ -621,7 +620,7 @@ class Project extends ChangeNotifier {
 
       _db
           .collection("users")
-          .doc(uid)
+          .doc(_uid)
           .collection("other_projects")
           .get()
           .then((otherProjects) {
@@ -651,21 +650,21 @@ class Project extends ChangeNotifier {
 
     _db
         .collection("users")
-        .doc(uid)
+        .doc(_uid)
         .collection("owned_projects")
         .get()
         .then((ownedProjects) async {
       for (var ownedProject in ownedProjects.docs) {
         var tasks = await ownedProject.reference.collection("tasks").get();
         tasks.docs.forEach((task) {
-          if (task.get('collab')['uid'] == uid && task.get('completed'))
+          if (task.get('collab')['uid'] == _uid && task.get('completed'))
             count++;
         });
       }
 
       _db
           .collection("users")
-          .doc(uid)
+          .doc(_uid)
           .collection("other_projects")
           .get()
           .then((otherProjects) async {
@@ -678,7 +677,7 @@ class Project extends ChangeNotifier {
               .get();
           var tasks = await project.reference.collection("tasks").get();
           tasks.docs.forEach((task) {
-            if (task.get('collab')['uid'] == uid && task.get('completed'))
+            if (task.get('collab')['uid'] == _uid && task.get('completed'))
               count++;
           });
         }
@@ -695,14 +694,14 @@ class Project extends ChangeNotifier {
 
     _db
         .collection("users")
-        .doc(uid)
+        .doc(_uid)
         .collection("owned_projects")
         .get()
         .then((ownedProjects) async {
       for (var ownedProject in ownedProjects.docs) {
         var tasks = await ownedProject.reference.collection("tasks").get();
         tasks.docs.forEach((task) {
-          if (task.get('collab')['uid'] == uid) {
+          if (task.get('collab')['uid'] == _uid) {
             Map data = task.data();
 
             data.remove('collab');
@@ -736,7 +735,7 @@ class Project extends ChangeNotifier {
 
       _db
           .collection("users")
-          .doc(uid)
+          .doc(_uid)
           .collection("other_projects")
           .get()
           .then((otherProjects) async {
@@ -749,7 +748,7 @@ class Project extends ChangeNotifier {
               .get();
           var tasks = await project.reference.collection("tasks").get();
           tasks.docs.forEach((task) {
-            if (task.get('collab')['uid'] == uid) {
+            if (task.get('collab')['uid'] == _uid) {
               Map data = task.data();
 
               data.remove('collab');
@@ -799,37 +798,4 @@ class Project extends ChangeNotifier {
 
     return completer.future;
   }
-
-  listenForProjectUpdates() {
-    _db
-        .collection("users")
-        .doc(uid)
-        .collection("owned_projects")
-        .snapshots()
-        .listen((event) {
-      event.docs.forEach((project) {
-        notify = project.get('isCallLive');
-        notifyListeners();
-      });
-    });
-  }
 }
-
-/*class RandomColorModel {
-  Color getColor() {
-    Random random = Random();
-    List<Color> colorList = [
-      Colors.red,
-      Colors.blue,
-      Colors.pink,
-      Colors.purple,
-      Colors.green,
-      Colors.teal,
-      Colors.deepOrange,
-      Colors.deepPurple,
-      Colors.amber,
-      Colors.cyan
-    ];
-    return colorList[random.nextInt(10)];
-  }
-}*/

@@ -22,7 +22,6 @@ class _NavBarNewState extends State<NavBarNew> {
   int _selectedIndex = 0;
   PageController _controllerPage = PageController();
   Agora agora = Agora();
-  Project _project = Project();
 
   StreamSubscription? _subscription;
 
@@ -30,18 +29,12 @@ class _NavBarNewState extends State<NavBarNew> {
   void initState() {
     super.initState();
     listenToNetwork();
-    _project.listenForProjectUpdates();
-    _project.addListener(_callback);
     Connectivity().checkConnectivity().then((value) {
       if (value == ConnectivityResult.none)
         Fluttertoast.showToast(
             msg:
                 "No Internet connection detected. Some app functions might not work properly.");
     });
-  }
-
-  _callback() {
-    if (mounted) setState(() {});
   }
 
   listenToNetwork() async {
@@ -58,7 +51,6 @@ class _NavBarNewState extends State<NavBarNew> {
   @override
   void dispose() {
     _subscription?.cancel();
-    _project.removeListener(_callback);
     super.dispose();
   }
 
@@ -84,8 +76,7 @@ class _NavBarNewState extends State<NavBarNew> {
         ],
       ),
       bottomNavigationBar: Container(
-        height: screenHeight*.1<=60?60:screenHeight*.1,
-
+        height: screenHeight * .1 <= 60 ? 60 : screenHeight * .1,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -171,12 +162,11 @@ class _NavBarNewState extends State<NavBarNew> {
                       NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
                   //depth: 8,
                   lightSource: LightSource.topLeft,
-                  color: _project.notify ? Colors.green[100] : Colors.white),
+                  color: Colors.white),
               onPressed: () {
                 setState(() {
                   int prev = _selectedIndex;
                   _selectedIndex = 3;
-                  _project.notify = false;
 
                   int diff = prev - _selectedIndex;
                   diff.abs() > 1

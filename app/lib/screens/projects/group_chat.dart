@@ -79,6 +79,28 @@ class GroupChatState extends State<GroupChat> {
         .collection("chats")
         .doc("group_chat")
         .set(data, SetOptions(merge: true));
+
+    if (FirebaseAuth.instance.currentUser!.uid != project.owner!['uid'])
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(project.owner!['uid'])
+          .collection("alerts")
+          .doc(project.id)
+          .update({
+        "unreadGroupChatCount": FieldValue.increment(1),
+      });
+
+    project.collab?.forEach((element) async {
+      if (FirebaseAuth.instance.currentUser!.uid != element['uid'])
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(element['uid'])
+            .collection("alerts")
+            .doc(project.id)
+            .update({
+          "unreadGroupChatCount": FieldValue.increment(1),
+        });
+    });
   }
 
   @override
@@ -207,6 +229,9 @@ class GroupChatState extends State<GroupChat> {
                                               padding: EdgeInsets.all(10),
                                               child: Text(
                                                 _groupChats[index]['message'],
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                ),
                                                 textAlign: _groupChats[index]
                                                             ['image'] ==
                                                         FirebaseAuth
