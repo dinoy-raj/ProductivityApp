@@ -1,9 +1,9 @@
-import 'package:app/Developer/aboutUsPage.dart';
-import 'package:app/Developer/reportAnyIssue.dart';
-import 'package:app/GoogleSignIn/google_sign.dart';
-import 'package:app/Settings/SettingsPage.dart';
-import 'package:app/Tutorial/tutorial.dart';
-import 'package:app/screens/splashscreen/splash_screen.dart';
+import 'package:do_it/Developer/aboutUsPage.dart';
+import 'package:do_it/Developer/reportAnyIssue.dart';
+import 'package:do_it/GoogleSignIn/google_sign.dart';
+import 'package:do_it/Settings/SettingsPage.dart';
+import 'package:do_it/Tutorial/tutorial.dart';
+import 'package:do_it/screens/splashscreen/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
-
 import 'mainscreen_body.dart';
 
 class MainScreen extends StatefulWidget {

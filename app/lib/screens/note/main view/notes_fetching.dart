@@ -1,6 +1,5 @@
 import 'dart:math';
-
-import 'package:app/screens/note/note%20view/note_view.dart';
+import 'package:do_it/screens/note/note%20view/note_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

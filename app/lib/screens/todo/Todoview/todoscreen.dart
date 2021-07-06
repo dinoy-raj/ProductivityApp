@@ -1,5 +1,5 @@
-import 'package:app/screens/todo/TodoEdit/todo_edits.dart';
-import 'package:app/screens/todo/Todoview/todo_griddataview.dart';
+import 'package:do_it/screens/todo/TodoEdit/todo_edits.dart';
+import 'package:do_it/screens/todo/Todoview/todo_griddataview.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 

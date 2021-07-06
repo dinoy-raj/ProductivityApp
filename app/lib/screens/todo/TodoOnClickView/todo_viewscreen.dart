@@ -1,12 +1,12 @@
-import 'package:app/screens/todo/TodoOnClickView/CommentAnTask/todocomment.dart';
-import 'package:app/screens/todo/TodoOnClickView/CommentAnTask/todosubtask.dart';
+import 'package:do_it/screens/todo/TodoOnClickView/CommentAnTask/todocomment.dart';
+import 'package:do_it/screens/todo/TodoOnClickView/CommentAnTask/todosubtask.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TodoView extends StatefulWidget {
-  Map<String, dynamic> data;
+  final Map<String, dynamic> data;
   TodoView(this.data);
 
   @override
@@ -297,8 +297,8 @@ class _TodoViewState extends State<TodoView> {
                         Container(
                           width: screenWidth * .7,
                           child: AnimatedCrossFade(
-                            firstChild: TodoSubTask(screenWidth,data),
-                            secondChild: TodoComment(screenWidth,data),
+                            firstChild: TodoSubTask(screenWidth, data),
+                            secondChild: TodoComment(screenWidth, data),
                             crossFadeState: _button1
                                 ? CrossFadeState.showFirst
                                 : CrossFadeState.showSecond,

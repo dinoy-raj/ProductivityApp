@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:app/screens/splashscreen/splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class TodoSubTask extends StatefulWidget {
-  double screenWidth;
-  Map<String, dynamic> data;
+  final double screenWidth;
+  final Map<String, dynamic> data;
   TodoSubTask(this.screenWidth, this.data);
 
   @override
@@ -236,9 +234,9 @@ class _TodoSubTaskState extends State<TodoSubTask> {
         .doc(id)
         .get()
         .then((value) async {
-      if(value.get("numsub")==null) {
-        num=1;
-      }else {
+      if (value.get("numsub") == null) {
+        num = 1;
+      } else {
         num = int.parse(value.get("numsub"));
       }
       if (_subtaskController.text != "") {

@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'GoogleSignIn/google_sign.dart';
 import 'LoginPage/loginpage.dart';
-import 'NavBar/nav_bar_replacement.dart';
+import 'NavBar/nav_bar.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

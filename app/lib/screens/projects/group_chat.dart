@@ -1,6 +1,5 @@
 import 'dart:async';
-
-import 'package:app/screens/projects/projectscreen.dart';
+import 'package:do_it/screens/projects/projectscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

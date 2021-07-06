@@ -1,6 +1,6 @@
-import 'package:app/screens/main/catalog/catalog_listview.dart';
-import 'package:app/screens/main/catalog/catalog_listview2.dart';
-import 'package:app/statistics/stats.dart';
+import 'package:do_it/screens/main/catalog/catalog_listview.dart';
+import 'package:do_it/screens/main/catalog/catalog_listview2.dart';
+import 'package:do_it/statistics/stats.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

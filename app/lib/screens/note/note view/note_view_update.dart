@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NoteUpdating extends StatefulWidget {
-  Map<String, dynamic> data;
+  final Map<String, dynamic> data;
   NoteUpdating(this.data);
 
   @override

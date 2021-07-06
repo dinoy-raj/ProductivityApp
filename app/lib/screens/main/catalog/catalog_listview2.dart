@@ -1,5 +1,5 @@
-import 'package:app/screens/projects/projectscreen.dart';
-import 'package:app/screens/splashscreen/splash_screen.dart';
+import 'package:do_it/screens/projects/projectscreen.dart';
+import 'package:do_it/screens/splashscreen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';

@@ -1,12 +1,12 @@
 import 'dart:math';
 
-import 'package:app/screens/note/note%20view/note_view_update.dart';
+import 'package:do_it/screens/note/note%20view/note_view_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class NoteView extends StatefulWidget {
-  Map<String, dynamic> data;
+  final Map<String, dynamic> data;
   NoteView(this.data);
 
   @override
@@ -74,7 +74,7 @@ class _NoteViewState extends State<NoteView> {
                     padding: EdgeInsets.only(bottom: screenWidth * .055),
                     child: Container(
                       height: 10,
-                      width: screenWidth*.277,
+                      width: screenWidth * .277,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         shape: BoxShape.rectangle,

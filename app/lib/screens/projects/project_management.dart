@@ -1,10 +1,10 @@
-import 'package:app/screens/note/note_edits.dart';
-import 'package:app/screens/projects/group_chat.dart';
-import 'package:app/screens/todo/TodoEdit/todo_edits.dart';
+import 'package:do_it/screens/note/note_edits.dart';
+import 'package:do_it/screens/projects/group_chat.dart';
+import 'package:do_it/screens/todo/TodoEdit/todo_edits.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:app/screens/projects/project_edits.dart';
-import 'package:app/screens/projects/projectscreen.dart';
-import 'package:app/screens/projects/assign_edit_task.dart';
+import 'package:do_it/screens/projects/project_edits.dart';
+import 'package:do_it/screens/projects/projectscreen.dart';
+import 'package:do_it/screens/projects/assign_edit_task.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';

@@ -1,4 +1,3 @@
-import 'package:app/screens/todo/TodoOnClickView/todo_viewscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
