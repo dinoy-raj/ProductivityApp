@@ -26,6 +26,8 @@ class _ListViewTodoState extends State<ListViewTodo> {
   Color _color = Colors.white;
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return StreamBuilder(
         stream: _streamSnap,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -75,7 +77,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
                       padding: const EdgeInsets.only(
                           right: 20.0, left: 20, bottom: 20, top: 20),
                       child: Container(
-                        height: 100,
+                        height: 110,
                         width: 500,
                         decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
