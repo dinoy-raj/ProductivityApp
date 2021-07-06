@@ -58,7 +58,6 @@ class _NavBarNewState extends State<NavBarNew> {
   Widget build(BuildContext context) {
     // double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    print(screenHeight);
     return Scaffold(
       body: PageView(
         controller: _controllerPage,
