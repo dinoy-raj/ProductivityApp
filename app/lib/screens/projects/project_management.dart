@@ -122,7 +122,9 @@ class ProjectState extends State<ProjectManagement> {
         .listen((event) {
       if (event.exists && mounted)
         setState(() {
-          agora!.isCallLive = event.get('isCallLive');
+          project!.isCallLive = event.get('isCallLive');
+          project!.unreadGroupChatCount = event.get('unreadGroupChatCount');
+          agora!.isCallLive = project!.isCallLive!;
         });
     });
   }
@@ -351,7 +353,7 @@ class ProjectState extends State<ProjectManagement> {
                                 agora!.context = context;
                                 return Call(agora);
                               });
-                        else if (agora!.isCallLive) {
+                        else if (project!.isCallLive!) {
                           showModalBottomSheet(
                               context: context,
                               builder: (context) {
@@ -393,7 +395,8 @@ class ProjectState extends State<ProjectManagement> {
                                                       project!.id;
                                                   agora!.projectTitle =
                                                       project!.title;
-                                                  agora!.collab = project!.collab;
+                                                  agora!.collab =
+                                                      project!.collab;
                                                   agora!.ownerUID =
                                                       project!.owner!['uid'];
                                                   agora!.addListener(_callback);
@@ -412,16 +415,16 @@ class ProjectState extends State<ProjectManagement> {
                       }
                     },
                     icon: Tooltip(
-                      message: agora!.isCallLive ? "Join call" : "Make call",
+                      message: project!.isCallLive! ? "Join call" : "Make call",
                       child: Icon(
                         agora!.isInCall
                             ? Icons.call_end
-                            : agora!.isCallLive
+                            : project!.isCallLive!
                                 ? Icons.phone_callback
                                 : Icons.add_call,
                         color: agora!.isInCall
                             ? Colors.red
-                            : agora!.isCallLive
+                            : project!.isCallLive!
                                 ? Colors.green
                                 : Colors.grey[700],
                       ),

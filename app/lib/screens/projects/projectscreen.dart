@@ -12,7 +12,7 @@ import 'group_voice_call.dart';
 class ProjectScreen extends StatefulWidget {
   ProjectScreen(this.agora);
 
-  final Agora? agora;
+  final Agora agora;
 
   @override
   _ProjectScreenState createState() => _ProjectScreenState(agora);
@@ -21,18 +21,18 @@ class ProjectScreen extends StatefulWidget {
 class _ProjectScreenState extends State<ProjectScreen> {
   _ProjectScreenState(this.agora);
 
-  Agora? agora;
+  Agora agora;
   List<Project> ownedProjects = [];
   List<Project> otherProjects = [];
   FirebaseFirestore _db = FirebaseFirestore.instance;
-  User? _user = FirebaseAuth.instance.currentUser;
+  User _user = FirebaseAuth.instance.currentUser!;
   bool _loading1 = true;
   bool _loading2 = true;
 
   listenDB() {
     _db
         .collection("users")
-        .doc(_user?.uid)
+        .doc(_user.uid)
         .collection("owned_projects")
         .snapshots()
         .listen((event) {
@@ -53,11 +53,13 @@ class _ProjectScreenState extends State<ProjectScreen> {
                 progress: snap.get('progress').toDouble(),
                 id: snap.id,
                 collab: snap.get('collab'),
+                isCallLive: false,
+                unreadGroupChatCount: 0,
                 owner: {
-                  'uid': _user?.uid,
-                  'name': _user?.displayName,
-                  'email': _user?.email,
-                  'image': _user?.photoURL,
+                  'uid': _user.uid,
+                  'name': _user.displayName,
+                  'email': _user.email,
+                  'image': _user.photoURL,
                 },
               ));
               _loading1 = false;
@@ -96,7 +98,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
 
     _db
         .collection("users")
-        .doc(_user?.uid)
+        .doc(_user.uid)
         .collection("other_projects")
         .snapshots()
         .listen((event) {
@@ -126,6 +128,8 @@ class _ProjectScreenState extends State<ProjectScreen> {
                     type: value.get('type'),
                     progress: value.get('progress').toDouble(),
                     id: value.id,
+                    isCallLive: false,
+                    unreadGroupChatCount: 0,
                     owner: {
                       'uid': owner.id,
                       'name': owner.get('name'),
@@ -151,6 +155,32 @@ class _ProjectScreenState extends State<ProjectScreen> {
               otherProjects.sort((a, b) => a.progress!.compareTo(b.progress!));
             });
         }
+      });
+    });
+
+    _db
+        .collection("users")
+        .doc(_user.uid)
+        .collection("alerts")
+        .snapshots()
+        .listen((event) {
+      event.docs.forEach((element) {
+        ownedProjects.forEach((project) {
+          if (mounted && element.id == project.id)
+            setState(() {
+              project.isCallLive = element.get('isCallLive');
+              project.unreadGroupChatCount =
+                  element.get('unreadGroupChatCount');
+            });
+        });
+        otherProjects.forEach((project) {
+          if (mounted && element.id == project.id)
+            setState(() {
+              project.isCallLive = element.get('isCallLive');
+              project.unreadGroupChatCount =
+                  element.get('unreadGroupChatCount');
+            });
+        });
       });
     });
   }
@@ -336,15 +366,70 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Container(
-                                                height: 5,
-                                                width: 15,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  shape: BoxShape.rectangle,
-                                                  color: color,
-                                                ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: 5,
+                                                    width: 15,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      shape: BoxShape.rectangle,
+                                                      color: color,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        if (ownedProjects[index]
+                                                            .isCallLive!)
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 5),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .phone_callback_sharp,
+                                                              color: color,
+                                                              size: 24,
+                                                            ),
+                                                          ),
+                                                        if (ownedProjects[index]
+                                                                .unreadGroupChatCount! >
+                                                            0)
+                                                          Container(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 5,
+                                                                      right: 5,
+                                                                      top: 3,
+                                                                      bottom:
+                                                                          3),
+                                                              decoration: BoxDecoration(
+                                                                  color: color,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30)),
+                                                              child: Text(
+                                                                ownedProjects[
+                                                                        index]
+                                                                    .unreadGroupChatCount!
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        12),
+                                                              )),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                               SizedBox(
                                                 height: 8,
@@ -483,15 +568,70 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                height: 5,
-                                                width: 15,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  shape: BoxShape.rectangle,
-                                                  color: color,
-                                                ),
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    height: 5,
+                                                    width: 15,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      shape: BoxShape.rectangle,
+                                                      color: color,
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        if (otherProjects[index]
+                                                            .isCallLive!)
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    right: 5),
+                                                            child: Icon(
+                                                              Icons
+                                                                  .phone_callback_sharp,
+                                                              color: color,
+                                                              size: 24,
+                                                            ),
+                                                          ),
+                                                        if (otherProjects[index]
+                                                                .unreadGroupChatCount! >
+                                                            0)
+                                                          Container(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 5,
+                                                                      right: 5,
+                                                                      top: 3,
+                                                                      bottom:
+                                                                          3),
+                                                              decoration: BoxDecoration(
+                                                                  color: color,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              30)),
+                                                              child: Text(
+                                                                otherProjects[
+                                                                        index]
+                                                                    .unreadGroupChatCount!
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontSize:
+                                                                        12),
+                                                              )),
+                                                      ],
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                               SizedBox(
                                                 height: 8,
@@ -583,7 +723,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
   }
 }
 
-class Project extends ChangeNotifier {
+class Project {
   Project(
       {this.id,
       this.collab,
@@ -591,13 +731,17 @@ class Project extends ChangeNotifier {
       this.body,
       this.title,
       this.owner,
-      this.progress});
+      this.progress,
+      this.isCallLive,
+      this.unreadGroupChatCount});
 
   String? id;
   String? title;
   String? body;
   String? type;
   double? progress;
+  bool? isCallLive;
+  int? unreadGroupChatCount;
   Map<String, dynamic>? owner;
   List<dynamic>? collab;
 

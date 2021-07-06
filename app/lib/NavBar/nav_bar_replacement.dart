@@ -46,10 +46,11 @@ class _NavBarNewState extends State<NavBarNew> {
         .collection("alerts")
         .snapshots()
         .listen((event) {
-      event.docs.forEach((element) {
+      event.docs.forEach((alert) {
         if (_selectedIndex != 3 &&
-            (element.get('isCallLive') ||
-                element.get('unreadGroupChatCount') > 0))
+            (alert.get('isCallLive') ||
+                alert.get('unreadGroupChatCount') > 0) &&
+            mounted)
           setState(() {
             notify = true;
           });

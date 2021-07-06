@@ -103,10 +103,21 @@ class GroupChatState extends State<GroupChat> {
     });
   }
 
+  markAsRead() {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("alerts")
+          ..doc(project.id).update({
+            "unreadGroupChatCount": 0,
+          });
+  }
+
   @override
   void initState() {
     super.initState();
     getGroupChats();
+    markAsRead();
   }
 
   @override
