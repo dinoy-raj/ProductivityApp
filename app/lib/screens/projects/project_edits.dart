@@ -122,36 +122,37 @@ class _ProjectEditingState extends State<ProjectEditing> {
           .collection("users")
           .snapshots()
           .forEach((users) {
-        users.docs.forEach((_user) {
+        for (var user in users.docs) {
           if (mounted)
             setState(() {
-              if (_user.id != FirebaseAuth.instance.currentUser?.uid &&
-                  (_user.get('email').contains(RegExp(
+              if (user.id != FirebaseAuth.instance.currentUser?.uid &&
+                  (user.get('email').contains(RegExp(
                           r'' + _collabController.text,
                           caseSensitive: false)) ||
-                      _user
+                      user
                           .get('name')
                           .toLowerCase()
                           .contains(_collabController.text.toLowerCase()))) {
                 bool existing = false;
-                collab.forEach((user) {
-                  if (user['uid'] == _user.id) existing = true;
+                collab.forEach((_user) {
+                  if (_user['uid'] == user.id) existing = true;
                 });
-                suggestions.forEach((user) {
-                  if (user['uid'] == _user.id) existing = true;
+                suggestions.forEach((_user) {
+                  if (_user['uid'] == user.id) existing = true;
                 });
-                if (!existing && suggestions.length < 5) {
+                if (!existing) {
                   suggestions.add({
-                    'name': _user.get('name'),
-                    'email': _user.get('email'),
-                    'image': _user.get('image'),
-                    'uid': _user.id
+                    'name': user.get('name'),
+                    'email': user.get('email'),
+                    'image': user.get('image'),
+                    'uid': user.id
                   });
                   found = true;
                 }
               }
             });
-        });
+          if (suggestions.length == 5) break;
+        }
       });
     }
     if (!found && mounted)
