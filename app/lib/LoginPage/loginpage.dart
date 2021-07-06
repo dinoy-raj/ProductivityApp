@@ -59,9 +59,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: AnimatedTextKit(
                   animatedTexts: [
-                    FadeAnimatedText('do IT!'),
-                    FadeAnimatedText('do it RIGHT!!'),
-                    FadeAnimatedText('do it RIGHT NOW!!!'),
+                    FadeAnimatedText('Do It'),
+                    FadeAnimatedText('Do It RIGHT!'),
+                    FadeAnimatedText('Do It RIGHT NOW!'),
                   ],
                 ),
               ),
