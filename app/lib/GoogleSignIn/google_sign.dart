@@ -34,12 +34,16 @@ class GoogleSignInProvider extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      final auth = FirebaseAuth.instance;
+      await auth.signInWithCredential(credential);
 
-      await FirebaseFirestore.instance.collection("users").doc(_user!.id).set({
-        'email': _user!.email,
-        'image': _user!.photoUrl,
-        'name': _user!.displayName
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(auth.currentUser!.uid)
+          .set({
+        'email': auth.currentUser!.email,
+        'image': auth.currentUser!.photoURL,
+        'name': auth.currentUser!.displayName,
       });
 
       notifyListeners();
