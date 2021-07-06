@@ -21,11 +21,10 @@ class _ScreenBodyState extends State<ScreenBody> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Padding(
-        padding:
-            const EdgeInsets.only(top: 10.0, bottom: 20, left: 20, right: 20),
+        padding: EdgeInsets.only(top: 10.0, bottom: 20, left: screenWidth*.0554, right: screenWidth*.0554),
         child: Container(
           width: screenWidth,
           // height: screenHeight,
@@ -37,7 +36,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                   children: [
                     Container(
                       height: 50,
-                      width: 50,
+                      width: screenWidth*.139,
                       child: Text(
                         "Hi",
                         overflow: TextOverflow.ellipsis,
@@ -47,7 +46,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                     ),
                     Container(
                         height: 60,
-                        width: 60,
+                        width: screenWidth*.1662,
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: Center(
@@ -100,7 +99,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                           },
                           child: Container(
                               height: 25,
-                              width: 300,
+                              width:screenWidth*.831 ,
                               decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(10),
@@ -111,7 +110,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                                   //borderRadius: BorderRadius.circular(10),
                                   ),
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
+                                padding:  EdgeInsets.only(left: screenWidth*.0221),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -129,7 +128,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child:Padding(
-                                        padding: const EdgeInsets.only(right: 8.0),
+                                        padding:  EdgeInsets.only(right: screenWidth*.0221),
                                         child: Icon(CupertinoIcons.square_favorites,color: Colors.grey,size: 15,),
                                       ),
                                     ),
@@ -157,7 +156,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                           },
                           child: Container(
                               height: 25,
-                              width: 300,
+                              width: screenWidth*.831,
                               decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(10),
@@ -167,7 +166,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                                   //borderRadius: BorderRadius.circular(10),
                                   ),
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
+                                padding: EdgeInsets.only(left: screenWidth*.0221),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -185,7 +184,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child:Padding(
-                                        padding: const EdgeInsets.only(right: 8.0),
+                                        padding:EdgeInsets.only(right:screenWidth*.0221),
                                         child: Icon(CupertinoIcons.group,color: Colors.grey,size: 15,),
                                       ),
                                     ),
@@ -224,23 +223,24 @@ class _ScreenBodyState extends State<ScreenBody> {
                     //borderRadius: BorderRadius.circular(10),
                     ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly ,
                   children: [
                     Container(
                       height: 170,
-                      width: 170,
+                      width: screenWidth*.470,
                       child: Lottie.network(
                           "https://assets2.lottiefiles.com/packages/lf20_Ginph2.json"),
                     ),
                     Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+
                         children: [
                           SizedBox(
                             height: 20,
                           ),
                           Container(
                               height: 100,
-                              width: 100,
+                              width: screenWidth*.2770,
                               decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   borderRadius: BorderRadius.circular(6),
@@ -270,29 +270,31 @@ class _ScreenBodyState extends State<ScreenBody> {
                           SizedBox(
                             height: 20,
                           ),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => StatsPage()));
-                            },
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white10),
-                              elevation: MaterialStateProperty.all(0),
-                              overlayColor:
-                                  MaterialStateProperty.all(Colors.white),
-                            ),
-                            child: Text(
-                              "See Statistics  ->",
-                              style: TextStyle(
-                                color: Colors.grey,
+                          Container(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => StatsPage()));
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.white10),
+                                elevation: MaterialStateProperty.all(0),
+                                overlayColor:
+                                    MaterialStateProperty.all(Colors.white),
+                              ),
+                              child: Text(
+                                "See Statistics  ->",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                           ),
                         ]),
-                    const SizedBox(width: 5.0, height: 50.0),
+                    SizedBox(width: screenWidth*.014, height: 50.0),
                   ],
                 ),
               ),
