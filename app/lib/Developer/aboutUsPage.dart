@@ -98,7 +98,7 @@ class _AboutUsState extends State<AboutUs> {
                                 height: 5,
                               ),
                               Text(
-                                "Lets Do It",
+                                "Do - It",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

@@ -1,7 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:lottie/lottie.dart';
 
@@ -78,7 +78,7 @@ class _StatsPageState extends State<StatsPage> {
                               height: 5,
                             ),
                             Text(
-                              "Lets Do It",
+                              "Do It",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -156,8 +156,115 @@ class _StatsPageState extends State<StatsPage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.white10,
+                      color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: screenWidth * .25,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  blurRadius: 100,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ]
+                              //borderRadius: BorderRadius.circular(10),
+                              ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 30,
+                                width: screenWidth * .2,
+                                child: Center(
+                                    child: Text(
+                                      "Total",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black.withOpacity(.7)),
+                                    )),
+                              ),
+                              Container(
+                                height: 50,
+                                child: Center(
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Text(
+                                        "3",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black.withOpacity(.7)),
+                                      ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: screenWidth * .25,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  blurRadius: 100,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ]
+                              //borderRadius: BorderRadius.circular(10),
+                              ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 30,
+                                width: screenWidth * .2,
+                                child: Center(
+                                    child: Text(
+                                  "Completed",
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.7)),
+                                )),
+                              ),
+                              Container(
+                                height: 50,
+                                child: Center(
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Text(
+                                  "3",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(.7)),
+                                ),
+                                    )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -281,17 +388,20 @@ class _StatsPageState extends State<StatsPage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top:10.0,right: 30),
+                                  padding: const EdgeInsets.only(
+                                      top: 10.0, right: 30),
                                   child: Row(
                                     children: [
-                                       Text("Rate YourSelf",style: TextStyle(
+                                      Text(
+                                        "Rate YourSelf",
+                                        style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 10,
                                           color: Colors.grey,
-                                        ),),
-
+                                        ),
+                                      ),
                                       Container(
-                                        height:10 ,
+                                          height: 10,
                                           width: 60,
                                           child: Lottie.network(
                                               "https://assets6.lottiefiles.com/packages/lf20_L1eVBx.json"))

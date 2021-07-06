@@ -96,7 +96,7 @@ class _ReportIssueState extends State<ReportIssue> {
                                 height: 5,
                               ),
                               Text(
-                                "Lets Do It",
+                                "Do - It",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -242,6 +242,8 @@ class _ReportIssueState extends State<ReportIssue> {
                     ],
                   ),
                 ),
+
+
 
               ],
             ),
