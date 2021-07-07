@@ -1,4 +1,4 @@
-<div align="start">
+<div align="center">
   <img src="assets/icon.png" width="200">
 </div>
 
