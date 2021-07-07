@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/icon.png" width="200">
+  <img src="Do-It%20App/assets" width="200">
 </div>
 
 # Do-It
