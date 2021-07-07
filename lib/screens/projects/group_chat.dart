@@ -55,6 +55,7 @@ class GroupChatState extends State<GroupChat> {
       setState(() {
         _loading = false;
       });
+      markAsRead();
     });
   }
 

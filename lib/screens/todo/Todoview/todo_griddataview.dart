@@ -49,8 +49,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
                       "You don't have any todo yet",
-                      style: TextStyle(
-                          color: Colors.grey),
+                      style: TextStyle(color: Colors.grey),
                     ),
                   ),
                 ],
@@ -191,7 +190,9 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                 Align(
                                                   alignment: Alignment.topLeft,
                                                   child: Padding(
-                                                    padding: EdgeInsets.only(left:screenWidth * .0221),
+                                                    padding: EdgeInsets.only(
+                                                        left: screenWidth *
+                                                            .0221),
                                                     child: Container(
                                                       width: screenWidth * .277,
                                                       height: 40,
@@ -364,6 +365,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                           ),
                                                           onPressed: () {
                                                             displayDialogue(
+                                                                screenWidth,
                                                                 data);
                                                           },
                                                         ),
@@ -414,9 +416,34 @@ class _ListViewTodoState extends State<ListViewTodo> {
         .update({
       "isdone": true,
     });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("tododone")
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("tododone")
+            .update({
+          "tododone": FieldValue.increment(1),
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("tododone")
+            .set({"tododone": 1});
+      }
+    });
   }
 
-  void displayDialogue(Map<String, dynamic> data) {
+  void displayDialogue(double screenWidth, Map<String, dynamic> data) {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
@@ -429,60 +456,62 @@ class _ListViewTodoState extends State<ListViewTodo> {
               ),
               content: Text(data["title"]),
               actions: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      height: 35,
-                      width: 80,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                            elevation: MaterialStateProperty.all(0),
-                            side: MaterialStateProperty.all(BorderSide(
-                                width: 1, color: Colors.red.withOpacity(.5))),
-                            overlayColor: MaterialStateProperty.all(
-                                Colors.redAccent.withOpacity(.5))),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(
+                        height: 35,
+                        width: screenWidth * .277,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.white),
+                              elevation: MaterialStateProperty.all(0),
+                              side: MaterialStateProperty.all(BorderSide(
+                                  width: 1, color: Colors.red.withOpacity(.5))),
+                              overlayColor: MaterialStateProperty.all(
+                                  Colors.redAccent.withOpacity(.5))),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Cancel",
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
                           ),
-                        ),
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      height: 35,
-                      width: 80,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              Colors.black.withOpacity(.7)),
-                          overlayColor: MaterialStateProperty.all(Colors.black),
-                          //elevation: MaterialStateProperty.all(0),
-                          //shape: MaterialStateProperty.all(),
-                        ),
-                        onPressed: () {
-                          deleteTask(data);
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "Delete",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                        )),
+                    Container(
+                        height: 35,
+                        width: screenWidth * .277,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.black.withOpacity(.7)),
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.black),
+                            //elevation: MaterialStateProperty.all(0),
+                            //shape: MaterialStateProperty.all(),
                           ),
-                        ),
-                      )),
-                ),
+                          onPressed: () {
+                            deleteTask(data);
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "Delete",
+                            overflow: TextOverflow.fade,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )),
+                  ],
+                )
               ],
             ));
   }

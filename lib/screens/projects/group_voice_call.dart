@@ -98,7 +98,7 @@ class Agora extends ChangeNotifier {
             }, SetOptions(merge: true));
           });
 
-          _streamSubscription = await _db
+          _streamSubscription = _db
               .collection("users")
               .doc(ownerUID)
               .collection("owned_projects")
@@ -120,7 +120,7 @@ class Agora extends ChangeNotifier {
           });
         },
         error: (error) {
-          "Error. Please try again";
+          _text = "Error. Please try again";
           _engine?.destroy();
           _engine = null;
           notifyListeners();
@@ -214,7 +214,7 @@ class Agora extends ChangeNotifier {
             notifyListeners();
           });
 
-          _streamSubscription = await _db
+          _streamSubscription = _db
               .collection("users")
               .doc(ownerUID)
               .collection("owned_projects")
