@@ -1,4 +1,4 @@
-# Do It
+# Do-It
 
 A Todo-cum-Project Management Application to improve productivity.
 
@@ -6,7 +6,7 @@ A Todo-cum-Project Management Application to improve productivity.
 Download your compatible APK (Out of the three android binaries, arm64-v8a would be compatible for most devices) and install it in your device. 
 Make sure to disable Google Play Protect since we have not published the application.
 
-### How Do-It works
+### How _Do-It_ works
 Do-It is a cross-platform productivity application developed in Flutter. It helps users keep track of their notes, to-do and projects. 
 Users can add important notes, keep track of daily to-do's and manage different projects. 
 In addition, users can collaborate with each other under various projects, assign and complete tasks and have a group voice call or a group chat conversation. 
