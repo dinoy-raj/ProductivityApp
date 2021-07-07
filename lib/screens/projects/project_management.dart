@@ -607,6 +607,7 @@ class ProjectState extends State<ProjectManagement> {
                     ),
                     Expanded(
                       child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
                         padding: EdgeInsets.only(top: 0),
                         itemCount: project!.collab!.length,
                         itemBuilder: (context, index) => ExpansionTile(
