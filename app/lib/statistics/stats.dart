@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:do_it/screens/projects/projectscreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -13,10 +16,81 @@ class StatsPage extends StatefulWidget {
 }
 
 class _StatsPageState extends State<StatsPage> {
+  String tt = "0";
+  String ct = "0";
+  String tn = "0";
+  String cp = "0";
+  String task = "0";
+
+  addData() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("notesno")
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        setState(() {
+          tn = value.get("notesno").toString();
+        });
+      }
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("todono")
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        setState(() {
+          tt = value.get("todono").toString();
+        });
+      }
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("tododone")
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        setState(() {
+          ct = value.get("tododone").toString();
+        });
+      }
+    });
+    await Project().getCompletedProjectCount().then((value) {
+      setState(() {
+        cp = value.toString();
+      });
+    });
+    await Project().getCompletedTaskCount().then((value) {
+      setState(() {
+        task = value.toString();
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+      addData();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.width;
+    print(ct);
+    print(tt);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -187,28 +261,28 @@ class _StatsPageState extends State<StatsPage> {
                                 width: screenWidth * .2,
                                 child: Center(
                                     child: Text(
-                                      "Total",
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black.withOpacity(.7)),
-                                    )),
+                                  "Total",
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.7)),
+                                )),
                               ),
                               Container(
                                 height: 50,
                                 child: Center(
                                     child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Text(
-                                        "3",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black.withOpacity(.7)),
-                                      ),
-                                    )),
+                                  scrollDirection: Axis.vertical,
+                                  child: Text(
+                                    tt,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(.7)),
+                                  ),
+                                )),
                               ),
                             ],
                           ),
@@ -249,17 +323,17 @@ class _StatsPageState extends State<StatsPage> {
                                 height: 50,
                                 child: Center(
                                     child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Text(
-                                  "3",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  scrollDirection: Axis.vertical,
+                                  child: Text(
+                                    ct,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
                                         fontSize: 30,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black.withOpacity(.7)),
-                                ),
-                                    )),
+                                  ),
+                                )),
                               ),
                             ],
                           ),
@@ -306,6 +380,115 @@ class _StatsPageState extends State<StatsPage> {
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
                     ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: screenWidth * .25,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  blurRadius: 100,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ]
+                              //borderRadius: BorderRadius.circular(10),
+                              ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 30,
+                                width: screenWidth * .2,
+                                child: Center(
+                                    child: Text(
+                                  "Completed  Projects",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.7)),
+                                )),
+                              ),
+                              Container(
+                                height: 50,
+                                child: Center(
+                                    child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Text(
+                                    cp,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(.7)),
+                                  ),
+                                )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: screenWidth * .25,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  blurRadius: 100,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ]
+                              //borderRadius: BorderRadius.circular(10),
+                              ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 30,
+                                width: screenWidth * .2,
+                                child: Center(
+                                    child: Text(
+                                  "Completed Tasks",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.7)),
+                                )),
+                              ),
+                              Container(
+                                height: 50,
+                                child: Center(
+                                    child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Text(
+                                    task,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(.7)),
+                                  ),
+                                )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -345,6 +528,62 @@ class _StatsPageState extends State<StatsPage> {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.white,
                       //borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          width: screenWidth * .45,
+                          height: 80,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(.1),
+                                  blurRadius: 100,
+                                  spreadRadius: 2,
+                                  offset: Offset(0, 3),
+                                ),
+                              ]
+                              //borderRadius: BorderRadius.circular(10),
+                              ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Container(
+                                height: 30,
+                                width: screenWidth * .2,
+                                child: Center(
+                                    child: Text(
+                                  "Total",
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black.withOpacity(.7)),
+                                )),
+                              ),
+                              Container(
+                                height: 50,
+                                child: Center(
+                                    child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Text(
+                                    tn,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black.withOpacity(.7)),
+                                  ),
+                                )),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

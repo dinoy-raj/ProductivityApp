@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:306700421859:android:bde095c7330cfb809993d6",
+        "android_client_info": {
+          "package_name": "com.amaldinoy.do_it"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306700421859-qoe1pt09tqbhs1b5tlpc3finrl4mhikj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.amaldinoy.do_it",
+            "certificate_hash": "933a19f6c2e70b05aa5bb3a66c9be90bcdc32552"
+          }
+        },
+        {
+          "client_id": "306700421859-ekkfr3tcrnvr4oe479j37anmiktu8tua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXIOwDNI5OOh1SSk4dAvALOtBjETZoHEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306700421859-ekkfr3tcrnvr4oe479j37anmiktu8tua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:306700421859:android:b795edd2025975049993d6",
         "android_client_info": {
           "package_name": "com.example.app"
@@ -14,7 +51,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "306700421859-bgmte7agoehva152bhgqil0cbmsri0rq.apps.googleusercontent.com",
+          "client_id": "306700421859-9v5t88tn1rje2thjpin6ahqo2ce1gmsf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.app",
@@ -22,11 +59,11 @@
           }
         },
         {
-          "client_id": "306700421859-m6pit1hhqhufse10et35th0fjoaldj4j.apps.googleusercontent.com",
+          "client_id": "306700421859-atcdc08gjne5t5pafnvnab6ir2lqnrdd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.app",
-            "certificate_hash": "d8a200288bb0a60a6cf57ed1968dc63f85665c9a"
+            "certificate_hash": "380ba2fb404c272ee8a98472ae0ccbab7388fef5"
           }
         },
         {

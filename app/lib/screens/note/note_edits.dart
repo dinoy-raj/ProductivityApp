@@ -31,6 +31,34 @@ class _NoteEditingState extends State<NoteEditing> {
       "body": _bodyController.text,
       "title": _titleController.text
     });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats").doc("notesno")
+        .get().then((value) async {
+          if(value.exists)
+            {
+              await FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .collection("stats").doc("notesno").update(
+                {
+                  "notesno":FieldValue.increment(1),
+                }
+              );
+            }else{
+            await FirebaseFirestore.instance
+                .collection("users")
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .collection("stats").doc("notesno").set(
+                {
+                  "notesno":1
+                }
+            );
+          }
+    });
+
   }
 
   TextEditingController _titleController = TextEditingController();

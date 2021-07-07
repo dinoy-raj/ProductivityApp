@@ -76,6 +76,32 @@ class _TodoEditsState extends State<TodoEdits> {
         "no": "1",
       });
     }
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats").doc("todono")
+        .get().then((value) async {
+      if(value.exists)
+      {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats").doc("todono").update(
+            {
+              "todono":FieldValue.increment(1),
+            }
+        );
+      }else{
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats").doc("todono").set(
+            {
+              "todono":1
+            }
+        );
+      }
+    });
   }
 
   @override
