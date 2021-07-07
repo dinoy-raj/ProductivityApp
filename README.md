@@ -50,6 +50,7 @@ In addition, users can collaborate with each other under various projects, assig
 ---
 
 © Dinoy Raj K
+© AmalNath M
 
 Licensed under the [GNU GPL](LICENSE)
 
