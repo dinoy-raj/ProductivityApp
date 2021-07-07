@@ -592,6 +592,7 @@ class _StatsPageState extends State<StatsPage> {
                 height: screenHeight * .03,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     height: 100,
@@ -609,7 +610,7 @@ class _StatsPageState extends State<StatsPage> {
                         children: [
                           Container(
                             height: 100,
-                            width: 100,
+                            width:  screenWidth * .277,
                             child: Lottie.network(
                                 "https://assets6.lottiefiles.com/packages/lf20_wgz45thc.json"),
                           ),
