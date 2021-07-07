@@ -105,7 +105,11 @@ class _ReportIssueState extends State<ReportIssue> {
                               color: Colors.white,
                             ),
                             Container(
+                              height: 10,
+                            ),
+                            Container(
                               height: 20,
+                              width: 130,
                               child: DefaultTextStyle(
                                 style: const TextStyle(
                                   fontSize: 15.0,
@@ -124,17 +128,6 @@ class _ReportIssueState extends State<ReportIssue> {
                                   },
                                 ),
                               ),
-                            ),
-                            Text(
-                              "Complete Analysis of your Activities",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 8,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Container(
-                              height: 20,
                             ),
                           ],
                         ),
