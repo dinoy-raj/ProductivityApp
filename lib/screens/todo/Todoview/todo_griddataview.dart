@@ -48,7 +48,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
-                      "You don't have any Todo yet",
+                      "You don't have any todo yet",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
