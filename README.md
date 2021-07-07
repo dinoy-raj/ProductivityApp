@@ -1,6 +1,6 @@
 # Do It
 
-A Todo-cum-Project Management Application to improve productivity
+A Todo-cum-Project Management Application to improve productivity.
 
 ### How to install
 Download your compatible APK (Out of the three android binaries, arm64-v8a would be compatible for most devices) and install it in your device. 
