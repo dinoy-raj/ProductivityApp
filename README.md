@@ -1,4 +1,5 @@
 # _Do-It_
+![image](assets/icon.png?raw=true "Do-It icon")
 
 A Todo-cum-Project Management Application to improve productivity.
 
@@ -21,4 +22,3 @@ In addition, users can collaborate with each other under various projects, assig
 7. _Sleek and simple UI_
 
 ### Screenshots
-![Alt text](assets/icon.png?raw=true "Optional Title")
