@@ -1,4 +1,4 @@
-# Do-It
+# _Do-It_
 
 A Todo-cum-Project Management Application to improve productivity.
 
