@@ -19,3 +19,6 @@ In addition, users can collaborate with each other under various projects, assig
 5. _Group Projects - Group chat and voice call_
 6. _Statistics - Record of the total and completed tasks, to-do's and notes_
 7. _Sleek and simple UI_
+
+### Screenshots
+![Alt text](assets/icon.png?raw=true "Optional Title")
