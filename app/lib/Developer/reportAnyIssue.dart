@@ -12,7 +12,7 @@ class ReportIssue extends StatefulWidget {
 }
 
 class _ReportIssueState extends State<ReportIssue> {
-  final Uri emailLaunchUrid = Uri(
+  final Uri emailLaunchUriDA = Uri(
     scheme: 'mailto',
     path: 'dinoykraj@gmail.com,amalnathm7@gmail.com',
   );
@@ -115,9 +115,9 @@ class _ReportIssueState extends State<ReportIssue> {
                                 child: AnimatedTextKit(
                                   repeatForever: true,
                                   animatedTexts: [
-                                    FadeAnimatedText('do IT!'),
-                                    FadeAnimatedText('do it RIGHT!!'),
-                                    FadeAnimatedText('do it RIGHT NOW!!!'),
+                                    FadeAnimatedText('Do It!'),
+                                    FadeAnimatedText('Do It RIGHT!'),
+                                    FadeAnimatedText('Do It RIGHT NOW!'),
                                   ],
                                   onTap: () {
                                     print("Tap Event");
@@ -126,7 +126,7 @@ class _ReportIssueState extends State<ReportIssue> {
                               ),
                             ),
                             Text(
-                              "Complete Analysis Of Your Activities",
+                              "Complete Analysis of your Activities",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 8,
@@ -150,7 +150,7 @@ class _ReportIssueState extends State<ReportIssue> {
                       child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      "If You Face Any Issue Always Feel Free To Share With Us",
+                      "If you face any issues, feel free to share with us",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -201,7 +201,7 @@ class _ReportIssueState extends State<ReportIssue> {
                                   width: screenWidth * .6,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      launch(emailLaunchUrid.toString());
+                                      launch(emailLaunchUriDA.toString());
                                     },
                                     style: ButtonStyle(
                                         backgroundColor:

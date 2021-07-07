@@ -409,7 +409,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                                                     right: 5),
                                                             child: Icon(
                                                               Icons
-                                                                  .phone_callback_sharp,
+                                                                  .phone_callback,
                                                               color: color,
                                                               size: 24,
                                                             ),
@@ -611,7 +611,7 @@ class _ProjectScreenState extends State<ProjectScreen> {
                                                                     right: 5),
                                                             child: Icon(
                                                               Icons
-                                                                  .phone_callback_sharp,
+                                                                  .phone_callback,
                                                               color: color,
                                                               size: 24,
                                                             ),

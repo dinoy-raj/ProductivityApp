@@ -38,7 +38,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
             return CupertinoActivityIndicator();
           }
           if (!snapshot.hasData) {
-            return Text("Has Not Have Any Todo");
+            return Text("Loading . . .");
           }
 
           if (snapshot.hasData) {
@@ -49,8 +49,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
                       "You don't have any todo yet",
-                      style: TextStyle(
-                          color: Colors.grey),
+                      style: TextStyle(color: Colors.grey),
                     ),
                   ),
                 ],
@@ -191,9 +190,11 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                 Align(
                                                   alignment: Alignment.topLeft,
                                                   child: Padding(
-                                                    padding: EdgeInsets.only(left:screenWidth * .0221),
+                                                    padding: EdgeInsets.only(
+                                                        left: screenWidth *
+                                                            .0221),
                                                     child: Container(
-                                                      width: screenWidth * .277,
+                                                      width: screenWidth * .3,
                                                       height: 40,
                                                       child: Align(
                                                         alignment:
@@ -363,7 +364,9 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                             color: Colors.grey,
                                                           ),
                                                           onPressed: () {
-                                                            displayDialogue(screenWidth,data);
+                                                            displayDialogue(
+                                                                screenWidth,
+                                                                data);
                                                           },
                                                         ),
                                                       ),
@@ -389,7 +392,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
               );
             }
           }
-          return Text("No Data Found");
+          return Text("No data found");
         });
   }
 
@@ -416,37 +419,36 @@ class _ListViewTodoState extends State<ListViewTodo> {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("stats").doc("tododone")
-        .get().then((value) async {
-      if(value.exists)
-      {
+        .collection("stats")
+        .doc("tododone")
+        .get()
+        .then((value) async {
+      if (value.exists) {
         await FirebaseFirestore.instance
             .collection("users")
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection("stats").doc("tododone").update(
-            {
-              "tododone":FieldValue.increment(1),
-            }
-        );
-      }else{
+            .collection("stats")
+            .doc("tododone")
+            .update({
+          "tododone": FieldValue.increment(1),
+        });
+      } else {
         await FirebaseFirestore.instance
             .collection("users")
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection("stats").doc("tododone").set(
-            {
-              "tododone":1
-            }
-        );
+            .collection("stats")
+            .doc("tododone")
+            .set({"tododone": 1});
       }
     });
   }
 
-  void displayDialogue(double screenWidth,Map<String, dynamic> data) {
+  void displayDialogue(double screenWidth, Map<String, dynamic> data) {
     showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
               title: Text(
-                "Do You Want To Delete The Task ?",
+                "Do you want to delete this task?",
                 style: TextStyle(
                     color: Colors.black.withOpacity(.8),
                     fontWeight: FontWeight.bold,
@@ -459,11 +461,11 @@ class _ListViewTodoState extends State<ListViewTodo> {
                   children: [
                     Container(
                         height: 35,
-                        width: screenWidth*.277,
+                        width: screenWidth * .277,
                         child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
+                                  MaterialStateProperty.all(Colors.white),
                               elevation: MaterialStateProperty.all(0),
                               side: MaterialStateProperty.all(BorderSide(
                                   width: 1, color: Colors.red.withOpacity(.5))),
@@ -482,15 +484,15 @@ class _ListViewTodoState extends State<ListViewTodo> {
                             ),
                           ),
                         )),
-
                     Container(
                         height: 35,
-                        width:  screenWidth*.277,
+                        width: screenWidth * .277,
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                                 Colors.black.withOpacity(.7)),
-                            overlayColor: MaterialStateProperty.all(Colors.black),
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.black),
                             //elevation: MaterialStateProperty.all(0),
                             //shape: MaterialStateProperty.all(),
                           ),
@@ -508,11 +510,8 @@ class _ListViewTodoState extends State<ListViewTodo> {
                             ),
                           ),
                         )),
-
                   ],
                 )
-
-
               ],
             ));
   }

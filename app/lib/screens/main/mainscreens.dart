@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    //double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: primaryClr,
       body: Center(
@@ -40,13 +40,16 @@ class _MainScreenState extends State<MainScreen> {
               // color: Colors.black,
               height: 100,
               child: Padding(
-                padding:EdgeInsets.only(left: screenWidth*0.0416, right: screenWidth*0.0416, top: 20),
+                padding: EdgeInsets.only(
+                    left: screenWidth * 0.0416,
+                    right: screenWidth * 0.0416,
+                    top: 20),
                 child: Row(
                   children: [
                     Container(
                       //color: Colors.black,
                       height: 40,
-                      width: screenWidth*.12,
+                      width: screenWidth * .12,
                       child: Icon(
                         FeatherIcons.checkCircle,
                         color: Colors.black,
@@ -102,7 +105,7 @@ class _MainScreenState extends State<MainScreen> {
                                           ),
                                           Container(
                                             height: 200,
-                                            width: screenWidth*.831,
+                                            width: screenWidth * .831,
                                             //color: Colors.black,
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.rectangle,
@@ -126,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
                                               children: [
                                                 Container(
                                                   height: 45,
-                                                  width: screenWidth*.831,
+                                                  width: screenWidth * .831,
                                                   color: Colors.white,
                                                   child: ElevatedButton(
                                                     onPressed: () {
@@ -147,7 +150,8 @@ class _MainScreenState extends State<MainScreen> {
                                                               .all(0),
                                                       backgroundColor:
                                                           MaterialStateProperty
-                                                              .all(Colors.white),
+                                                              .all(
+                                                                  Colors.white),
                                                     ),
                                                     child: Text(
                                                       "Settings",
@@ -160,12 +164,12 @@ class _MainScreenState extends State<MainScreen> {
                                                 ),
                                                 Container(
                                                   height: .5,
-                                                  width: screenWidth*.831,
+                                                  width: screenWidth * .831,
                                                   color: Colors.grey,
                                                 ),
                                                 Container(
                                                   height: 45,
-                                                  width: screenWidth*.831,
+                                                  width: screenWidth * .831,
                                                   color: Colors.white,
                                                   child: ElevatedButton(
                                                     onPressed: () {
@@ -186,7 +190,8 @@ class _MainScreenState extends State<MainScreen> {
                                                               .all(0),
                                                       backgroundColor:
                                                           MaterialStateProperty
-                                                              .all(Colors.white),
+                                                              .all(
+                                                                  Colors.white),
                                                     ),
                                                     child: Text(
                                                       "Report Issue",
@@ -199,12 +204,12 @@ class _MainScreenState extends State<MainScreen> {
                                                 ),
                                                 Container(
                                                   height: .5,
-                                                  width: screenWidth*.831,
+                                                  width: screenWidth * .831,
                                                   color: Colors.grey,
                                                 ),
                                                 Container(
                                                   height: 45,
-                                                  width: screenWidth*.831,
+                                                  width: screenWidth * .831,
                                                   color: Colors.white,
                                                   child: ElevatedButton(
                                                     onPressed: () {
@@ -226,7 +231,8 @@ class _MainScreenState extends State<MainScreen> {
                                                               .all(0),
                                                       backgroundColor:
                                                           MaterialStateProperty
-                                                              .all(Colors.white),
+                                                              .all(
+                                                                  Colors.white),
                                                     ),
                                                     child: Text(
                                                       "About Us",
@@ -239,12 +245,12 @@ class _MainScreenState extends State<MainScreen> {
                                                 ),
                                                 Container(
                                                   height: .5,
-                                                  width:screenWidth*.831 ,
+                                                  width: screenWidth * .831,
                                                   color: Colors.grey,
                                                 ),
                                                 Container(
                                                   height: 45,
-                                                  width: screenWidth*.831,
+                                                  width: screenWidth * .831,
                                                   color: Colors.white,
                                                   child: ElevatedButton(
                                                     onPressed: () {
@@ -265,7 +271,8 @@ class _MainScreenState extends State<MainScreen> {
                                                               .all(0),
                                                       backgroundColor:
                                                           MaterialStateProperty
-                                                              .all(Colors.white),
+                                                              .all(
+                                                                  Colors.white),
                                                     ),
                                                     child: Text(
                                                       "Tutorial",
@@ -284,7 +291,7 @@ class _MainScreenState extends State<MainScreen> {
                                           ),
                                           Container(
                                             height: 40,
-                                            width:screenWidth*.831,
+                                            width: screenWidth * .831,
                                             //color: Colors.black,
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.rectangle,
@@ -308,7 +315,8 @@ class _MainScreenState extends State<MainScreen> {
                                                     style: ButtonStyle(
                                                       backgroundColor:
                                                           MaterialStateProperty
-                                                              .all(Colors.black),
+                                                              .all(
+                                                                  Colors.black),
                                                     ),
                                                     onPressed: () async {
                                                       if (mounted)
@@ -340,7 +348,7 @@ class _MainScreenState extends State<MainScreen> {
                       },
                       child: Container(
                         height: 60,
-                        width: screenWidth*.166,
+                        width: screenWidth * .166,
                         decoration: BoxDecoration(
                           //shape: BoxShape.circle,
                           borderRadius: BorderRadius.circular(20),
@@ -349,7 +357,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: Center(
                           child: Container(
                             height: 40,
-                            width: screenWidth*.1108,
+                            width: screenWidth * .1108,
                             decoration: BoxDecoration(
                                 image: DecorationImage(
                                     //fit: BoxFit.fill,

@@ -99,8 +99,8 @@ class _TodoSubTaskState extends State<TodoSubTask> {
                         width: widget.screenWidth * .15,
                         child: Tooltip(
                           message: _subtaskController.text == ""
-                              ? "Sub Task Should not Be Empty"
-                              : "add Sub Task",
+                              ? "Sub Task should not be empty"
+                              : "Add Sub Task",
                           child: ElevatedButton(
                             child: Text(
                               "add",
@@ -137,13 +137,13 @@ class _TodoSubTaskState extends State<TodoSubTask> {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        return Text("Error In Fetching Data");
+                        return Text("Error in fetching data");
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CupertinoActivityIndicator();
                       }
                       if (!snapshot.hasData) {
-                        return Text("You Don't Have Any SubTasks");
+                        return Text("You don't have any subtasks");
                       }
                       if (snapshot.hasData) {
                         if (snapshot.data!.docs.length == 0) {
@@ -152,7 +152,7 @@ class _TodoSubTaskState extends State<TodoSubTask> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 20.0),
                                 child: Text(
-                                  "You Don't Have Any SubTasks Yet",
+                                  "You don't have any subtasks yet",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey),

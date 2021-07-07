@@ -35,7 +35,7 @@ class _GridDataViewState extends State<GridDataView> {
           return CupertinoActivityIndicator();
         }
         if (!snapshot.hasData) {
-          return Text("Has Not Have Any Notes");
+          return Text("Loading . . .");
         }
 
         if (snapshot.hasData) {
@@ -43,7 +43,7 @@ class _GridDataViewState extends State<GridDataView> {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top:20.0),
+                  padding: const EdgeInsets.only(top: 20.0),
                   child: Text(
                     "You don't have any notes yet",
                     style: TextStyle(color: Colors.grey),
@@ -61,78 +61,76 @@ class _GridDataViewState extends State<GridDataView> {
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
                 return InkWell(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-
-                    onTap: () {
-                      isclic = true;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NoteView(data)));
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(.05),
-                              blurRadius: 80,
-                              spreadRadius: 1,
-                              offset: Offset(0, 3),
-                            ),
-                          ]
-                          //borderRadius: BorderRadius.circular(10),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    isclic = true;
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => NoteView(data)));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.05),
+                            blurRadius: 80,
+                            spreadRadius: 1,
+                            offset: Offset(0, 3),
                           ),
-                      //color: Colors.white,
-                      padding: EdgeInsets.all(10),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: Container(
-                                height: 5,
-                                width: 15,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  shape: BoxShape.rectangle,
-                                  color: RandomColorModel().getColor(),
-                                ),
+                        ]
+                        //borderRadius: BorderRadius.circular(10),
+                        ),
+                    //color: Colors.white,
+                    padding: EdgeInsets.all(10),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: Container(
+                              height: 5,
+                              width: 15,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                shape: BoxShape.rectangle,
+                                color: RandomColorModel().getColor(),
                               ),
                             ),
-                            Container(
+                          ),
+                          Container(
+                              child: Text(
+                            data["title"],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          )),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 13),
+                            child: Container(
                                 child: Text(
-                              data["title"],
+                              data["body"],
+                              maxLines: 4,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 20),
+                              style: TextStyle(fontSize: 10),
                             )),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 13),
-                              child: Container(
-                                  child: Text(
-                                data["body"],
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 10),
-                              )),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
+                  ),
+                );
               }).toList(),
             );
           }
         }
-
-        return Text("Has Not Have Any Notes");
+        return Text("No data found");
       },
     );
   }

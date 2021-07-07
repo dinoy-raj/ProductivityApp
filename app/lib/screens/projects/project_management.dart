@@ -351,6 +351,7 @@ class ProjectState extends State<ProjectManagement> {
                               context: context,
                               builder: (context) {
                                 agora!.context = context;
+                                agora!.addListener(_callback);
                                 return Call(agora);
                               });
                         else if (project!.isCallLive!) {
@@ -458,7 +459,7 @@ class ProjectState extends State<ProjectManagement> {
                           right: 5,
                           child: Container(
                               padding: EdgeInsets.only(
-                                  left: 3, right: 3, top: 1, bottom: 1),
+                                  left: 5, right: 5, top: 2, bottom: 2),
                               decoration: BoxDecoration(
                                   color: Colors.green,
                                   borderRadius: BorderRadius.circular(30)),
