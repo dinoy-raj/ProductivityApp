@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +29,32 @@ class _NoteEditingState extends State<NoteEditing> {
       "noteid": id,
       "body": _bodyController.text,
       "title": _titleController.text
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("notesno")
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("notesno")
+            .update({
+          "notesno": FieldValue.increment(1),
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("notesno")
+            .set({"notesno": 1});
+      }
     });
   }
 
@@ -82,9 +107,8 @@ class _NoteEditingState extends State<NoteEditing> {
                         left: screenWidth * .07, bottom: screenWidth * .055),
                     child: Text(
                       "Add Note",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                   ),
                 ),
@@ -110,8 +134,7 @@ class _NoteEditingState extends State<NoteEditing> {
                           maxLines: 3,
                           autofocus: true,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
+                              fontWeight: FontWeight.bold, fontSize: 20),
                           decoration: InputDecoration(
                             hintText: "Title",
                             border: InputBorder.none,
@@ -158,9 +181,7 @@ class _NoteEditingState extends State<NoteEditing> {
                           child: TextFormField(
                             maxLines: 10,
                             controller: _bodyController,
-                            style: TextStyle(
-                                fontSize: 17,
-                                color: Colors.black),
+                            style: TextStyle(fontSize: 17, color: Colors.black),
                             decoration: InputDecoration(
                               hintText: "Content",
                               border: InputBorder.none,
@@ -174,7 +195,7 @@ class _NoteEditingState extends State<NoteEditing> {
                   ),
                 ),
                 SizedBox(
-                  height:80,
+                  height: 80,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

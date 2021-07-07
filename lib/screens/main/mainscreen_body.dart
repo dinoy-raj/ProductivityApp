@@ -173,7 +173,7 @@ class _ScreenBodyState extends State<ScreenBody> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        "Latest Task",
+                                        "Latest Tasks",
                                         style: TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.bold,

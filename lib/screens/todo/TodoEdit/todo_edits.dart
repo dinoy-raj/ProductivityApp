@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,7 +48,7 @@ class _TodoEditsState extends State<TodoEdits> {
       "numcom": _commentController.text == "" ? "0" : "1",
       "numsub": _subtaskController.text == "" ? "0" : "1",
     });
-    if(_commentController.text!="") {
+    if (_commentController.text != "") {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -63,7 +62,7 @@ class _TodoEditsState extends State<TodoEdits> {
       });
     }
 
-    if(_subtaskController.text!="") {
+    if (_subtaskController.text != "") {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -76,6 +75,31 @@ class _TodoEditsState extends State<TodoEdits> {
         "no": "1",
       });
     }
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("todono")
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("todono")
+            .update({
+          "todono": FieldValue.increment(1),
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("todono")
+            .set({"todono": 1});
+      }
+    });
   }
 
   @override
@@ -447,19 +471,23 @@ class _TodoEditsState extends State<TodoEdits> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            SizedBox(height: 30,),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
                                             Align(
                                                 child: Container(
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      icon: Icon(
-                                                        Icons.close,
-                                                        size: 15,
-                                                      )),
-                                                )),
-                                            SizedBox(height: 30,),
+                                              child: IconButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.close,
+                                                    size: 15,
+                                                  )),
+                                            )),
+                                            SizedBox(
+                                              height: 30,
+                                            ),
                                             Text(
                                               "Selection Of Deadline Is Required !!",
                                               style: TextStyle(
