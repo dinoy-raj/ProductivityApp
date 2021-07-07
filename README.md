@@ -1,6 +1,8 @@
-<img src="assets/icon.png" width="200">
+<div align="start">
+  <img src="assets/icon.png" width="200">
+</div>
 
-## Do-It
+# Do-It
 A Todo-cum-Project Management Application to improve productivity.
 
 ### How to install
