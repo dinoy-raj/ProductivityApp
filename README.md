@@ -3,7 +3,7 @@
 A Todo-cum-Project Management Application to improve productivity
 
 #### How to install
-Download your compatible APK (Out of the three android binaries, v8a would be compatible for most devices.) and install it in your device. 
+Download your compatible APK (Out of the three android binaries, v8a would be compatible for most devices) and install it in your device. 
 Make sure to disable Google Play Protect since we have not published the application.
 
 #### How Do-It works
