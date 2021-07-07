@@ -353,8 +353,8 @@ class _TodoViewState extends State<TodoView> {
                       width: screenWidth * .4,
                       child: Tooltip(
                         message: data["isdone"]
-                            ? "Task Already Done"
-                            : "Mark This Task As Done ",
+                            ? "Task already done"
+                            : "Mark this task as done ",
                         child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all(
@@ -405,6 +405,44 @@ class _TodoViewState extends State<TodoView> {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("todono")
+        .update({
+      "todono": FieldValue.increment(-1),
+    });
+    if (data["isdone"]) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("stats")
+          .doc("tododone")
+          .update({
+        "tododone": FieldValue.increment(-1),
+      });
+    }
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .snapshots()
+        .forEach((element) {
+      element.reference.collection("comment").snapshots().forEach((comment) {
+        comment.docs.forEach((commentDoc) {
+          commentDoc.reference.delete();
+        });
+      });
+      element.reference.collection("subtask").snapshots().forEach((subtask) {
+        subtask.docs.forEach((subtaskDoc) {
+          subtaskDoc.reference.delete();
+        });
+      });
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("todo")
         .doc(data["id"])
         .delete();
@@ -418,6 +456,31 @@ class _TodoViewState extends State<TodoView> {
         .doc(data["id"])
         .update({
       "isdone": true,
+    });
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("tododone")
+        .get()
+        .then((value) async {
+      if (value.exists) {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("tododone")
+            .update({
+          "tododone": FieldValue.increment(1),
+        });
+      } else {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("tododone")
+            .set({"tododone": 1});
+      }
     });
   }
 }

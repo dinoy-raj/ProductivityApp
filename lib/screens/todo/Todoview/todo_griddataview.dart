@@ -517,24 +517,6 @@ class _ListViewTodoState extends State<ListViewTodo> {
   }
 
   Future<void> deleteTask(Map<String, dynamic> data) async {
-    //
-    //
-    // await FirebaseFirestore.instance
-    //     .collection("users")
-    //     .doc(FirebaseAuth.instance.currentUser!.uid)
-    //     .collection("todo")
-    //     .doc(data["id"]).collection("subtask").get().then((value)  {
-    //       for (DocumentSnapshot ds in value.docs){
-    //   ds.reference.delete();
-    // }});
-    //
-
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("todo")
-        .doc(data["id"])
-        .delete();
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -543,6 +525,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
         .update({
       "todono": FieldValue.increment(-1),
     });
+
     if (data["isdone"]) {
       await FirebaseFirestore.instance
           .collection("users")
@@ -553,5 +536,31 @@ class _ListViewTodoState extends State<ListViewTodo> {
         "tododone": FieldValue.increment(-1),
       });
     }
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .snapshots()
+        .forEach((element) {
+      element.reference.collection("comment").snapshots().forEach((comment) {
+        comment.docs.forEach((commentDoc) {
+          commentDoc.reference.delete();
+        });
+      });
+      element.reference.collection("subtask").snapshots().forEach((subtask) {
+        subtask.docs.forEach((subtaskDoc) {
+          subtaskDoc.reference.delete();
+        });
+      });
+    });
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .delete();
   }
 }
