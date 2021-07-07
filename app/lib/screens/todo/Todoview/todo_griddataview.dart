@@ -517,11 +517,30 @@ class _ListViewTodoState extends State<ListViewTodo> {
   }
 
   Future<void> deleteTask(Map<String, dynamic> data) async {
+   
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("todo")
         .doc(data["id"])
         .delete();
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("todono").update({
+      "todono":FieldValue.increment(-1),
+    });
+    if(data["isdone"])
+      {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .collection("stats")
+            .doc("tododone").update({
+          "tododone":FieldValue.increment(-1),
+        });
+      }
+
   }
 }

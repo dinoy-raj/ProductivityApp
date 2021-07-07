@@ -26,6 +26,14 @@ class _NoteViewState extends State<NoteView> {
         .collection("notes")
         .doc(data["noteid"])
         .delete();
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("notesno").update({
+      "notesno":FieldValue.increment(-1),
+    });
+
   }
 
   @override

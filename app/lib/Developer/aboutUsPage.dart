@@ -121,7 +121,11 @@ class _AboutUsState extends State<AboutUs> {
                               color: Colors.white,
                             ),
                             Container(
+                              height: 10,
+                            ),
+                            Container(
                               height: 20,
+                              width: 130,
                               child: DefaultTextStyle(
                                 style: const TextStyle(
                                   fontSize: 15.0,
@@ -139,14 +143,6 @@ class _AboutUsState extends State<AboutUs> {
                                     print("Tap Event");
                                   },
                                 ),
-                              ),
-                            ),
-                            Text(
-                              "Complete Analysis of your Activities",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 8,
-                                color: Colors.grey,
                               ),
                             ),
                           ],
@@ -206,7 +202,6 @@ class _AboutUsState extends State<AboutUs> {
                             children: [
                               Center(
                                 child: Container(
-                                  height: 110,
                                   width: screenWidth * .8,
                                   child: Center(
                                     child: Text(
