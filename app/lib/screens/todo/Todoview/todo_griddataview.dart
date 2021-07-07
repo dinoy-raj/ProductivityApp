@@ -517,7 +517,19 @@ class _ListViewTodoState extends State<ListViewTodo> {
   }
 
   Future<void> deleteTask(Map<String, dynamic> data) async {
-   
+    //
+    //
+    // await FirebaseFirestore.instance
+    //     .collection("users")
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .collection("todo")
+    //     .doc(data["id"]).collection("subtask").get().then((value)  {
+    //       for (DocumentSnapshot ds in value.docs){
+    //   ds.reference.delete();
+    // }});
+    //
+
+
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
