@@ -1,4 +1,4 @@
-# _Do-It_ <img src="assets/icon.png" width="200">
+<img src="assets/icon.png" width="200">
 A Todo-cum-Project Management Application to improve productivity.
 
 ### How to install
