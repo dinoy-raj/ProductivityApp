@@ -24,8 +24,8 @@ In addition, users can collaborate with each other under various projects, assig
 7. _Sleek and simple UI_
 
 ### Screenshots
-<img src="screenshots/ss_home.jpg" width="200"> <img src="screenshots/ss_stats.jpg" width="200">
-<img src="screenshots/ss_todos.jpg" width="200"> <img src="screenshots/ss_notes.jpg" width="200">
-<img src="screenshots/ss_projects.jpg" width="200"> <img src="screenshots/ss_project.jpg" width="200">
-<img src="screenshots/ss_task.jpg" width="200"> <img src="screenshots/ss_collab.jpg" width="200">
-<img src="screenshots/ss_group_chat.jpg" width="200"> <img src="screenshots/ss_group_call.jpg" width="200">
+<img src="screenshots/ss_home.jpg" width="200"> <img src="screenshots/ss_todos.jpg" width="200"> 
+<img src="screenshots/ss_notes.jpg" width="200"> <img src="screenshots/ss_projects.jpg" width="200"> 
+<img src="screenshots/ss_project.jpg" width="200"> <img src="screenshots/ss_task.jpg" width="200"> 
+<img src="screenshots/ss_collab.jpg" width="200"> <img src="screenshots/ss_group_chat.jpg" width="200"> 
+<img src="screenshots/ss_group_call.jpg" width="200"> <img src="screenshots/ss_stats.jpg" width="200">
