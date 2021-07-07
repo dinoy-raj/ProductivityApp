@@ -426,8 +426,15 @@ class _TodoViewState extends State<TodoView> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("todo")
         .doc(data["id"])
-        .snapshots()
-        .forEach((element) {
+        .delete();
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .get()
+        .then((element) {
       element.reference.collection("comment").snapshots().forEach((comment) {
         comment.docs.forEach((commentDoc) {
           commentDoc.reference.delete();
@@ -439,13 +446,6 @@ class _TodoViewState extends State<TodoView> {
         });
       });
     });
-
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("todo")
-        .doc(data["id"])
-        .delete();
   }
 
   Future<void> taskDone(Map<String, dynamic> data) async {

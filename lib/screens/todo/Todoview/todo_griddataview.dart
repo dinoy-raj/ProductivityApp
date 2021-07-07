@@ -542,8 +542,15 @@ class _ListViewTodoState extends State<ListViewTodo> {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("todo")
         .doc(data["id"])
-        .snapshots()
-        .forEach((element) {
+        .delete();
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("todo")
+        .doc(data["id"])
+        .get()
+        .then((element) {
       element.reference.collection("comment").snapshots().forEach((comment) {
         comment.docs.forEach((commentDoc) {
           commentDoc.reference.delete();
@@ -555,12 +562,5 @@ class _ListViewTodoState extends State<ListViewTodo> {
         });
       });
     });
-
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("todo")
-        .doc(data["id"])
-        .delete();
   }
 }
