@@ -459,7 +459,7 @@ class ProjectState extends State<ProjectManagement> {
                           right: 5,
                           child: Container(
                               padding: EdgeInsets.only(
-                                  left: 5, right: 5, top: 1, bottom: 1),
+                                  left: 5, right: 5, top: 2, bottom: 2),
                               decoration: BoxDecoration(
                                   color: Colors.green,
                                   borderRadius: BorderRadius.circular(30)),

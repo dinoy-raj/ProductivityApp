@@ -17,21 +17,21 @@ class AboutUs extends StatefulWidget {
 
 class _AboutUsState extends State<AboutUs> {
   static const _lind = 'https://www.linkedin.com/in/dinoy-raj-k/';
-  void _launchlind() async => await canLaunch(_lind)
+  void _launchLinkD() async => await canLaunch(_lind)
       ? await launch(_lind)
       : throw 'Could not launch $_lind';
 
-  final Uri emailLaunchUrid = Uri(
+  final Uri emailLaunchUriD = Uri(
     scheme: 'mailto',
     path: 'dinoykraj@gmail.com',
   );
 
   static const _lina = 'https://www.linkedin.com/in/amal-nath-m-1ba12a192/';
-  void _launchlina() async => await canLaunch(_lind)
+  void _launchLinkA() async => await canLaunch(_lind)
       ? await launch(_lina)
       : throw 'Could not launch $_lina';
 
-  final Uri emailLaunchUria = Uri(
+  final Uri emailLaunchUriA = Uri(
     scheme: 'mailto',
     path: ' amalnathm7@gmail.com',
   );
@@ -39,22 +39,21 @@ class _AboutUsState extends State<AboutUs> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    //double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white10,
-        leading: IconButton(
+          elevation: 0,
+          backgroundColor: Colors.white10,
+          leading: IconButton(
             splashRadius: 20,
             onPressed: () {
               Navigator.pop(context);
             },
             icon: Icon(
-                Icons.arrow_back_ios_outlined,
-                color: Colors.black,
-              ),
-            )),
-
+              Icons.arrow_back_ios_outlined,
+              color: Colors.black,
+            ),
+          )),
       body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Padding(
@@ -63,7 +62,7 @@ class _AboutUsState extends State<AboutUs> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    height:120,
+                    height: 120,
                     width: screenWidth,
                     decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
@@ -85,7 +84,7 @@ class _AboutUsState extends State<AboutUs> {
                       children: [
                         Container(
                           height: 150,
-                          width: screenWidth*.4155,
+                          width: screenWidth * .4155,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -132,9 +131,9 @@ class _AboutUsState extends State<AboutUs> {
                                 child: AnimatedTextKit(
                                   repeatForever: true,
                                   animatedTexts: [
-                                    FadeAnimatedText('do IT!'),
-                                    FadeAnimatedText('do it RIGHT!!'),
-                                    FadeAnimatedText('do it RIGHT NOW!!!'),
+                                    FadeAnimatedText('Do It!'),
+                                    FadeAnimatedText('Do It RIGHT!'),
+                                    FadeAnimatedText('Do It RIGHT NOW!'),
                                   ],
                                   onTap: () {
                                     print("Tap Event");
@@ -143,7 +142,7 @@ class _AboutUsState extends State<AboutUs> {
                               ),
                             ),
                             Text(
-                              "Complete Analysis Of Your Activities",
+                              "Complete Analysis of your Activities",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 8,
@@ -182,7 +181,7 @@ class _AboutUsState extends State<AboutUs> {
                       children: [
                         Container(
                           height: 20,
-                          width: screenWidth*.0138,
+                          width: screenWidth * .0138,
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(10),
@@ -200,7 +199,7 @@ class _AboutUsState extends State<AboutUs> {
                               ),
                         ),
                         Container(
-                          width: screenWidth*.0277,
+                          width: screenWidth * .0277,
                         ),
                         Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +210,7 @@ class _AboutUsState extends State<AboutUs> {
                                   width: screenWidth * .8,
                                   child: Center(
                                     child: Text(
-                                      "Lets Do It Is An CrossPlatform Productivity App With Personalized Todo And Notes Section. It Also Comes With Project Tab Where We Can Schedule Projects Add Our Colleagues As Collaborators  ",
+                                      "Do-It is a cross-platform productivity application with personalized Todo and Notes section. It also comes with Project Management where we can collaborate with our colleagues",
                                       style: TextStyle(
                                           fontSize: 13,
                                           color: Colors.grey,
@@ -268,7 +267,7 @@ class _AboutUsState extends State<AboutUs> {
                         ),
                         Container(
                           height: 4,
-                          width: screenWidth*.221,
+                          width: screenWidth * .221,
                           decoration: BoxDecoration(
                               shape: BoxShape.rectangle,
                               borderRadius: BorderRadius.circular(10),
@@ -340,14 +339,14 @@ class _AboutUsState extends State<AboutUs> {
                                             "https://avatars.githubusercontent.com/u/62199728?s=400&u=979000468dc7622a0655d6c6200e71f16c0034a3&v=4"),
                                       ),
                                       Text(
-                                        "Dinoy Raj",
+                                        "Dinoy Raj K",
                                         style: TextStyle(
                                           color: Colors.black.withOpacity(.5),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
-                                        "| Student | Flutter Devloper |",
+                                        "| Student | Flutter Developer |",
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontWeight: FontWeight.bold,
@@ -404,14 +403,14 @@ class _AboutUsState extends State<AboutUs> {
                                             "https://avatars.githubusercontent.com/u/64605131?v=4"),
                                       ),
                                       Text(
-                                        "Amal Nath",
+                                        "Amal Nath M",
                                         style: TextStyle(
                                           color: Colors.black.withOpacity(.5),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
-                                        "| Student | Flutter Devloper |",
+                                        "| Student | Flutter Developer |",
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontWeight: FontWeight.bold,
@@ -467,7 +466,7 @@ class _AboutUsState extends State<AboutUs> {
                                           child: ElevatedButton(
                                             onPressed: () {
                                               launch(
-                                                  emailLaunchUrid.toString());
+                                                  emailLaunchUriD.toString());
                                             },
                                             style: ButtonStyle(
                                                 backgroundColor:
@@ -501,10 +500,10 @@ class _AboutUsState extends State<AboutUs> {
                                                     BorderSide(
                                                         color: Colors.white))),
                                             onPressed: () {
-                                              _launchlind();
+                                              _launchLinkD();
                                             },
                                             child: Text(
-                                              "Linkedin",
+                                              "LinkedIn",
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.grey),
@@ -552,7 +551,7 @@ class _AboutUsState extends State<AboutUs> {
                                           child: ElevatedButton(
                                             onPressed: () {
                                               launch(
-                                                  emailLaunchUria.toString());
+                                                  emailLaunchUriA.toString());
                                             },
                                             style: ButtonStyle(
                                                 backgroundColor:
@@ -586,10 +585,10 @@ class _AboutUsState extends State<AboutUs> {
                                                     BorderSide(
                                                         color: Colors.white))),
                                             onPressed: () {
-                                              _launchlina();
+                                              _launchLinkA();
                                             },
                                             child: Text(
-                                              "Linkedin",
+                                              "LinkedIn",
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.grey),

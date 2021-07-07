@@ -182,7 +182,7 @@ class _StatsPageState extends State<StatsPage> {
                             ),
                           ),
                           Text(
-                            "Complete Analysis Of Your Activities",
+                            "Complete Analysis of your Activities",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 8,
@@ -405,7 +405,7 @@ class _StatsPageState extends State<StatsPage> {
                                 width: screenWidth * .2,
                                 child: Center(
                                     child: Text(
-                                  "Completed  Projects",
+                                  "Completed Projects",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 10,
@@ -589,6 +589,7 @@ class _StatsPageState extends State<StatsPage> {
                 height: screenHeight * .03,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
                     height: 100,
@@ -606,7 +607,7 @@ class _StatsPageState extends State<StatsPage> {
                         children: [
                           Container(
                             height: 100,
-                            width: 100,
+                            width: screenWidth * .277,
                             child: Lottie.network(
                                 "https://assets6.lottiefiles.com/packages/lf20_wgz45thc.json"),
                           ),
@@ -617,7 +618,7 @@ class _StatsPageState extends State<StatsPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "How much You Have Progressed Last Week?",
+                                  "How much have you progressed last week?",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
@@ -629,7 +630,7 @@ class _StatsPageState extends State<StatsPage> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "Rate YourSelf",
+                                        "Rate yourself",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 10,

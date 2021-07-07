@@ -38,7 +38,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
             return CupertinoActivityIndicator();
           }
           if (!snapshot.hasData) {
-            return Text("Has Not Have Any Todo");
+            return Text("Loading . . .");
           }
 
           if (snapshot.hasData) {
@@ -48,7 +48,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
                   Padding(
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
-                      "You don't have any todo yet",
+                      "You don't have any Todo yet",
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
@@ -392,7 +392,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
               );
             }
           }
-          return Text("No Data Found");
+          return Text("No data found");
         });
   }
 
@@ -448,7 +448,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
         context: context,
         builder: (BuildContext context) => AlertDialog(
               title: Text(
-                "Do You Want To Delete The Task ?",
+                "Do you want to delete this task?",
                 style: TextStyle(
                     color: Colors.black.withOpacity(.8),
                     fontWeight: FontWeight.bold,

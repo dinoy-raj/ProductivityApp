@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Tutorial extends StatefulWidget {
@@ -21,7 +20,7 @@ class _TutorialState extends State<Tutorial> {
               Navigator.pop(context);
             },
             icon: Tooltip(
-              message: "Exit ",
+              message: "Exit",
               child: Icon(
                 Icons.arrow_back_ios_outlined,
                 color: Colors.black,

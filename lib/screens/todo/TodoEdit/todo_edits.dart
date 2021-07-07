@@ -188,7 +188,7 @@ class _TodoEditsState extends State<TodoEdits> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
                             return value == null || value.trim().isEmpty
-                                ? "Todo Should Not Be Empty"
+                                ? "Todo should not be empty"
                                 : null;
                           },
                           controller: _titleController,
@@ -347,7 +347,7 @@ class _TodoEditsState extends State<TodoEdits> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("Is This Task Have Deadline ? "),
+                              Text("Does this task have a deadline?"),
                               Transform.scale(
                                 scale: .6,
                                 child: CupertinoSwitch(
@@ -489,7 +489,7 @@ class _TodoEditsState extends State<TodoEdits> {
                                               height: 30,
                                             ),
                                             Text(
-                                              "Selection Of Deadline Is Required !!",
+                                              "Deadline is required!",
                                               style: TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 color: Colors.red,

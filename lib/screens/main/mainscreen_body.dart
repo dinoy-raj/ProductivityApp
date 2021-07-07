@@ -21,7 +21,7 @@ class _ScreenBodyState extends State<ScreenBody> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+    //double screenHeight = MediaQuery.of(context).size.height;
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(top: 10.0, bottom: 20, left: screenWidth*.0554, right: screenWidth*.0554),

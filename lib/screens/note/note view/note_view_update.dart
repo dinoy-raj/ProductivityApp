@@ -107,7 +107,7 @@ class _NoteUpdatingState extends State<NoteUpdating> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (String? value) {
                             return value == null || value.trim().isEmpty
-                                ? "Title Should Not Be Empty"
+                                ? "Title should not be empty"
                                 : null;
                           },
                           controller: _titleController,

@@ -64,8 +64,8 @@ class _TodoComment extends State<TodoComment> {
                         offset: Offset(0, 3),
                       ),
                     ]
-                  //borderRadius: BorderRadius.circular(10),
-                ),
+                    //borderRadius: BorderRadius.circular(10),
+                    ),
                 child: Padding(
                   padding: const EdgeInsets.all(2.0),
                   child: Row(
@@ -89,7 +89,7 @@ class _TodoComment extends State<TodoComment> {
                             enabledBorder: InputBorder.none,
                             errorBorder: UnderlineInputBorder(
                               borderSide:
-                              BorderSide(color: Colors.red, width: 1),
+                                  BorderSide(color: Colors.red, width: 1),
                             ),
                             disabledBorder: InputBorder.none,
                           ),
@@ -99,8 +99,8 @@ class _TodoComment extends State<TodoComment> {
                         width: widget.screenWidth * .15,
                         child: Tooltip(
                           message: _commentController.text == ""
-                              ? "Comments Should not Be Empty"
-                              : "add Sub Task",
+                              ? "Comments should not be empty"
+                              : "Add Sub Task",
                           child: ElevatedButton(
                             child: Text(
                               "add",
@@ -112,7 +112,7 @@ class _TodoComment extends State<TodoComment> {
                             ),
                             style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all(Colors.black),
+                                    MaterialStateProperty.all(Colors.black),
                                 overlayColor: MaterialStateProperty.all(
                                     Colors.white.withOpacity(.5))),
                             onPressed: () {
@@ -137,13 +137,13 @@ class _TodoComment extends State<TodoComment> {
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasError) {
-                        return Text("Error In Fetching Data");
+                        return Text("Error in fetching data");
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CupertinoActivityIndicator();
                       }
                       if (!snapshot.hasData) {
-                        return Text("You Don't Have Any Comments");
+                        return Text("You don't have any comments");
                       }
                       if (snapshot.hasData) {
                         if (snapshot.data!.docs.length == 0) {
@@ -152,7 +152,7 @@ class _TodoComment extends State<TodoComment> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 20.0),
                                 child: Text(
-                                  "You Don't Have Any Comments Yet",
+                                  "You don't have any comments yet",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Colors.grey),
@@ -166,21 +166,17 @@ class _TodoComment extends State<TodoComment> {
                               children: snapshot.data!.docs
                                   .map((DocumentSnapshot document) {
                                 Map<String, dynamic> datan =
-                                document.data() as Map<String, dynamic>;
+                                    document.data() as Map<String, dynamic>;
                                 return Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: Container(
                                     height: 50,
-
                                     decoration: BoxDecoration(
                                       shape: BoxShape.rectangle,
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
-
                                       border: Border.all(
                                           color: Colors.white, width: 1),
-
-
                                     ),
                                     child: Row(
                                       children: [
@@ -189,32 +185,32 @@ class _TodoComment extends State<TodoComment> {
                                             width: 20,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.rectangle,
-                                              borderRadius: BorderRadius.circular(5),
-                                              color: Colors.grey.withOpacity(.4),
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              color:
+                                                  Colors.grey.withOpacity(.4),
                                               border: Border.all(
-                                                  color: Colors.white, width: 1),
-
-
+                                                  color: Colors.white,
+                                                  width: 1),
                                             ),
-
                                             child: Center(
-                                                child: Text(
-                                                    "#"+datan["no"].toString()))),
+                                                child: Text("#" +
+                                                    datan["no"].toString()))),
                                         Padding(
                                           padding:
-                                          const EdgeInsets.only(left: 8.0),
+                                              const EdgeInsets.only(left: 8.0),
                                           child: Container(
                                               width: 200,
                                               child: SingleChildScrollView(
                                                 scrollDirection:
-                                                Axis.horizontal,
+                                                    Axis.horizontal,
                                                 child: Text(
                                                   datan["comment"],
                                                   style: TextStyle(
                                                       color: Colors.black
                                                           .withOpacity(.5),
                                                       fontWeight:
-                                                      FontWeight.bold),
+                                                          FontWeight.bold),
                                                 ),
                                               )),
                                         ),
@@ -245,11 +241,11 @@ class _TodoComment extends State<TodoComment> {
         .doc(id)
         .get()
         .then((value) async {
-          if(value.get("numcom")==null) {
-            num=1;
-          }else {
-            num = int.parse(value.get("numcom"));
-          }
+      if (value.get("numcom") == null) {
+        num = 1;
+      } else {
+        num = int.parse(value.get("numcom"));
+      }
       if (_commentController.text != "") {
         num = num + 1;
         const _chars =

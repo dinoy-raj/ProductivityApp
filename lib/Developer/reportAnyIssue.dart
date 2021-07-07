@@ -12,25 +12,11 @@ class ReportIssue extends StatefulWidget {
 }
 
 class _ReportIssueState extends State<ReportIssue> {
-  static const _lind = 'https://www.linkedin.com/in/dinoy-raj-k/';
-  void _launchlind() async => await canLaunch(_lind)
-      ? await launch(_lind)
-      : throw 'Could not launch $_lind';
-
-  final Uri emailLaunchUrid = Uri(
+  final Uri emailLaunchUriDA = Uri(
     scheme: 'mailto',
     path: 'dinoykraj@gmail.com,amalnathm7@gmail.com',
   );
 
-  static const _lina = 'https://www.linkedin.com/in/amal-nath-m-1ba12a192/';
-  void _launchlina() async => await canLaunch(_lind)
-      ? await launch(_lina)
-      : throw 'Could not launch $_lina';
-
-  final Uri emailLaunchUria = Uri(
-    scheme: 'mailto',
-    path: ' amalnathm7@gmail.com',
-  );
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -58,7 +44,6 @@ class _ReportIssueState extends State<ReportIssue> {
             padding: const EdgeInsets.all(15.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-
               children: [
                 Container(
                     height: screenHeight * .3,
@@ -75,8 +60,8 @@ class _ReportIssueState extends State<ReportIssue> {
                             offset: Offset(0, 3),
                           ),
                         ]
-                      //borderRadius: BorderRadius.circular(10),
-                    ),
+                        //borderRadius: BorderRadius.circular(10),
+                        ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       //crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,9 +115,9 @@ class _ReportIssueState extends State<ReportIssue> {
                                 child: AnimatedTextKit(
                                   repeatForever: true,
                                   animatedTexts: [
-                                    FadeAnimatedText('do IT!'),
-                                    FadeAnimatedText('do it RIGHT!!'),
-                                    FadeAnimatedText('do it RIGHT NOW!!!'),
+                                    FadeAnimatedText('Do It!'),
+                                    FadeAnimatedText('Do It RIGHT!'),
+                                    FadeAnimatedText('Do It RIGHT NOW!'),
                                   ],
                                   onTap: () {
                                     print("Tap Event");
@@ -141,7 +126,7 @@ class _ReportIssueState extends State<ReportIssue> {
                               ),
                             ),
                             Text(
-                              "Complete Analysis Of Your Activities",
+                              "Complete Analysis of your Activities",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 8,
@@ -151,26 +136,29 @@ class _ReportIssueState extends State<ReportIssue> {
                             Container(
                               height: 20,
                             ),
-                            
                           ],
                         ),
                       ],
                     )),
-                SizedBox(height: 50,),
+                SizedBox(
+                  height: 50,
+                ),
                 Container(
                   width: screenWidth,
                   height: 100,
-                  child: Center(child: Padding(
+                  child: Center(
+                      child: Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Text("If You Face Any Issue Always Feel Free To Share With Us",
-                      textAlign: TextAlign.center
-                      ,
+                    child: Text(
+                      "If you face any issues, feel free to share with us",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      height: 2/1,
-                      color: Colors.grey,
-                    ),),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        height: 2 / 1,
+                        color: Colors.grey,
+                      ),
+                    ),
                   )),
                 ),
                 Padding(
@@ -185,8 +173,7 @@ class _ReportIssueState extends State<ReportIssue> {
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.white10,
-                            border: Border.all(
-                                color: Colors.white, width: 1),
+                            border: Border.all(color: Colors.white, width: 1),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(.1),
@@ -195,13 +182,12 @@ class _ReportIssueState extends State<ReportIssue> {
                                 offset: Offset(0, 3),
                               ),
                             ]
-                          //borderRadius: BorderRadius.circular(10),
-                        ),
+                            //borderRadius: BorderRadius.circular(10),
+                            ),
                         child: Padding(
                           padding: const EdgeInsets.all(2.0),
                           child: Column(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceEvenly,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
                                 "Mail Us",
@@ -215,19 +201,15 @@ class _ReportIssueState extends State<ReportIssue> {
                                   width: screenWidth * .6,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      launch(
-                                          emailLaunchUrid.toString());
+                                      launch(emailLaunchUriDA.toString());
                                     },
                                     style: ButtonStyle(
                                         backgroundColor:
-                                        MaterialStateProperty.all(
-                                            Colors.white10),
-                                        elevation:
-                                        MaterialStateProperty.all(
-                                            0),
+                                            MaterialStateProperty.all(
+                                                Colors.white10),
+                                        elevation: MaterialStateProperty.all(0),
                                         side: MaterialStateProperty.all(
-                                            BorderSide(
-                                                color: Colors.white))),
+                                            BorderSide(color: Colors.white))),
                                     child: Text(
                                       "Click Here",
                                       style: TextStyle(
@@ -242,13 +224,9 @@ class _ReportIssueState extends State<ReportIssue> {
                     ],
                   ),
                 ),
-
-
-
               ],
             ),
-          )
-      ),
+          )),
     );
   }
 }
