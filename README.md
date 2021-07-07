@@ -1,5 +1,5 @@
 # _Do-It_
-![image](assets/icon.png?raw=true "Do-It icon")
+<img src="assets/icon.png" width="200">
 
 A Todo-cum-Project Management Application to improve productivity.
 
