@@ -1,16 +1,26 @@
-# do_it
+<div align="center">
+  <img src="assets/icon.png" width="200">
+</div>
 
-A Todo-cum-Project Management Application to improve productivity
+# Do-It
+A Todo-cum-Project Management Application to improve productivity.
 
-## Getting Started
+### How to install
+Download your compatible APK (Out of the three android binaries, arm64-v8a would be compatible for most devices) and install it in your device. 
+Make sure to disable Google Play Protect since we have not published the application yet.
 
-This project is a starting point for a Flutter application.
+### How _Do-It_ works
+Do-It is a cross-platform productivity application developed in Flutter. It helps users keep track of their notes, to-do and projects. 
+Users can add important notes, keep track of daily to-do's and manage different projects. 
+In addition, users can collaborate with each other under various projects, assign and complete tasks and have a group voice call or a group chat conversation. 
 
-A few resources to get you started if this is your first Flutter project:
+### Key features
+1. _Cross-platform support_
+2. _Accessible in multiple devices at the same time_
+3. _To-do and Notes - Create, Edit, Complete and Delete_
+4. _Project Management - Assign and complete tasks_
+5. _Group Projects - Group chat and voice call_
+6. _Statistics - Record of the total and completed tasks, to-do's and notes_
+7. _Sleek and simple UI_
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Screenshots

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:do_it/screens/note/note%20view/note_view_update.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,6 +25,14 @@ class _NoteViewState extends State<NoteView> {
         .collection("notes")
         .doc(data["noteid"])
         .delete();
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("notesno")
+        .update({
+      "notesno": FieldValue.increment(-1),
+    });
   }
 
   @override

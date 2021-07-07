@@ -194,7 +194,7 @@ class _ListViewTodoState extends State<ListViewTodo> {
                                                         left: screenWidth *
                                                             .0221),
                                                     child: Container(
-                                                      width: screenWidth * .277,
+                                                      width: screenWidth * .3,
                                                       height: 40,
                                                       child: Align(
                                                         alignment:
@@ -517,11 +517,41 @@ class _ListViewTodoState extends State<ListViewTodo> {
   }
 
   Future<void> deleteTask(Map<String, dynamic> data) async {
+    //
+    //
+    // await FirebaseFirestore.instance
+    //     .collection("users")
+    //     .doc(FirebaseAuth.instance.currentUser!.uid)
+    //     .collection("todo")
+    //     .doc(data["id"]).collection("subtask").get().then((value)  {
+    //       for (DocumentSnapshot ds in value.docs){
+    //   ds.reference.delete();
+    // }});
+    //
+
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection("todo")
         .doc(data["id"])
         .delete();
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection("stats")
+        .doc("todono")
+        .update({
+      "todono": FieldValue.increment(-1),
+    });
+    if (data["isdone"]) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection("stats")
+          .doc("tododone")
+          .update({
+        "tododone": FieldValue.increment(-1),
+      });
+    }
   }
 }

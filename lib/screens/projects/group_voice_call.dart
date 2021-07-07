@@ -148,10 +148,23 @@ class Agora extends ChangeNotifier {
             notifyListeners();
           }
         },
+        tokenPrivilegeWillExpire: (token) {
+          _text = "Channel will expire soon";
+          notifyListeners();
+        },
+        requestToken: () {
+          _text = "Channel expired";
+          notifyListeners();
+          if (hostUID == _user.uid)
+            endChannel();
+          else
+            leaveChannel();
+        },
       ));
 
       await _engine!.enableAudio();
       await _engine!.enableAudioVolumeIndication(200, 3, true);
+      await _engine!.setEnableSpeakerphone(true);
       await _engine!.joinChannel(token, _channel, null, 0);
     } else {
       _text = "Failed to create channel. Try again";
@@ -285,10 +298,26 @@ class Agora extends ChangeNotifier {
             notifyListeners();
           }
         },
+        connectionStateChanged: (type, reason) {
+          if (reason == ConnectionChangedReason.TokenExpired) createChannel();
+        },
+        tokenPrivilegeWillExpire: (token) {
+          _text = "Channel will expire soon";
+          notifyListeners();
+        },
+        requestToken: () {
+          _text = "Channel expired";
+          notifyListeners();
+          if (hostUID == _user.uid)
+            endChannel();
+          else
+            leaveChannel();
+        },
       ));
 
       await _engine!.enableAudio();
       await _engine!.enableAudioVolumeIndication(200, 3, true);
+      await _engine!.setEnableSpeakerphone(true);
       await _engine!.joinChannel(token, _channel, null, 0);
     });
   }
@@ -413,7 +442,8 @@ class CallState extends State<Call> {
 
   void _callback() {
     if (mounted) setState(() {});
-    if (agora!._text == "Error. Please try again") {
+    if (agora!._text == "Error. Please try again" ||
+        agora!._text == "Channel expired") {
       agora?.removeListener(_callback);
       Future.delayed(Duration(seconds: 1), () {
         Navigator.pop(context);
@@ -444,7 +474,8 @@ class CallState extends State<Call> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                if (agora!._text != "Error. Please try again")
+                if (agora!._text != "Error. Please try again" &&
+                    agora!._text != "Channel expired")
                   AnimatedTextKit(
                     repeatForever: true,
                     animatedTexts: [
