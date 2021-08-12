@@ -6,8 +6,7 @@
 A Todo-cum-Project Management Application to improve productivity.
 
 ### How to install
-Download your compatible APK (Out of the three android binaries, arm64-v8a would be compatible for most devices) and install it in your device. 
-Make sure to disable Google Play Protect since we have not published the application yet.
+Download your compatible APK From Updown Search <a href="https://do-it.uptodown.com/android">Do-It</a>
 
 ### How _Do-It_ works
 Do-It is a cross-platform productivity application developed in Flutter. It helps users keep track of their notes, to-do and projects. 
